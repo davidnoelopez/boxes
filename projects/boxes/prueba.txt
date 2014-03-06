@@ -1,0 +1,24 @@
+box{
+	mainbox(){
+		vari #probando;
+		vars #hola = "sip";
+		varf #acum;
+		varl #lista = [1,2,3,4];
+		loop(#i from 0 to 100 by +2){
+			#acum = #acum + #i;	
+	
+		}
+
+		if(#i < 10){
+			#i = #acum+20;		
+		}else{
+			#i = #acum-10;
+		}
+		askuser("dame tu temperatura", #acum);
+		say("Temperatura: ".#acum);
+		callbox(factorial_1,#i,12,#prabc);
+	}
+	recursivebox factorial(vari #aa, vari #bb, vari #cc){
+		say("prueba: ".#aa);
+	}
+}
