@@ -8,17 +8,15 @@ tokens = boxesLex.tokens
 def p_BOXES(p):
 	"""
 	BOXES : BOX OC VARS BLOCKS METHODS CC
-	| BOX OC BLOCKS METHODS CC
 	| BOX OC VARS BLOCKS CC
-	| BOX OC BLOCKS CC
 	"""
 def p_VARS(p):
 	"""
-	VARS : VARI 
-		| VARF 
-		| VARST 
-		| VARL
-		
+	VARS : VARI VARS
+		| VARF VARS
+		| VARST VARS
+		| VARL VARS
+		|
 	"""
 
 def p_VARF(p):
@@ -92,7 +90,6 @@ def p_BLOCKS2(p):
 def p_CODE(p):
 	"""
 	CODE : RETURN
-		| VARS
 		| ASSIGNATION
 		| LOOP
 		| LOOPIF
@@ -149,6 +146,8 @@ def p_METHODS(p):
 	"""
 	METHODS : METHODS2 IDM OP METHODS3 CP OC BLOCKS2 CC
 		| METHODS2 IDM OP METHODS3 CP OC CC
+		| METHODS2 IDM OP METHODS3 CP OC BLOCKS2 CC METHODS
+		| METHODS2 IDM OP METHODS3 CP OC CC METHODS
 	"""
 
 def p_METHODS2(p):
@@ -165,6 +164,7 @@ def p_METHODS3(p):
 	"""
 	METHODS3 : PARAM COMMA METHODS3
 		| PARAM
+		| 
 	"""
 
 def p_RETURN(p):
@@ -268,7 +268,7 @@ def p_LOOPIF(p):
 
 
 def p_error(t):
-    print "Error, lineno: ", t.lineno
+    print "BoxesParserError: Error, lineno: ", t.lineno
     exit(1)
 
 import profile

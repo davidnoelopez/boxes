@@ -1,9 +1,11 @@
 box{
+	vari #probando;
+	vars #hola = "sip";
+	varf #acum;
+	varl #lista = [1,2,3,4];
+
 	mainbox(){
-		vari #probando;
-		vars #hola = "sip";
-		varf #acum;
-		varl #lista = [1,2,3,4];
+		
 		loop(#i from 0 to 100 by +2){
 			#acum = #acum + #i;	
 	
@@ -20,5 +22,9 @@ box{
 	}
 	recursivebox factorial(vari #aa, vari #bb, vari #cc){
 		say("prueba: ".#aa);
+	}
+	
+	voidbox prueba(){
+		say("Temperatura: ".#acum);
 	}
 }
