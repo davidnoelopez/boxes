@@ -4,12 +4,37 @@ import ply.yacc as yacc
 
 # Get the token map
 tokens = boxesLex.tokens
+VarDic = dict()
+tmpList = list()
+queue = [1, "[", 3, "[", 4, "[", 5, 6, "]", "]", "]"]
+
+
+def addVarDictionary( idVar, valueVar, typeVar ):
+	if idVar in VarDic:
+		print "BoxesSemanticError: Duplicate variable: '", idVar, "'"
+		exit(1)
+	else:
+		VarDic[idVar] = [valueVar, typeVar]
+		print "Find var: ", idVar, " - ", VarDic[idVar]
+
+def queueToList():
+	if len(queue) is 0:
+		return []
+	element = queue[0]
+	queue.pop(0)
+	if element is "[":
+		list(queueToList())
+	elif element is "]":
+		queueToList()
+	else:
+		list(element).append(queueToList())
 
 def p_BOXES(p):
 	"""
 	BOXES : BOX OC VARS BLOCKS METHODS CC
 	| BOX OC VARS BLOCKS CC
 	"""
+
 def p_VARS(p):
 	"""
 	VARS : VARI VARS
@@ -32,6 +57,11 @@ def p_VARF3(p):
 		| IDV
 	"""
 
+	if len(p) >= 4:
+		addVarDictionary( p[1], p[3], "F" )
+	else:
+		addVarDictionary( p[1], None, "F" )
+
 def p_VARI(p):
 	"""
 	VARI : VARISMALL VARI3 PC 
@@ -44,6 +74,11 @@ def p_VARI3(p):
 		| IDV COMMA VARI3
 		| IDV
 	"""
+
+	if len(p) >= 4:
+		addVarDictionary( p[1], p[3], "I" )
+	else:
+		addVarDictionary( p[1], None, "I" )
 
 def p_VARST(p):
 	"""
@@ -58,6 +93,11 @@ def p_VARST3(p):
 		| IDV
 	"""
 
+	if len(p) >= 4:
+		addVarDictionary( p[1], p[3], "S" )
+	else:
+		addVarDictionary( p[1], None, "S" )
+
 def p_VARL(p):
 	"""
 	VARL : VARLSMALL VARL3 PC 
@@ -66,13 +106,20 @@ def p_VARL(p):
 def p_VARL3(p):
 	"""
 	VARL3 : IDV EQUALS OB VARL4 CB
-		| IDV EQUALS OB VARL4 CB VARL3
+		| IDV EQUALS OB VARL4 CB COMMA VARL3
+		| IDV COMMA VARL3
+		| IDV
 	"""
+
+	addVarDictionary( p[1], tmpList, "L" )
+
+	del tmpList[:]
 
 def p_VARL4(p):
 	"""
-	VARL4 : CTE
-		| CTE COMMA VARL4
+	VARL4 : CTEL
+		| CTEL COMMA VARL4
+		| 
 	"""
 
 def p_BLOCKS(p):
@@ -213,6 +260,30 @@ def p_CTE(p):
 	| IDV OB INT CB
 	"""
 
+def p_CTEL(p):
+	"""
+	CTEL : INT 
+	| FLOAT
+	| STRING
+	| IDV
+	| IDV OB INT CB
+	| OB CTEL2 CB
+	| OB CB
+	"""
+
+	if len(p) is 2:
+		tmpList.append(p[1])
+	else:
+
+
+def p_CTEL2(p):
+	"""
+	CTEL2 : CTEL
+	| CTEL COMMA CTEL2
+	"""
+
+
+	
 def p_SAY(p):
 	"""
 	SAY : SAYW OP CONCAT CP PC
