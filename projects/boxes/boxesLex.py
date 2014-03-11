@@ -13,7 +13,7 @@ if sys.version_info[0] >= 3:
 import ply.lex as lex
 
 # List of token names.   This is always required
-#comentario nuevo
+
 reserved = {
    'box' : 'BOX',
    'vari' : 'VARISMALL',
