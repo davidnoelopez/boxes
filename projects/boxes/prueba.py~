@@ -8,7 +8,7 @@ def queueToList():
 		queue.pop(0)
 		print element
 		if element is "[":
-			return [queueToList()]
+			return [] + queueToList()
 		elif element is "]":
 			return queueToList()
 		else:

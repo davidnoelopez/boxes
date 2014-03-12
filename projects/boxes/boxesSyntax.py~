@@ -273,6 +273,7 @@ def p_CTEL(p):
 	| OB CTEL2 CB
 	| OB CB
 	"""
+	print 0
 	if len(p) is 2:
 		tmpList.append(p[1])
 		tmpList.append(']')
