@@ -4,8 +4,9 @@ import ply.yacc as yacc
 
 # Get the token map
 tokens = boxesLex.tokens
-VarDic = dict()
-tmpList = list()
+VarDic = dict()	#diccionario de variables (tabla de variables)
+tmpList = list() #fila temporal donde guarda los elementos parseados de la lista
+listStack = list() #stack para guardar las listas generadas
 queue = [1, "[", 3, "[", 4, "[", 5, 6, "]", "]", "]"]
 
 
@@ -24,9 +25,9 @@ def queueToList():
 		element = tmpList[0]
 		tmpList.pop(0)
 		if element is "[":
-			return [queueToList()]
+			return [queueToList()] + queueToList()
 		elif element is "]":
-			return queueToList()
+			return []
 		else:
 			return [element] + queueToList()
 
@@ -111,12 +112,18 @@ def p_VARL3(p):
 		| IDV COMMA VARL3
 		| IDV
 	"""
-	
-	actualList = queueToList()
-	addVarDictionary( p[1], actualList, "L" )
-	print p
-	#del tmpList[:]
-	
+
+	#Si la lista es vacia agrega una lista vacia al diccionario
+	if len(p) is 4:
+		addVarDictionary( p[1], [], "L" )
+	#si la lista no es vacia y hay listas en el stack, saca un elemento del stack y lo agrega al diccionario, si el ultimo elemento es 0 saca el siguiente elemento del stack y lo agrega.
+	elif len(listStack) > 0:
+		newList = listStack.pop();
+		if newList is 0:
+			addVarDictionary( p[1], listStack.pop(), "L" )
+		else:
+			addVarDictionary( p[1], newList, "L" )
+	tmpList[:]
 
 def p_VARL4(p):
 	"""
@@ -124,6 +131,25 @@ def p_VARL4(p):
 		| CTEL COMMA VARL4
 		| 
 	"""
+
+	#Saca la lista generada con los elementos de tmpList
+	actualList = queueToList()
+	tmpList[:]
+	if len(listStack) > 0:
+		#obtiene los saltos que debe dar
+		jumps = listStack.pop()
+		if jumps > 0:
+			listStack.append(jumps-1)
+		else:
+			#agrega la lista generada en actual-List y el tamanio de la lista menos 1 para saber cuantos elementos debe saltarse.
+			listStack.append(actualList)
+			if (len(actualList)-1) > 0:
+				listStack.append(len(actualList)-1)
+	else:
+		#agrega la lista generada en actualList y el tamanio de la lista menos 1 para saber cuantos elementos debe saltarse.
+		listStack.append(actualList)
+		if len(actualList)-1 > 0:
+			listStack.append(len(actualList)-1)
 
 def p_BLOCKS(p):
 	"""
@@ -270,23 +296,32 @@ def p_CTEL(p):
 	| STRING
 	| IDV
 	| IDV OB INT CB
-	| OB CTEL2 CB
-	| OB CB
+	| OB seen_OB CTEL2
 	"""
+
+	#agrega a tmpList elementos atomicos
 	if len(p) is 2:
 		tmpList.append(p[1])
-		tmpList.append(']')
 	elif len(p) is 5:
 		tmpList.append(p[1]+p[2]+p[3]+p[4])
 
 
 def p_CTEL2(p):
 	"""
-	CTEL2 : CTEL
+	CTEL2 : CTEL CB seen_CB
 	| CTEL COMMA CTEL2
+	| CB seen_CB
 	"""
 
+def p_seen_OB(p):
+	"seen_OB :"
+	#agrega a la lista temporal el "["
+	tmpList.append('[')
 
+def p_seen_CB(p):
+	"seen_CB :"
+    #agrega a la lista temporal el "["
+	tmpList.append(']')
 	
 def p_SAY(p):
 	"""

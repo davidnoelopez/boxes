@@ -2,7 +2,7 @@ box{
 	vari #probando;
 	vars #hola = "sip";
 	varf #acum = 0.0, #i = 1.1, #x = 2.3;
-	varl #lista = [1,2,3,4], #l, #pe = ["hola", 1.2, 3, [1, 2, 3]];
+	varl #lista = [1,2,3,4], #l, #pe = ["hola", 1.2, 3, [1, 2, 3], [1, [2, [3, 4]]], #lista[0]];
 
 	mainbox(){
 		
