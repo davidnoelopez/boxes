@@ -4,7 +4,9 @@ import ply.yacc as yacc
 
 # Get the token map
 tokens = boxesLex.tokens
+tmpMethod = ""
 VarDic = dict()	#diccionario de variables (tabla de variables)
+MetDic = dict()	#diccionario de metodos (directorio de procedimientos)
 tmpList = list() #fila temporal donde guarda los elementos parseados de la lista
 listStack = list() #stack para guardar las listas generadas
 queue = [1, "[", 3, "[", 4, "[", 5, 6, "]", "]", "]"]
@@ -16,7 +18,16 @@ def addVarDictionary( idVar, valueVar, typeVar ):
 		exit(1)
 	else:
 		VarDic[idVar] = [valueVar, typeVar]
-		print "Find var: ", idVar, " - ", VarDic[idVar]
+		print "Found var: ", idVar, " - ", VarDic[idVar]
+
+def addMetDictionary( idMet, typeMet ):
+	print typeMet
+	if idMet in MetDic:
+		print "BoxesSemanticError: Duplicate method: '", idMet, "'"
+		exit(1)
+	else:
+		MetDic[idMet] = [typeMet]
+		print "Found method: ", idMet, " - ", MetDic[idMet]
 
 def queueToList():
 	if len(tmpList) is 0:
@@ -220,11 +231,19 @@ def p_PARAM2(p):
 
 def p_METHODS(p):
 	"""
-	METHODS : METHODS2 IDM OP METHODS3 CP OC BLOCKS2 CC
-		| METHODS2 IDM OP METHODS3 CP OC CC
-		| METHODS2 IDM OP METHODS3 CP OC BLOCKS2 CC METHODS
-		| METHODS2 IDM OP METHODS3 CP OC CC METHODS
+	METHODS : METHODS2 seen_IDM OP METHODS3 CP OC BLOCKS2 CC
+		| METHODS2 seen_IDM OP METHODS3 CP OC CC
+		| METHODS2 seen_IDM OP METHODS3 CP OC BLOCKS2 CC METHODS
+		| METHODS2 seen_IDM OP METHODS3 CP OC CC METHODS
 	"""
+
+def p_seen_IDM(p):
+	"""
+	seen_IDM : IDM
+	"""
+	#agrega el metodo al diccionario de metodos si es que no ha sido previamente declarado
+	global tmpMethod
+	addMetDictionary( p[1], tmpMethod )
 
 def p_METHODS2(p):
 	"""
@@ -235,6 +254,9 @@ def p_METHODS2(p):
    		| VARSBOX
    		| VARLBOX
 	"""
+	#asigna a tmpMethod el nombre del metodo actula
+	global tmpMethod
+	tmpMethod = p[1]
 
 def p_METHODS3(p):
 	"""
