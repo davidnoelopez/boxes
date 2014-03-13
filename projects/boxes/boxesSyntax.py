@@ -254,7 +254,7 @@ def p_METHODS2(p):
    		| VARSBOX
    		| VARLBOX
 	"""
-	#asigna a tmpMethod el nombre del metodo actula
+	#asigna a tmpMethod el nombre del metodo actual
 	global tmpMethod
 	tmpMethod = p[1]
 
@@ -342,7 +342,7 @@ def p_seen_OB(p):
 
 def p_seen_CB(p):
 	"seen_CB :"
-    #agrega a la lista temporal el "["
+    #agrega a la lista temporal el "]"
 	tmpList.append(']')
 	
 def p_SAY(p):
