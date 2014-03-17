@@ -5,6 +5,8 @@ import ply.yacc as yacc
 # Get the token map
 tokens = boxesLex.tokens
 tmpMethod = ""
+tmpIdMethod = ""
+tmptypeVar = ""
 VarDic = dict()	#diccionario de variables (tabla de variables)
 MetDic = dict()	#diccionario de metodos (directorio de procedimientos)
 tmpList = list() #fila temporal donde guarda los elementos parseados de la lista
@@ -18,15 +20,14 @@ def addVarDictionary( idVar, valueVar, typeVar ):
 		exit(1)
 	else:
 		VarDic[idVar] = [valueVar, typeVar]
-		print "Found var: ", idVar, " - ", VarDic[idVar]
+		#print "Found var: ", idVar, " - ", VarDic[idVar]
 
 def addMetDictionary( idMet, typeMet ):
-	print typeMet
 	if idMet in MetDic:
 		print "BoxesSemanticError: Duplicate method: '", idMet, "'"
 		exit(1)
 	else:
-		MetDic[idMet] = [typeMet]
+		MetDic[idMet] = [typeMet, VarDic]
 		print "Found method: ", idMet, " - ", MetDic[idMet]
 
 def queueToList():
@@ -44,9 +45,21 @@ def queueToList():
 
 def p_BOXES(p):
 	"""
-	BOXES : BOX OC VARS BLOCKS METHODS CC
-	| BOX OC VARS BLOCKS CC
+	BOXES : BOX OC VARS seen_globalvars MAINBOX OP CP BLOCKS METHODS CC
+	| BOX OC VARS seen_globalvars MAINBOX OP CP BLOCKS CC
 	"""
+
+def p_seen_globalvars(p):
+	"""
+	seen_globalvars :
+	"""
+	#agrega el metodo global a diccionario
+	global tmpMethod, tmpIdMethod
+	tmpMethod = "global"
+	addMetDictionary( tmpMethod, tmpMethod )
+	VarDic.clear();
+	tmpMethod = "main"
+	tmpIdMethod = "main"
 
 def p_VARS(p):
 	"""
@@ -164,9 +177,13 @@ def p_VARL4(p):
 
 def p_BLOCKS(p):
 	"""
-	BLOCKS : MAINBOX OP CP OC BLOCKS2 CC
+	BLOCKS : OC VARS BLOCKS2 CC
+		| OC VARS CC
+		| OC BLOCKS2 CC
 		| OC CC
 	"""
+	global tmpIdMethod, tmpMethod
+	addMetDictionary( tmpIdMethod, tmpMethod )
 
 def p_BLOCKS2(p):
 	"""
@@ -220,6 +237,16 @@ def p_PARAM(p):
 	"""
 	PARAM : PARAM2 IDV
 	"""
+	#dependiendo del tipo de variable se guarda en el diccionario
+	global tmptypeVar
+	if tmptypeVar == 'vari':	
+		addVarDictionary( p[2], None, "I" )
+	if tmptypeVar == 'varf':	
+		addVarDictionary( p[2], None, "F" )
+	if tmptypeVar == 'vars':	
+		addVarDictionary( p[2], None, "S" )
+	if tmptypeVar == 'varl':	
+		addVarDictionary( p[2], None, "L" )
 
 def p_PARAM2(p):
 	"""
@@ -228,22 +255,25 @@ def p_PARAM2(p):
    		| VARFSMALL
    		| VARLSMALL
 	"""
+	global tmptypeVar	
+	tmptypeVar = p[1]
+	
 
 def p_METHODS(p):
 	"""
-	METHODS : METHODS2 seen_IDM OP METHODS3 CP OC BLOCKS2 CC
-		| METHODS2 seen_IDM OP METHODS3 CP OC CC
-		| METHODS2 seen_IDM OP METHODS3 CP OC BLOCKS2 CC METHODS
-		| METHODS2 seen_IDM OP METHODS3 CP OC CC METHODS
+	METHODS : METHODS2 seen_IDM OP METHODS3 CP BLOCKS
+		| METHODS2 seen_IDM OP METHODS3 CP BLOCKS METHODS
 	"""
 
 def p_seen_IDM(p):
 	"""
 	seen_IDM : IDM
 	"""
-	#agrega el metodo al diccionario de metodos si es que no ha sido previamente declarado
-	global tmpMethod
-	addMetDictionary( p[1], tmpMethod )
+	#agrega el metodo al diccionario de metodos si es que no ha sido previamente declarado y borra variables en diccionario temporal para almacenar las que se declaren en el nuevo metodo
+	global tmpIdMethod
+	tmpIdMethod = p[1]
+	VarDic.clear()
+	
 
 def p_METHODS2(p):
 	"""
