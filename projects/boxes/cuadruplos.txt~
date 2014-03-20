@@ -2,7 +2,7 @@ box{
 	vari #a = 1, #b = 2, #c;
 
 	mainbox(){
-		#c = #a + #b * #a;
+		#c = #a + #b * #ad;
 		#b = #a + #b / #c;
 	}
 }

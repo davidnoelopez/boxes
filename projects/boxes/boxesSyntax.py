@@ -1,7 +1,8 @@
 import sys
 import boxesLex
 import ply.yacc as yacc
-import cube
+import cubetest
+cubetest.cube
 
 # Get the token map
 tokens = boxesLex.tokens
@@ -51,13 +52,13 @@ def queueToList():
 
 def createArithmeticQuadruple(oper, op1, op2, result):
 	#check cube
-	result = cube[op1[1]][op2[1]][oper]
-
-	if result is -1:
+	resultCube = cubetest.cube[op1[1],op2[1],oper]
+	if resultCube is -1:
 		print("BoxesSemanticError: Arithmetic error.")
 		exit(1)
 	else:
 		listQuadruple.append([oper, op1[0], op2[0], result])
+		PilaO.append([result, resultCube])		
 
 def p_BOXES(p):
 	"""
@@ -326,62 +327,84 @@ def p_ASSIGNATION(p):
 
 def p_EXPRESSION(p):
 	"""
-	EXPRESSION : OPER seen_OPER
-		| OPER seen_OPER PLUS EXPRESSION
-		| OPER seen_OPER MINUS EXPRESSION
+	EXPRESSION : OPER seen_EXPF
+		| OPER seen_EXPF seen_OPER EXPRESSION
 	"""
 
-def p_seen_OPER(p):
-	"seen_OPER :"
+def p_seen_EXPF(p):
+	"""
+	seen_EXPF :
 
+	"""
+	global tCounter
 	if len(POper) > 0:
 		top = POper.pop()
+		#print top
 		if top is '+':
 			op2 = PilaO.pop();
 			op1 = PilaO.pop();
-			createQuadruple(0, op1, op2, "t"+str(tCounter))
+			createArithmeticQuadruple(0, op1, op2, "t"+str(tCounter))
 			tCounter = tCounter + 1
 		elif top is '-':
 			op2 = PilaO.pop();
 			op1 = PilaO.pop();
-			createQuadruple(1, op1, op2, "t"+str(tCounter))
+			createArithmeticQuadruple(1, op1, op2, "t"+str(tCounter))
 			tCounter = tCounter + 1
+
 		else:
 			POper.append(top)
+				
+	#print "POper"	
+	#print POper
 
-	#agrega operador a POper
-	if len(p) is 4:
-		POper.append(p[2])
+
+def p_seen_OPER(p):
+	"""
+	seen_OPER : PLUS
+		| MINUS
+
+	"""
+	POper.append(p[1])
+	#print "POper"	
+	#print POper
 
 def p_OPER(p):
 	"""
-	OPER : TERM seen_TERM
-	| TERM seen_TERM MULTIPLY OPER
-	| TERM seen_TERM DIVISION OPER
+	OPER : TERM seen_TERMF
+	| TERM seen_TERMF seen_TERM OPER
 	"""
 
-	#agrega operador a POper
-	if len(p) is 4:
-		POper.append(p[2])
-
-def p_seen_TERM(p):
-	"seen_TERM :"
-
+def p_seen_TERMF(p):
+	"""seen_TERMF :	
+	"""
+	global tCounter
 	if len(POper) > 0:
 		top = POper.pop()
+		#print top
 		if top is '*':
 			op2 = PilaO.pop();
 			op1 = PilaO.pop();
-			createQuadruple(2, op1, op2, "t"+str(tCounter))
+			createArithmeticQuadruple(2, op1, op2, "t"+str(tCounter))
 			tCounter = tCounter + 1
 		elif top is '/':
 			op2 = PilaO.pop();
 			op1 = PilaO.pop();
-			createQuadruple(3, op1, op2, "t"+str(tCounter))
+			createArithmeticQuadruple(3, op1, op2, "t"+str(tCounter))
 			tCounter = tCounter + 1
+
 		else:
 			POper.append(top)
+	#print "POper"	
+	#print POper
 
+
+def p_seen_TERM(p):
+	"""seen_TERM : MULTIPLY
+		| DIVISION	
+	"""
+	POper.append(p[1])
+	#print "POper"	
+	#print POper
 def p_TERM(p):
 	"""
 	TERM : OP EXPRESSION CP
@@ -408,6 +431,8 @@ def p_CTE(p):
 	else:
 		PilaO.append([valID, valType])
 		valID = None
+	#print "PilaO"
+	#print PilaO
 
 def p_seen_INT(p):
 	"""
@@ -440,8 +465,16 @@ def p_seen_ID(p):
 	"""
 	global valType, valID
 	if len(p) is 2:
-		valType = MetDic[tmpIdMethod][1][p[1]][1]
-		valID = p[1]
+		if p[1] in VarDic:
+			valType = VarDic[p[1]][1]
+			valID = p[1]
+		else:
+			if p[1] in MetDic['global'][1]:
+				valType = MetDic['global'][1][p[1]][1]
+				valID = p[1]
+			else:
+				print("BoxesSemanticError: Non declared variable: " +p[1])
+				exit(1)
 	else:
 		#valType = MetDic[tmpIdMethod][1][p[1]][p[3]]
 		#ignore - agregar tipos de datos a listas
@@ -549,6 +582,7 @@ with open(sys.argv[1],'r') as content_file:
 	content = content_file.read()
 yacc.parse(content); 
 
+print "Cuadruplos:"
 print(listQuadruple)
 print("<<SUCCESS>>")
 #profile.run("yacc.yacc(method='LALR')")
