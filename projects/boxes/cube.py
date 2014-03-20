@@ -19,7 +19,7 @@
 n = 3 #dim 1
 o = 3 #dim 2
 p = 9 #dim 3
-cube = [[[0 for k in xrange(n)] for j in xrange(o)] for i in xrange(p)]
+cube = [[[0 for k in xrange(p)] for j in xrange(o)] for i in xrange(n)]
 
 # varI #
 cube[0][0][0]= 0; # varI + varI = varI

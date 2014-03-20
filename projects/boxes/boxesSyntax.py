@@ -1,6 +1,7 @@
 import sys
 import boxesLex
 import ply.yacc as yacc
+import cube
 
 # Get the token map
 tokens = boxesLex.tokens
@@ -11,6 +12,10 @@ VarDic = dict()	#diccionario de variables (tabla de variables)
 MetDic = dict()	#diccionario de metodos (directorio de procedimientos)
 tmpList = list() #fila temporal donde guarda los elementos parseados de la lista
 listStack = list() #stack para guardar las listas generadas
+POper = list()	#stack para guardar operadores
+PilaO = list()	#stack para guardar operandos
+listQuadruple = list() #lista de cuadruplos
+tCounter = 0 #contador para temporales
 queue = [1, "[", 3, "[", 4, "[", 5, 6, "]", "]", "]"]
 
 def addVarDictionary( idVar, valueVar, typeVar ):
@@ -44,6 +49,16 @@ def queueToList():
 		else:
 			return [element] + queueToList()
 
+def createArithmeticQuadruple(oper, op1, op2, result):
+	#check cube
+	result = cube[op1[1]][op2[1]][oper]
+
+	if result is -1:
+		print("BoxesSemanticError: Arithmetic error.")
+		exit(1)
+	else:
+		listQuadruple.append([oper, op1[0], op2[0], result])
+
 def p_BOXES(p):
 	"""
 	BOXES : BOX OC VARS seen_globalvars MAINBOX OP CP BLOCKS METHODS CC
@@ -57,6 +72,7 @@ def p_seen_globalvars(p):
 	#agrega el metodo global a diccionario
 	global tmpMethod, tmpIdMethod
 	tmpMethod = "global"
+	tmpIdMethod = "global"
 	addMetDictionary( tmpMethod, tmpMethod )
 
 	tmpMethod = "main"
@@ -310,17 +326,61 @@ def p_ASSIGNATION(p):
 
 def p_EXPRESSION(p):
 	"""
-	EXPRESSION : OPER 
-		| OPER PLUS EXPRESSION
-		| OPER MINUS EXPRESSION
+	EXPRESSION : OPER seen_OPER
+		| OPER seen_OPER PLUS EXPRESSION
+		| OPER seen_OPER MINUS EXPRESSION
 	"""
+
+def p_seen_OPER(p):
+	"seen_OPER :"
+
+	if len(POper) > 0:
+		top = POper.pop()
+		if top is '+':
+			op2 = PilaO.pop();
+			op1 = PilaO.pop();
+			createQuadruple(0, op1, op2, "t"+str(tCounter))
+			tCounter = tCounter + 1
+		elif top is '-':
+			op2 = PilaO.pop();
+			op1 = PilaO.pop();
+			createQuadruple(1, op1, op2, "t"+str(tCounter))
+			tCounter = tCounter + 1
+		else:
+			POper.append(top)
+
+	#agrega operador a POper
+	if len(p) is 4:
+		POper.append(p[2])
 
 def p_OPER(p):
 	"""
-	OPER : TERM 
-	| TERM MULTIPLY OPER
-	| TERM DIVISION OPER
+	OPER : TERM seen_TERM
+	| TERM seen_TERM MULTIPLY OPER
+	| TERM seen_TERM DIVISION OPER
 	"""
+
+	#agrega operador a POper
+	if len(p) is 4:
+		POper.append(p[2])
+
+def p_seen_TERM(p):
+	"seen_TERM :"
+
+	if len(POper) > 0:
+		top = POper.pop()
+		if top is '*':
+			op2 = PilaO.pop();
+			op1 = PilaO.pop();
+			createQuadruple(2, op1, op2, "t"+str(tCounter))
+			tCounter = tCounter + 1
+		elif top is '/':
+			op2 = PilaO.pop();
+			op1 = PilaO.pop();
+			createQuadruple(3, op1, op2, "t"+str(tCounter))
+			tCounter = tCounter + 1
+		else:
+			POper.append(top)
 
 def p_TERM(p):
 	"""
@@ -337,12 +397,56 @@ def p_TERM2(p):
 
 def p_CTE(p):
 	"""
-	CTE : INT 
-	| FLOAT
-	| STRING
-	| IDV
+	CTE : INT seen_INT
+	| FLOAT seen_FLOAT
+	| STRING seen_STRING
+	| seen_ID
+	"""
+	global valType, valID
+	if valID is None:
+		PilaO.append([p[1], valType])
+	else:
+		PilaO.append([valID, valType])
+		valID = None
+
+def p_seen_INT(p):
+	"""
+	seen_INT : 
+	"""
+	global valType
+
+	valType = 0
+
+def p_seen_FLOAT(p):
+	"""
+	seen_FLOAT : 
+	"""
+	global valType
+
+	valType = 1
+
+def p_seen_STRING(p):
+	"""
+	seen_STRING : 
+	"""
+	global valType
+
+	valType = 2
+
+def p_seen_ID(p):
+	"""
+	seen_ID : IDV
 	| IDV OB INT CB
 	"""
+	global valType, valID
+	if len(p) is 2:
+		valType = MetDic[tmpIdMethod][1][p[1]][1]
+		valID = p[1]
+	else:
+		#valType = MetDic[tmpIdMethod][1][p[1]][p[3]]
+		#ignore - agregar tipos de datos a listas
+		print("lista")
+
 
 def p_CTEL(p):
 	"""
@@ -351,8 +455,9 @@ def p_CTEL(p):
 	| STRING
 	| IDV
 	| IDV OB INT CB
-	| OB seen_OB CTEL2
 	"""
+	#| OB seen_OB CTEL2
+
 
 	#agrega a tmpList elementos atomicos
 	if len(p) is 2:
@@ -444,6 +549,7 @@ with open(sys.argv[1],'r') as content_file:
 	content = content_file.read()
 yacc.parse(content); 
 
+print(listQuadruple)
 print("<<SUCCESS>>")
 #profile.run("yacc.yacc(method='LALR')")
 
