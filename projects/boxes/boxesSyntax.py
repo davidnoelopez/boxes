@@ -13,7 +13,6 @@ tmpList = list() #fila temporal donde guarda los elementos parseados de la lista
 listStack = list() #stack para guardar las listas generadas
 queue = [1, "[", 3, "[", 4, "[", 5, 6, "]", "]", "]"]
 
-
 def addVarDictionary( idVar, valueVar, typeVar ):
 	if idVar in VarDic:
 		print "BoxesSemanticError: Duplicate variable: '", idVar, "'"
@@ -27,8 +26,10 @@ def addMetDictionary( idMet, typeMet ):
 		print "BoxesSemanticError: Duplicate method: '", idMet, "'"
 		exit(1)
 	else:
-		MetDic[idMet] = [typeMet, VarDic]
+		localDic = VarDic.copy()
+		MetDic[idMet] = [typeMet, localDic]
 		print "Found method: ", idMet, " - ", MetDic[idMet]
+		VarDic.clear()
 
 def queueToList():
 	if len(tmpList) is 0:
@@ -57,7 +58,7 @@ def p_seen_globalvars(p):
 	global tmpMethod, tmpIdMethod
 	tmpMethod = "global"
 	addMetDictionary( tmpMethod, tmpMethod )
-	VarDic.clear();
+
 	tmpMethod = "main"
 	tmpIdMethod = "main"
 
@@ -83,10 +84,11 @@ def p_VARF3(p):
 		| IDV
 	"""
 
+	#varF is type var 1
 	if len(p) >= 4:
-		addVarDictionary( p[1], p[3], "F" )
+		addVarDictionary( p[1], p[3], 1 )
 	else:
-		addVarDictionary( p[1], None, "F" )
+		addVarDictionary( p[1], None, 1 )
 
 def p_VARI(p):
 	"""
@@ -100,11 +102,11 @@ def p_VARI3(p):
 		| IDV COMMA VARI3
 		| IDV
 	"""
-
+	#varI is type var 0
 	if len(p) >= 4:
-		addVarDictionary( p[1], p[3], "I" )
+		addVarDictionary( p[1], p[3], 0 )
 	else:
-		addVarDictionary( p[1], None, "I" )
+		addVarDictionary( p[1], None, 0 )
 
 def p_VARST(p):
 	"""
@@ -119,10 +121,11 @@ def p_VARST3(p):
 		| IDV
 	"""
 
+	#varST is type var 2
 	if len(p) >= 4:
-		addVarDictionary( p[1], p[3], "S" )
+		addVarDictionary( p[1], p[3], 2 )
 	else:
-		addVarDictionary( p[1], None, "S" )
+		addVarDictionary( p[1], None, 2 )
 
 def p_VARL(p):
 	"""
@@ -240,11 +243,11 @@ def p_PARAM(p):
 	#dependiendo del tipo de variable se guarda en el diccionario
 	global tmptypeVar
 	if tmptypeVar == 'vari':	
-		addVarDictionary( p[2], None, "I" )
+		addVarDictionary( p[2], None, 0 )
 	if tmptypeVar == 'varf':	
-		addVarDictionary( p[2], None, "F" )
+		addVarDictionary( p[2], None, 1 )
 	if tmptypeVar == 'vars':	
-		addVarDictionary( p[2], None, "S" )
+		addVarDictionary( p[2], None, 2 )
 	if tmptypeVar == 'varl':	
 		addVarDictionary( p[2], None, "L" )
 
@@ -272,7 +275,7 @@ def p_seen_IDM(p):
 	#agrega el metodo al diccionario de metodos si es que no ha sido previamente declarado y borra variables en diccionario temporal para almacenar las que se declaren en el nuevo metodo
 	global tmpIdMethod
 	tmpIdMethod = p[1]
-	VarDic.clear()
+	#VarDic.clear()
 	
 
 def p_METHODS2(p):
