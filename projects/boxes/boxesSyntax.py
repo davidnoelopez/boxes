@@ -15,9 +15,11 @@ tmpList = list() #fila temporal donde guarda los elementos parseados de la lista
 listStack = list() #stack para guardar las listas generadas
 POper = list()	#stack para guardar operadores
 PilaO = list()	#stack para guardar operandos
+PSaltos = list() #stack para guardar saltos
 listQuadruple = list() #lista de cuadruplos
 tCounter = 0 #contador para temporales
 queue = [1, "[", 3, "[", 4, "[", 5, 6, "]", "]", "]"]
+
 
 def addVarDictionary( idVar, valueVar, typeVar ):
 	if idVar in VarDic:
@@ -51,14 +53,27 @@ def queueToList():
 			return [element] + queueToList()
 
 def createArithmeticQuadruple(oper, op1, op2, result):
-	#check cube
-	resultCube = cubetest.cube[op1[1],op2[1],oper]
-	if resultCube is -1:
-		print("BoxesSemanticError: Arithmetic error.")
-		exit(1)
+	if oper is 9: #"=" ASSIGNATION
+		#check cube
+		resultCube = cubetest.cube[result[1],op1[1],oper]
+		if resultCube is -1:
+			print("BoxesSemanticError: Arithmetic error.")
+			exit(1)
+		else:
+			listQuadruple.append([oper, op1[0], None, result[0]])
+			PilaO.append([result, resultCube])	
 	else:
-		listQuadruple.append([oper, op1[0], op2[0], result])
-		PilaO.append([result, resultCube])		
+		#check cube
+		resultCube = cubetest.cube[op1[1],op2[1],oper]
+		if resultCube is -1:
+			print("BoxesSemanticError: Arithmetic error.")
+			exit(1)
+		else:
+			listQuadruple.append([oper, op1[0], op2[0], result])
+			PilaO.append([result, resultCube])
+
+def createGoToQuadruple(oper, op1, op2, result):
+	listQuadruple.append([oper, op1, op2, result])
 
 def p_BOXES(p):
 	"""
@@ -101,9 +116,15 @@ def p_VARF3(p):
 		| IDV
 	"""
 
+
 	#varF is type var 1
 	if len(p) >= 4:
 		addVarDictionary( p[1], p[3], 1 )
+		#add assignation quadruple
+		if p[2] is '=':
+			valType = 1
+			valID = p[1]
+			createArithmeticQuadruple(9, [p[3], 1], None, [valID, valType])
 	else:
 		addVarDictionary( p[1], None, 1 )
 
@@ -122,6 +143,11 @@ def p_VARI3(p):
 	#varI is type var 0
 	if len(p) >= 4:
 		addVarDictionary( p[1], p[3], 0 )
+		#add assignation quadruple
+		if p[2] is '=':
+			valType = 0
+			valID = p[1]
+			createArithmeticQuadruple(9, [p[3], 0], None, [valID, valType])
 	else:
 		addVarDictionary( p[1], None, 0 )
 
@@ -141,6 +167,11 @@ def p_VARST3(p):
 	#varST is type var 2
 	if len(p) >= 4:
 		addVarDictionary( p[1], p[3], 2 )
+		#add assignation quadruple
+		if p[2] is '=':
+			valType = 2
+			valID = p[1]
+			createArithmeticQuadruple(9, [p[3], 2], None, [valID, valType])
 	else:
 		addVarDictionary( p[1], None, 2 )
 
@@ -162,7 +193,7 @@ def p_VARL3(p):
 		addVarDictionary( p[1], [], "L" )
 	#si la lista no es vacia y hay listas en el stack, saca un elemento del stack y lo agrega al diccionario, si el ultimo elemento es 0 saca el siguiente elemento del stack y lo agrega.
 	elif len(listStack) > 0:
-		newList = listStack.pop();
+		newList = listStack.pop()
 		if newList is 0:
 			addVarDictionary( p[1], listStack.pop(), "L" )
 		else:
@@ -225,11 +256,28 @@ def p_CODE(p):
 
 def p_CONDITION(p):
 	"""
-	CONDITION : IF OP STM CP OC BLOCKS2 CC CONDITION2
-		| IF OP STM CP OC CC CONDITION2
-		| IF OP STM CP OC BLOCKS2 CC
-		| IF OP STM CP OC CC
+	CONDITION : IF OP STM CP OC seen_OC BLOCKS2 CC CONDITION2
+		| IF OP STM CP OC seen_OC CC CONDITION2
+		| IF OP STM CP OC seen_OC BLOCKS2 CC
+		| IF OP STM CP OC seen_OC CC
 	"""
+
+	end = PSaltos.pop()
+	listQuadruple[end][3] = len(listQuadruple)
+
+
+def p_seen_OC(p):
+	"""
+	seen_OC :
+	"""
+
+	#type of top element
+	aux = PilaO.pop()
+	#if type of aux is int
+	if aux[1] is 0:
+		createGoToQuadruple(10, aux[0], None, None)
+		PSaltos.append(len(listQuadruple)-1)
+
 
 def p_CONDITION2(p):
 	"""
@@ -325,6 +373,20 @@ def p_ASSIGNATION(p):
 	ASSIGNATION : IDV EQUALS EXPRESSION PC
 	"""
 
+	
+	op1 = PilaO.pop()
+	if p[1] in VarDic:
+		valType = VarDic[p[1]][1]
+		valID = p[1]
+		createArithmeticQuadruple(9, op1, None, [valID, valType])
+	elif p[1] in MetDic['global'][1]:
+		valType = MetDic['global'][1][p[1]][1]
+		valID = p[1]
+		createArithmeticQuadruple(9, op1, None, [valID, valType])
+	else:
+		print("BoxesSemanticError: Non declared variable: " +p[1])
+		exit(1)
+
 def p_EXPRESSION(p):
 	"""
 	EXPRESSION : OPER seen_EXPF
@@ -341,13 +403,13 @@ def p_seen_EXPF(p):
 		top = POper.pop()
 		#print top
 		if top is '+':
-			op2 = PilaO.pop();
-			op1 = PilaO.pop();
+			op2 = PilaO.pop()
+			op1 = PilaO.pop()
 			createArithmeticQuadruple(0, op1, op2, "t"+str(tCounter))
 			tCounter = tCounter + 1
 		elif top is '-':
-			op2 = PilaO.pop();
-			op1 = PilaO.pop();
+			op2 = PilaO.pop()
+			op1 = PilaO.pop()
 			createArithmeticQuadruple(1, op1, op2, "t"+str(tCounter))
 			tCounter = tCounter + 1
 
@@ -382,20 +444,18 @@ def p_seen_TERMF(p):
 		top = POper.pop()
 		#print top
 		if top is '*':
-			op2 = PilaO.pop();
-			op1 = PilaO.pop();
+			op2 = PilaO.pop()
+			op1 = PilaO.pop()
 			createArithmeticQuadruple(2, op1, op2, "t"+str(tCounter))
 			tCounter = tCounter + 1
 		elif top is '/':
-			op2 = PilaO.pop();
-			op1 = PilaO.pop();
+			op2 = PilaO.pop()
+			op1 = PilaO.pop()
 			createArithmeticQuadruple(3, op1, op2, "t"+str(tCounter))
 			tCounter = tCounter + 1
 
 		else:
 			POper.append(top)
-	#print "POper"	
-	#print POper
 
 
 def p_seen_TERM(p):
@@ -403,13 +463,22 @@ def p_seen_TERM(p):
 		| DIVISION	
 	"""
 	POper.append(p[1])
-	#print "POper"	
-	#print POper
+
 def p_TERM(p):
 	"""
-	TERM : OP EXPRESSION CP
+	TERM : OP seen_OP_TERM EXPRESSION CP
 	| TERM2
 	"""
+
+	if len(p) is 5:
+		POper.pop()
+
+def p_seen_OP_TERM(p):
+	"""
+	seen_OP_TERM :
+	"""
+
+	POper.append('(')
 
 def p_TERM2(p):
 	"""
@@ -431,8 +500,6 @@ def p_CTE(p):
 	else:
 		PilaO.append([valID, valType])
 		valID = None
-	#print "PilaO"
-	#print PilaO
 
 def p_seen_INT(p):
 	"""
@@ -468,13 +535,12 @@ def p_seen_ID(p):
 		if p[1] in VarDic:
 			valType = VarDic[p[1]][1]
 			valID = p[1]
+		elif p[1] in MetDic['global'][1]:
+			valType = MetDic['global'][1][p[1]][1]
+			valID = p[1]
 		else:
-			if p[1] in MetDic['global'][1]:
-				valType = MetDic['global'][1][p[1]][1]
-				valID = p[1]
-			else:
-				print("BoxesSemanticError: Non declared variable: " +p[1])
-				exit(1)
+			print("BoxesSemanticError: Non declared variable: " +p[1])
+			exit(1)
 	else:
 		#valType = MetDic[tmpIdMethod][1][p[1]][p[3]]
 		#ignore - agregar tipos de datos a listas
@@ -580,7 +646,7 @@ import profile
 yacc.yacc(method='LALR')
 with open(sys.argv[1],'r') as content_file:
 	content = content_file.read()
-yacc.parse(content); 
+yacc.parse(content)
 
 print "Cuadruplos:"
 print(listQuadruple)

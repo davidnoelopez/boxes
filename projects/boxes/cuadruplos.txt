@@ -2,7 +2,10 @@ box{
 	vari #a = 1, #b = 2, #c;
 
 	mainbox(){
+		if (#a > 3)	{
+			#a = #a + 1;
+		}
 		#c = #a + #b * #a;
-		#b = #a + #b / #c;
+		#b = (#a + #b) / #c;
 	}
 }
