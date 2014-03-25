@@ -58,6 +58,7 @@ def createArithmeticQuadruple(oper, op1, op2, result):
 		#check cube
 		resultCube = cubetest.cube[result[1],op1[1],oper]
 		if resultCube is -1:
+			print [oper, op1[1], None, result[1]]
 			print("BoxesSemanticError: Arithmetic error.")
 			exit(1)
 		else:
@@ -65,7 +66,8 @@ def createArithmeticQuadruple(oper, op1, op2, result):
 			PilaO.append([result, resultCube])	
 	else:
 		#check cube
-		resultCube = cubetest.cube[op1[1],op2[1],oper]
+		#resultCube = cubetest.cube[op1[1],op2[1],oper]
+		resultCube = 0
 		if resultCube is -1:
 			print("BoxesSemanticError: Arithmetic error.")
 			exit(1)
