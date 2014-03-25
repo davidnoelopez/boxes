@@ -66,8 +66,7 @@ def createArithmeticQuadruple(oper, op1, op2, result):
 			PilaO.append([result, resultCube])	
 	else:
 		#check cube
-		#resultCube = cubetest.cube[op1[1],op2[1],oper]
-		resultCube = 0
+		resultCube = cubetest.cube[op1[1],op2[1],oper]
 		if resultCube is -1:
 			print("BoxesSemanticError: Arithmetic error.")
 			exit(1)
@@ -434,16 +433,15 @@ def p_ASSIGNATION(p):
 
 	
 	op1 = PilaO.pop()
-	if p[1] in VarDic:
-		valType = VarDic[p[1]][1]
-		valID = p[1]
+	valID = p[1]
+	if valID in VarDic:
+		valType = VarDic[valID][1]
 		createArithmeticQuadruple(12, op1, None, [valID, valType])
-	elif p[1] in MetDic['global'][1]:
-		valType = MetDic['global'][1][p[1]][1]
-		valID = p[1]
+	elif valID in MetDic['global'][1]:
+		valType = MetDic['global'][1][valID][1]
 		createArithmeticQuadruple(12, op1, None, [valID, valType])
 	else:
-		print("BoxesSemanticError: Non declared variable: " +p[1])
+		print("BoxesSemanticError: Non declared variable: " +  valID)
 		exit(1)
 
 def p_EXPRESSION(p):
@@ -651,15 +649,39 @@ def p_SAY(p):
 
 def p_CONCAT(p):
 	"""
-	CONCAT : EXPRESSION DOT CONCAT  
-	| EXPRESSION
+	CONCAT : EXPRESSION seen_EXP_SAY DOT CONCAT  
+	| EXPRESSION seen_EXP_SAY
 	"""
+
+def p_seen_EXP_SAY(p):
+	"""
+	seen_EXP_SAY :
+	"""
+
+	out = PilaO.pop()
+	listQuadruple.append([23, None, None, out[0]])
 
 def p_ASK(p):
 	"""
-	ASK : ASKUSER OP STRING COMMA IDV CP PC  
+	ASK : ASKUSER OP STRING COMMA IDV CP PC
 	"""
-	
+
+	valID = p[5]
+	if valID in VarDic:
+		valType = VarDic[p[5]][1]
+	elif valID in MetDic['global'][1]:
+		valType = MetDic['global'][1][p[5]][1]
+	else:
+		print("BoxesSemanticError: Non declared variable: " +p[5])
+		exit(1)
+
+	if valType is 2:
+		write = p[3]
+		listQuadruple.append([24, write, None, valID])
+	else:
+		print("BoxesSemanticError: askuser() return value must be 'vals'.")
+		exit(1)
+
 def p_CALLBOX(p):
 	"""
 	CALLBOX : CALLBOXW OP IDM COMMA PARAMETERS CP PC  

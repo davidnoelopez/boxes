@@ -1,9 +1,14 @@
 box{
 	vari #a = 1, #b = 2, #c;
+	varf #salida;
 
 	mainbox(){
 		if (#a > 3)	{
 			#a = #a + 1;
+		}
+		else {
+			say("Hola");
+			askuser("Dame tu nombre", #salida);
 		}
 		#c = #a + #b * #a;
 		#b = (#a + #b) / #c;
