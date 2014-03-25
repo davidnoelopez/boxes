@@ -13,11 +13,14 @@
 #	(< 	:> 5)
 #	(> 	:> 6) 
 #	(<= :> 7) 
-#	(<= :> 8)
-#	(= 	:> 9)
-#	(GoToF 	:> 10)
-#	(GoToT 	:> 11)
-#	(GoTo 	:> 12)
+#	(>= :> 8)
+#	(<>	:> 9)
+#	(&&	:> 10)
+#	(||	:> 11)
+#	(= 	:> 12)
+#	(GoToF 	:> 20)
+#	(GoToT 	:> 21)
+#	(GoTo 	:> 22)
 
 
 # varI #
@@ -65,7 +68,7 @@ cube = {
  (1,0,6): 0, # varF > varI : varI (0, 1)
  (1,0,7): 0, # varF <= varI : varI (0, 1)
  (1,0,8): 0, # varF >= varI : varI (0, 1)
- (1,0,9): 1, # varF = varI : varF
+ (1,0,9): -1, # varF = varI : ERROR
 
  (1,1,0): 1, # varF + varF : varF
  (1,1,1): 1, # varF - varF : varF
@@ -76,7 +79,7 @@ cube = {
  (1,1,6): 0, # varF > varF : varI (0, 1)
  (1,1,7): 0, # varF <= varF : varI (0, 1)
  (1,1,8): 0, # varF >= varF : varI (0, 1)
- (1,1,9): 1, # varF = varF : varF
+ (1,1,9): 1, # varF = varF : varI (0, 1)
 
  (1,2,0): -1, # varF + varST : ERROR
  (1,2,1): -1, # varF - varST : ERROR

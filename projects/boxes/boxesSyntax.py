@@ -17,6 +17,7 @@ POper = list()	#stack para guardar operadores
 PilaO = list()	#stack para guardar operandos
 PSaltos = list() #stack para guardar saltos
 listQuadruple = list() #lista de cuadruplos
+countQuadruple = 0
 tCounter = 0 #contador para temporales
 queue = [1, "[", 3, "[", 4, "[", 5, 6, "]", "]", "]"]
 
@@ -53,7 +54,7 @@ def queueToList():
 			return [element] + queueToList()
 
 def createArithmeticQuadruple(oper, op1, op2, result):
-	if oper is 9: #"=" ASSIGNATION
+	if oper is 12: #"=" ASSIGNATION
 		#check cube
 		resultCube = cubetest.cube[result[1],op1[1],oper]
 		if resultCube is -1:
@@ -71,9 +72,13 @@ def createArithmeticQuadruple(oper, op1, op2, result):
 		else:
 			listQuadruple.append([oper, op1[0], op2[0], result])
 			PilaO.append([result, resultCube])
+	global countQuadruple
+	countQuadruple = countQuadruple + 1
 
 def createGoToQuadruple(oper, op1, op2, result):
 	listQuadruple.append([oper, op1, op2, result])
+	global countQuadruple
+	countQuadruple = countQuadruple + 1
 
 def p_BOXES(p):
 	"""
@@ -124,7 +129,7 @@ def p_VARF3(p):
 		if p[2] is '=':
 			valType = 1
 			valID = p[1]
-			createArithmeticQuadruple(9, [p[3], 1], None, [valID, valType])
+			createArithmeticQuadruple(12, [p[3], 1], None, [valID, valType])
 	else:
 		addVarDictionary( p[1], None, 1 )
 
@@ -147,7 +152,7 @@ def p_VARI3(p):
 		if p[2] is '=':
 			valType = 0
 			valID = p[1]
-			createArithmeticQuadruple(9, [p[3], 0], None, [valID, valType])
+			createArithmeticQuadruple(12, [p[3], 0], None, [valID, valType])
 	else:
 		addVarDictionary( p[1], None, 0 )
 
@@ -171,7 +176,7 @@ def p_VARST3(p):
 		if p[2] is '=':
 			valType = 2
 			valID = p[1]
-			createArithmeticQuadruple(9, [p[3], 2], None, [valID, valType])
+			createArithmeticQuadruple(12, [p[3], 2], None, [valID, valType])
 	else:
 		addVarDictionary( p[1], None, 2 )
 
@@ -256,38 +261,64 @@ def p_CODE(p):
 
 def p_CONDITION(p):
 	"""
-	CONDITION : IF OP STM CP OC seen_OC BLOCKS2 CC CONDITION2
-		| IF OP STM CP OC seen_OC CC CONDITION2
-		| IF OP STM CP OC seen_OC BLOCKS2 CC
-		| IF OP STM CP OC seen_OC CC
+	CONDITION : IF OP STM CP OC seen_OC_IF BLOCKS2 CC CONDITION2 
+		| IF OP STM CP OC seen_OC_IF CC CONDITION2 
+		| IF OP STM CP OC seen_OC_IF BLOCKS2 CC seen_CC_IF
+		| IF OP STM CP OC seen_OC_IF CC seen_CC_IF
 	"""
 
-	end = PSaltos.pop()
-	listQuadruple[end][3] = len(listQuadruple)
-
-
-def p_seen_OC(p):
+def p_seen_OC_IF(p):
 	"""
-	seen_OC :
+	seen_OC_IF :
 	"""
 
 	#type of top element
 	aux = PilaO.pop()
 	#if type of aux is int
 	if aux[1] is 0:
-		createGoToQuadruple(10, aux[0], None, None)
-		PSaltos.append(len(listQuadruple)-1)
+		createGoToQuadruple(20, aux[0], None, None)
+		PSaltos.append(countQuadruple-1)
 
+def p_seen_CC_IF(p):
+	"""
+	seen_CC_IF :
+	"""
+
+	end = PSaltos.pop()
+	listQuadruple[end][3] = countQuadruple
 
 def p_CONDITION2(p):
 	"""
-	CONDITION2 : ELSE OC BLOCKS2 CC
-		| ELSE OC CC
+	CONDITION2 : ELSE seen_ELSE OC CONDITION3
 	"""
+
+def p_CONDITION3(p):
+	"""
+	CONDITION3 : BLOCKS2 CC seen_CC_ELSE
+		| CC seen_CC_ELSE
+	"""
+
+def p_seen_ELSE(p):
+	"""
+		seen_ELSE :
+	"""
+
+	createGoToQuadruple(22, None, None, None)
+	end = PSaltos.pop()
+	listQuadruple[end][3] = countQuadruple
+	PSaltos.append(countQuadruple-1)
+
+def p_seen_CC_ELSE(p):
+	"""
+	seen_CC_ELSE :
+	"""
+
+	end = PSaltos.pop()
+	listQuadruple[end][3] = countQuadruple
 
 def p_STM(p):
 	"""
-	STM : EXPRESSION STM2 EXPRESSION
+	STM : EXPRESSION STM2 EXPRESSION seen_STM
 		| EXPRESSION
 	"""
 
@@ -300,6 +331,32 @@ def p_STM2(p):
 		| DOUBLEEQUALS
 		| LTGT
 	"""
+
+	switch = {
+				'==': 4,
+				'<': 5,
+				'>': 6,
+				'<=': 7,
+				'>=': 8,
+				'<>': 9 }
+
+	POper.append(switch[p[1]])
+
+def p_seen_STM(p):
+	"""
+	seen_STM :
+	"""
+
+	global tCounter
+	if len(POper) > 0:
+		top = POper.pop()
+		if top in range(4, 10):
+			op2 = PilaO.pop()
+			op1 = PilaO.pop()
+			createArithmeticQuadruple(top, op1, op2, "t"+str(tCounter))
+			tCounter = tCounter + 1
+		else:
+			POper.append(top)
 
 def p_PARAM(p):
 	"""
@@ -378,11 +435,11 @@ def p_ASSIGNATION(p):
 	if p[1] in VarDic:
 		valType = VarDic[p[1]][1]
 		valID = p[1]
-		createArithmeticQuadruple(9, op1, None, [valID, valType])
+		createArithmeticQuadruple(12, op1, None, [valID, valType])
 	elif p[1] in MetDic['global'][1]:
 		valType = MetDic['global'][1][p[1]][1]
 		valID = p[1]
-		createArithmeticQuadruple(9, op1, None, [valID, valType])
+		createArithmeticQuadruple(12, op1, None, [valID, valType])
 	else:
 		print("BoxesSemanticError: Non declared variable: " +p[1])
 		exit(1)
@@ -412,23 +469,21 @@ def p_seen_EXPF(p):
 			op1 = PilaO.pop()
 			createArithmeticQuadruple(1, op1, op2, "t"+str(tCounter))
 			tCounter = tCounter + 1
-
+		elif top is '||':
+			op2 = PilaO.pop()
+			op1 = PilaO.pop()
+			createArithmeticQuadruple(11, op1, op2, "t"+str(tCounter))
+			tCounter = tCounter + 1
 		else:
 			POper.append(top)
-				
-	#print "POper"	
-	#print POper
-
 
 def p_seen_OPER(p):
 	"""
 	seen_OPER : PLUS
 		| MINUS
-
+		| OR
 	"""
 	POper.append(p[1])
-	#print "POper"	
-	#print POper
 
 def p_OPER(p):
 	"""
@@ -453,14 +508,19 @@ def p_seen_TERMF(p):
 			op1 = PilaO.pop()
 			createArithmeticQuadruple(3, op1, op2, "t"+str(tCounter))
 			tCounter = tCounter + 1
-
+		elif top is '&&':
+			op2 = PilaO.pop()
+			op1 = PilaO.pop()
+			createArithmeticQuadruple(10, op1, op2, "t"+str(tCounter))
+			tCounter = tCounter + 1
 		else:
 			POper.append(top)
 
 
 def p_seen_TERM(p):
 	"""seen_TERM : MULTIPLY
-		| DIVISION	
+		| DIVISION
+		| AND
 	"""
 	POper.append(p[1])
 
