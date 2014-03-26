@@ -1,0 +1,11 @@
+box{
+	vari #a = 1, #b = 2, #c;
+	vars #salida;
+
+	mainbox(){
+		loop ( #c from 10 to 100 by -2 ) {
+			#a = #a + 1;
+		}
+		say("adios");
+	}
+}

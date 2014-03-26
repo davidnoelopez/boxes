@@ -1,13 +1,16 @@
 box{
 	vari #a = 1, #b = 2, #c;
-	varf #salida;
+	vars #salida;
 
 	mainbox(){
 		if (#a > 3)	{
 			#a = #a + 1;
+			say("Hola");
 		}
 		else {
-			say("Hola");
+			if (#a < #b) {
+				#a = #a - #b;
+			}
 			askuser("Dame tu nombre", #salida);
 		}
 		#c = #a + #b * #a;
