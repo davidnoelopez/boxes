@@ -315,7 +315,7 @@ def p_seen_CC_ELSE(p):
 
 def p_STM(p):
 	"""
-	STM : EXPRESSION STM2 EXPRESSION seen_STM
+	STM : EXPRESSION STM2 EXPRESSION seen_STM 
 		| EXPRESSION
 	"""
 
@@ -454,7 +454,6 @@ def p_seen_EXPF(p):
 	global tCounter
 	if len(POper) > 0:
 		top = POper.pop()
-		#print top
 		if top is '+':
 			op2 = PilaO.pop()
 			op1 = PilaO.pop()
@@ -465,12 +464,13 @@ def p_seen_EXPF(p):
 			op1 = PilaO.pop()
 			createArithmeticQuadruple(1, op1, op2, "t"+str(tCounter), p)
 			tCounter = tCounter + 1
-		elif top is '||':
+		elif top == """or""":
 			op2 = PilaO.pop()
 			op1 = PilaO.pop()
 			createArithmeticQuadruple(11, op1, op2, "t"+str(tCounter), p)
 			tCounter = tCounter + 1
 		else:
+			#print top
 			POper.append(top)
 
 def p_seen_OPER(p):
@@ -494,7 +494,6 @@ def p_seen_TERMF(p):
 	global tCounter
 	if len(POper) > 0:
 		top = POper.pop()
-		#print top
 		if top is '*':
 			op2 = PilaO.pop()
 			op1 = PilaO.pop()
@@ -505,12 +504,13 @@ def p_seen_TERMF(p):
 			op1 = PilaO.pop()
 			createArithmeticQuadruple(3, op1, op2, "t"+str(tCounter), p)
 			tCounter = tCounter + 1
-		elif top is '&&':
+		elif top == """and""":
 			op2 = PilaO.pop()
 			op1 = PilaO.pop()
 			createArithmeticQuadruple(10, op1, op2, "t"+str(tCounter), p)
 			tCounter = tCounter + 1
 		else:
+			#print top
 			POper.append(top)
 
 
@@ -523,7 +523,7 @@ def p_seen_TERM(p):
 
 def p_TERM(p):
 	"""
-	TERM : OP seen_OP_TERM EXPRESSION CP
+	TERM : OP seen_OP_TERM STM CP
 	| TERM2
 	"""
 

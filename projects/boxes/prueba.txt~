@@ -2,7 +2,7 @@ box{
 	vari #probando;
 	vars #hola = "sip";
 	varf #acum = 0.0, #i = 1.1, #x = 2.3;
-	varl #lista = [1,2,3,4], #l, #pe = ["hola", 1.2, 3, [1, 2, 3], [1, [2, [3, 4]]], #lista[0]];
+	
 
 	mainbox(){
 		loop(#i from 0 to 100 by +2){
@@ -16,18 +16,6 @@ box{
 			#i = #acum-10;
 		}
 		askuser("dame tu temperatura", #acum);
-		say("Temperatura: ".#acum);
-		callbox(factorial_1,#i,12,#prabc);
-	}
-	recursivebox factorial(vari #aa, vari #bb, vari #cc){
-		vars #hola2 = "sip";
-		varf #acum2 = 0.0, #i2 = 1.1, #x2 = 2.3;		
-		say("prueba: ".#aa);
-	}
-	
-	voidbox prueba(vari #aa, vari #sippp, vari #cc){
-		vars #hola2 = "sip";
-		varf #acum2 = 0.0, #i2 = 1.1, #x2 = 2.3;		
 		say("Temperatura: ".#acum);
 	}
 }

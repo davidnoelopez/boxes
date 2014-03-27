@@ -99,7 +99,7 @@ Rule 93    seen_TERMF -> <empty>
 Rule 94    seen_TERM -> MULTIPLY
 Rule 95    seen_TERM -> DIVISION
 Rule 96    seen_TERM -> AND
-Rule 97    TERM -> OP seen_OP_TERM EXPRESSION CP
+Rule 97    TERM -> OP seen_OP_TERM STM CP
 Rule 98    TERM -> TERM2
 Rule 99    seen_OP_TERM -> <empty>
 Rule 100   TERM2 -> CTE
@@ -222,7 +222,7 @@ CONDITION3           : 52
 CTE                  : 100 101 102
 CTEL                 : 29 30 117 118
 CTEL2                : 118
-EXPRESSION           : 57 57 58 84 86 97 123 124 128 129
+EXPRESSION           : 57 57 58 84 86 123 124 128 129
 LOOP                 : 40
 LOOP2                : 130 130 130 131 131 132 132 132 133 133
 LOOP3                : 130 132
@@ -236,7 +236,7 @@ PARAM2               : 66
 PARAMETERS           : 127 128
 RETURN               : 38
 SAY                  : 44
-STM                  : 46 47 48 49 145 146
+STM                  : 46 47 48 49 97 145 146
 STM2                 : 57
 TERM                 : 91 92
 TERM2                : 98
@@ -1629,7 +1629,7 @@ state 101
     (86) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
     (91) OPER -> . TERM seen_TERMF
     (92) OPER -> . TERM seen_TERMF seen_TERM OPER
-    (97) TERM -> . OP seen_OP_TERM EXPRESSION CP
+    (97) TERM -> . OP seen_OP_TERM STM CP
     (98) TERM -> . TERM2
     (100) TERM2 -> . CTE
     (101) TERM2 -> . PLUS CTE
@@ -1691,7 +1691,7 @@ state 105
     (86) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
     (91) OPER -> . TERM seen_TERMF
     (92) OPER -> . TERM seen_TERMF seen_TERM OPER
-    (97) TERM -> . OP seen_OP_TERM EXPRESSION CP
+    (97) TERM -> . OP seen_OP_TERM STM CP
     (98) TERM -> . TERM2
     (100) TERM2 -> . CTE
     (101) TERM2 -> . PLUS CTE
@@ -1752,7 +1752,7 @@ state 109
     (86) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
     (91) OPER -> . TERM seen_TERMF
     (92) OPER -> . TERM seen_TERMF seen_TERM OPER
-    (97) TERM -> . OP seen_OP_TERM EXPRESSION CP
+    (97) TERM -> . OP seen_OP_TERM STM CP
     (98) TERM -> . TERM2
     (100) TERM2 -> . CTE
     (101) TERM2 -> . PLUS CTE
@@ -2113,7 +2113,7 @@ state 128
 
 state 129
 
-    (97) TERM -> OP . seen_OP_TERM EXPRESSION CP
+    (97) TERM -> OP . seen_OP_TERM STM CP
     (99) seen_OP_TERM -> .
 
     OP              reduce using rule 99 (seen_OP_TERM -> .)
@@ -2163,7 +2163,7 @@ state 133
     (86) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
     (91) OPER -> . TERM seen_TERMF
     (92) OPER -> . TERM seen_TERMF seen_TERM OPER
-    (97) TERM -> . OP seen_OP_TERM EXPRESSION CP
+    (97) TERM -> . OP seen_OP_TERM STM CP
     (98) TERM -> . TERM2
     (100) TERM2 -> . CTE
     (101) TERM2 -> . PLUS CTE
@@ -2494,12 +2494,14 @@ state 155
 
 state 156
 
-    (97) TERM -> OP seen_OP_TERM . EXPRESSION CP
+    (97) TERM -> OP seen_OP_TERM . STM CP
+    (57) STM -> . EXPRESSION STM2 EXPRESSION seen_STM
+    (58) STM -> . EXPRESSION
     (85) EXPRESSION -> . OPER seen_EXPF
     (86) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
     (91) OPER -> . TERM seen_TERMF
     (92) OPER -> . TERM seen_TERMF seen_TERM OPER
-    (97) TERM -> . OP seen_OP_TERM EXPRESSION CP
+    (97) TERM -> . OP seen_OP_TERM STM CP
     (98) TERM -> . TERM2
     (100) TERM2 -> . CTE
     (101) TERM2 -> . PLUS CTE
@@ -2522,9 +2524,10 @@ state 156
     OPER                           shift and go to state 116
     TERM                           shift and go to state 121
     TERM2                          shift and go to state 125
+    STM                            shift and go to state 185
     seen_ID                        shift and go to state 122
     CTE                            shift and go to state 118
-    EXPRESSION                     shift and go to state 185
+    EXPRESSION                     shift and go to state 135
 
 state 157
 
@@ -2550,7 +2553,7 @@ state 158
     (86) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
     (91) OPER -> . TERM seen_TERMF
     (92) OPER -> . TERM seen_TERMF seen_TERM OPER
-    (97) TERM -> . OP seen_OP_TERM EXPRESSION CP
+    (97) TERM -> . OP seen_OP_TERM STM CP
     (98) TERM -> . TERM2
     (100) TERM2 -> . CTE
     (101) TERM2 -> . PLUS CTE
@@ -2619,7 +2622,7 @@ state 162
     (86) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
     (91) OPER -> . TERM seen_TERMF
     (92) OPER -> . TERM seen_TERMF seen_TERM OPER
-    (97) TERM -> . OP seen_OP_TERM EXPRESSION CP
+    (97) TERM -> . OP seen_OP_TERM STM CP
     (98) TERM -> . TERM2
     (100) TERM2 -> . CTE
     (101) TERM2 -> . PLUS CTE
@@ -2808,7 +2811,7 @@ state 176
     (86) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
     (91) OPER -> . TERM seen_TERMF
     (92) OPER -> . TERM seen_TERMF seen_TERM OPER
-    (97) TERM -> . OP seen_OP_TERM EXPRESSION CP
+    (97) TERM -> . OP seen_OP_TERM STM CP
     (98) TERM -> . TERM2
     (100) TERM2 -> . CTE
     (101) TERM2 -> . PLUS CTE
@@ -2886,7 +2889,7 @@ state 181
     (92) OPER -> TERM seen_TERMF seen_TERM . OPER
     (91) OPER -> . TERM seen_TERMF
     (92) OPER -> . TERM seen_TERMF seen_TERM OPER
-    (97) TERM -> . OP seen_OP_TERM EXPRESSION CP
+    (97) TERM -> . OP seen_OP_TERM STM CP
     (98) TERM -> . TERM2
     (100) TERM2 -> . CTE
     (101) TERM2 -> . PLUS CTE
@@ -2934,7 +2937,7 @@ state 183
     (86) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
     (91) OPER -> . TERM seen_TERMF
     (92) OPER -> . TERM seen_TERMF seen_TERM OPER
-    (97) TERM -> . OP seen_OP_TERM EXPRESSION CP
+    (97) TERM -> . OP seen_OP_TERM STM CP
     (98) TERM -> . TERM2
     (100) TERM2 -> . CTE
     (101) TERM2 -> . PLUS CTE
@@ -2979,7 +2982,7 @@ state 184
 
 state 185
 
-    (97) TERM -> OP seen_OP_TERM EXPRESSION . CP
+    (97) TERM -> OP seen_OP_TERM STM . CP
 
     CP              shift and go to state 199
 
@@ -3161,24 +3164,24 @@ state 198
 
 state 199
 
-    (97) TERM -> OP seen_OP_TERM EXPRESSION CP .
+    (97) TERM -> OP seen_OP_TERM STM CP .
 
-    MULTIPLY        reduce using rule 97 (TERM -> OP seen_OP_TERM EXPRESSION CP .)
-    DIVISION        reduce using rule 97 (TERM -> OP seen_OP_TERM EXPRESSION CP .)
-    AND             reduce using rule 97 (TERM -> OP seen_OP_TERM EXPRESSION CP .)
-    PLUS            reduce using rule 97 (TERM -> OP seen_OP_TERM EXPRESSION CP .)
-    MINUS           reduce using rule 97 (TERM -> OP seen_OP_TERM EXPRESSION CP .)
-    OR              reduce using rule 97 (TERM -> OP seen_OP_TERM EXPRESSION CP .)
-    DOT             reduce using rule 97 (TERM -> OP seen_OP_TERM EXPRESSION CP .)
-    CP              reduce using rule 97 (TERM -> OP seen_OP_TERM EXPRESSION CP .)
-    PC              reduce using rule 97 (TERM -> OP seen_OP_TERM EXPRESSION CP .)
-    GT              reduce using rule 97 (TERM -> OP seen_OP_TERM EXPRESSION CP .)
-    GTE             reduce using rule 97 (TERM -> OP seen_OP_TERM EXPRESSION CP .)
-    LT              reduce using rule 97 (TERM -> OP seen_OP_TERM EXPRESSION CP .)
-    LTE             reduce using rule 97 (TERM -> OP seen_OP_TERM EXPRESSION CP .)
-    DOUBLEEQUALS    reduce using rule 97 (TERM -> OP seen_OP_TERM EXPRESSION CP .)
-    LTGT            reduce using rule 97 (TERM -> OP seen_OP_TERM EXPRESSION CP .)
-    COMMA           reduce using rule 97 (TERM -> OP seen_OP_TERM EXPRESSION CP .)
+    MULTIPLY        reduce using rule 97 (TERM -> OP seen_OP_TERM STM CP .)
+    DIVISION        reduce using rule 97 (TERM -> OP seen_OP_TERM STM CP .)
+    AND             reduce using rule 97 (TERM -> OP seen_OP_TERM STM CP .)
+    PLUS            reduce using rule 97 (TERM -> OP seen_OP_TERM STM CP .)
+    MINUS           reduce using rule 97 (TERM -> OP seen_OP_TERM STM CP .)
+    OR              reduce using rule 97 (TERM -> OP seen_OP_TERM STM CP .)
+    DOT             reduce using rule 97 (TERM -> OP seen_OP_TERM STM CP .)
+    CP              reduce using rule 97 (TERM -> OP seen_OP_TERM STM CP .)
+    PC              reduce using rule 97 (TERM -> OP seen_OP_TERM STM CP .)
+    GT              reduce using rule 97 (TERM -> OP seen_OP_TERM STM CP .)
+    GTE             reduce using rule 97 (TERM -> OP seen_OP_TERM STM CP .)
+    LT              reduce using rule 97 (TERM -> OP seen_OP_TERM STM CP .)
+    LTE             reduce using rule 97 (TERM -> OP seen_OP_TERM STM CP .)
+    DOUBLEEQUALS    reduce using rule 97 (TERM -> OP seen_OP_TERM STM CP .)
+    LTGT            reduce using rule 97 (TERM -> OP seen_OP_TERM STM CP .)
+    COMMA           reduce using rule 97 (TERM -> OP seen_OP_TERM STM CP .)
 
 
 state 200
@@ -3197,7 +3200,7 @@ state 201
     (86) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
     (91) OPER -> . TERM seen_TERMF
     (92) OPER -> . TERM seen_TERMF seen_TERM OPER
-    (97) TERM -> . OP seen_OP_TERM EXPRESSION CP
+    (97) TERM -> . OP seen_OP_TERM STM CP
     (98) TERM -> . TERM2
     (100) TERM2 -> . CTE
     (101) TERM2 -> . PLUS CTE

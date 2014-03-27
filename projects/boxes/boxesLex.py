@@ -38,6 +38,8 @@ reserved = {
    'to': 'TO',
    'by': 'BY',
    'loopif': 'LOOPIFW',
+   'and': 'AND',
+   'or': 'OR'
 }
 
 tokens = [
@@ -66,8 +68,6 @@ tokens = [
 'INT',
 'STRING',
 'DOT',
-'AND',
-'OR',
 ]+ list(reserved.values())
 
 # Regular expression rules for simple tokens
@@ -91,8 +91,6 @@ t_MINUS = r'-'
 t_MULTIPLY = r'\*'
 t_DIVISION = r'/'
 t_DOT = r'\.'
-t_AND = r'&&'
-t_OR = r'\|\|'
 
 # A regular expression rule with some action code
 def t_IDV(t):
