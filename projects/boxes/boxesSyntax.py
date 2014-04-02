@@ -9,6 +9,7 @@ tokens = boxesLex.tokens
 tmpMethod = ""
 tmpIdMethod = ""
 tmptypeVar = ""
+tmpDirMethod = 0 #variable para la direccion del metodo
 VarDic = dict()	#diccionario de variables (tabla de variables)
 MetDic = dict()	#diccionario de metodos (directorio de procedimientos)
 tmpList = list() #fila temporal donde guarda los elementos parseados de la lista
@@ -35,7 +36,7 @@ def addMetDictionary( idMet, typeMet, p ):
 		exit(1)
 	else:
 		localDic = VarDic.copy()
-		MetDic[idMet] = [typeMet, localDic]
+		MetDic[idMet] = [typeMet, localDic, tmpDirMethod]
 		print "Found method: ", idMet, " - ", MetDic[idMet]
 		VarDic.clear()
 
@@ -79,8 +80,8 @@ def createGoToQuadruple(oper, op1, op2, result):
 
 def p_BOXES(p):
 	"""
-	BOXES : BOX OC VARS seen_globalvars MAINBOX OP CP BLOCKS METHODS CC
-	| BOX OC VARS seen_globalvars MAINBOX OP CP BLOCKS CC
+	BOXES : BOX OC VARS seen_globalvars METHODS seen_methods MAINBOX OP CP BLOCKS CC
+	| BOX OC VARS seen_globalvars seen_methods MAINBOX OP CP BLOCKS CC
 	"""
 
 def p_seen_globalvars(p):
@@ -88,13 +89,21 @@ def p_seen_globalvars(p):
 	seen_globalvars :
 	"""
 	#agrega el metodo global a diccionario
-	global tmpMethod, tmpIdMethod
+	global tmpMethod, tmpIdMethod, tmpDirMethod
 	tmpMethod = "global"
 	tmpIdMethod = "global"
+	tmpDirMethod = 0
 	addMetDictionary( tmpMethod, tmpMethod, p )
 
+def p_seen_methods(p):
+	"""
+	seen_methods :
+	"""
+
+	global tmpMethod, tmpIdMethod, tmpDirMethod
 	tmpMethod = "main"
 	tmpIdMethod = "main"
+	tmpDirMethod = len(listQuadruple)
 
 def p_VARS(p):
 	"""
@@ -392,8 +401,9 @@ def p_seen_IDM(p):
 	seen_IDM : IDM
 	"""
 	#agrega el metodo al diccionario de metodos si es que no ha sido previamente declarado y borra variables en diccionario temporal para almacenar las que se declaren en el nuevo metodo
-	global tmpIdMethod
+	global tmpIdMethod, tmpDirMethod
 	tmpIdMethod = p[1]
+	tmpDirMethod = len(listQuadruple)
 	#VarDic.clear()
 	
 
@@ -864,7 +874,9 @@ with open(sys.argv[1],'r') as content_file:
 	content = content_file.read()
 yacc.parse(content)
 
-print "Cuadruplos:"
+print "Procedimientos:"
+print(MetDic)
+print "caudruplos:"
 print(listQuadruple)
 print("<<SUCCESS>>")
 #profile.run("yacc.yacc(method='LALR')")

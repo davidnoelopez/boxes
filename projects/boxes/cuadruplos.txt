@@ -2,6 +2,10 @@ box{
 	vari #a = 1, #b = 2, #c;
 	vars #salida;
 
+	voidbox uno (vari #a, vari #b){
+		#a = #b;
+	}
+
 	mainbox(){
 		if (#a > 3)	{
 			#a = #a + 1;
