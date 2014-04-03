@@ -130,72 +130,73 @@ Rule 124   CONCAT -> EXPRESSION seen_EXP_SAY DOT CONCAT
 Rule 125   CONCAT -> EXPRESSION seen_EXP_SAY
 Rule 126   seen_EXP_SAY -> <empty>
 Rule 127   ASK -> ASKUSER OP STRING COMMA IDV CP PC
-Rule 128   CALLBOX -> CALLBOXW OP IDM COMMA PARAMETERS CP PC
-Rule 129   PARAMETERS -> EXPRESSION COMMA PARAMETERS
-Rule 130   PARAMETERS -> EXPRESSION
-Rule 131   LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-Rule 132   LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-Rule 133   LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-Rule 134   LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
-Rule 135   seen_CP_LOOP1 -> <empty>
-Rule 136   seen_CP_LOOP2 -> <empty>
-Rule 137   seen_VAR_LOOP -> IDV
-Rule 138   LOOP2 -> seen_INT_LOOP
-Rule 139   LOOP2 -> seen_FLOAT_LOOP
-Rule 140   seen_INT_LOOP -> INT
-Rule 141   seen_FLOAT_LOOP -> FLOAT
-Rule 142   LOOP3 -> PLUS
-Rule 143   LOOP3 -> MINUS
-Rule 144   LOOP3 -> <empty>
-Rule 145   seen_LOOP -> <empty>
-Rule 146   LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
-Rule 147   LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
-Rule 148   seen_LOOPIF -> <empty>
-Rule 149   seen_CP_LOOPIF -> <empty>
+Rule 128   CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC
+Rule 129   SEEN_IDM_CALL -> IDM
+Rule 130   PARAMETERS -> EXPRESSION COMMA PARAMETERS
+Rule 131   PARAMETERS -> EXPRESSION
+Rule 132   LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+Rule 133   LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
+Rule 134   LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+Rule 135   LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
+Rule 136   seen_CP_LOOP1 -> <empty>
+Rule 137   seen_CP_LOOP2 -> <empty>
+Rule 138   seen_VAR_LOOP -> IDV
+Rule 139   LOOP2 -> seen_INT_LOOP
+Rule 140   LOOP2 -> seen_FLOAT_LOOP
+Rule 141   seen_INT_LOOP -> INT
+Rule 142   seen_FLOAT_LOOP -> FLOAT
+Rule 143   LOOP3 -> PLUS
+Rule 144   LOOP3 -> MINUS
+Rule 145   LOOP3 -> <empty>
+Rule 146   seen_LOOP -> <empty>
+Rule 147   LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
+Rule 148   LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
+Rule 149   seen_LOOPIF -> <empty>
+Rule 150   seen_CP_LOOPIF -> <empty>
 
 Terminals, with rules where they appear
 
 AND                  : 97
 ASKUSER              : 127
 BOX                  : 1 2
-BY                   : 131 133
+BY                   : 132 134
 CALLBOXW             : 128
 CB                   : 26 27 112 117 118 120
-CC                   : 1 2 33 34 35 36 47 48 49 50 54 55 131 132 133 134 146 147
-COMMA                : 11 13 16 18 21 23 27 28 31 81 119 127 128 129
-CP                   : 1 2 47 48 49 50 72 73 98 123 127 128 131 132 133 134 146 147
+CC                   : 1 2 33 34 35 36 47 48 49 50 54 55 132 133 134 135 147 148
+COMMA                : 11 13 16 18 21 23 27 28 31 81 119 127 128 130
+CP                   : 1 2 47 48 49 50 72 73 98 123 127 128 132 133 134 135 147 148
 DIVISION             : 96
 DOT                  : 124
 DOUBLEEQUALS         : 64
 ELSE                 : 53
 EQUALS               : 11 12 16 17 21 22 26 27 84 85
-FLOAT                : 11 12 105 114 141
-FROM                 : 131 132 133 134
+FLOAT                : 11 12 105 114 142
+FROM                 : 132 133 134 135
 GT                   : 60
 GTE                  : 61
-IDM                  : 74 128
-IDV                  : 11 12 13 14 16 17 18 19 21 22 23 24 26 27 28 29 67 85 111 112 116 117 127 137
+IDM                  : 74 129
+IDV                  : 11 12 13 14 16 17 18 19 21 22 23 24 26 27 28 29 67 85 111 112 116 117 127 138
 IF                   : 47 48 49 50
-INT                  : 16 17 104 112 113 117 140
-LOOPIFW              : 146 147
-LOOPW                : 131 132 133 134
+INT                  : 16 17 104 112 113 117 141
+LOOPIFW              : 147 148
+LOOPW                : 132 133 134 135
 LT                   : 62
 LTE                  : 63
 LTGT                 : 65
 MAINBOX              : 1 2
-MINUS                : 90 103 143
+MINUS                : 90 103 144
 MULTIPLY             : 95
 OB                   : 26 27 112 117
-OC                   : 1 2 33 34 35 36 47 48 49 50 53 131 132 133 134 146 147
-OP                   : 1 2 47 48 49 50 72 73 98 123 127 128 131 132 133 134 146 147
+OC                   : 1 2 33 34 35 36 47 48 49 50 53 132 133 134 135 147 148
+OP                   : 1 2 47 48 49 50 72 73 98 123 127 128 132 133 134 135 147 148
 OR                   : 91
 PC                   : 10 15 20 25 84 85 123 127 128
-PLUS                 : 89 102 142
+PLUS                 : 89 102 143
 RECURSIVEBOX         : 75
 RETURNW              : 84
 SAYW                 : 123
 STRING               : 21 22 106 115 127
-TO                   : 131 132 133 134
+TO                   : 132 133 134 135
 VARFBOX              : 78
 VARFSMALL            : 10 70
 VARIBOX              : 77
@@ -212,7 +213,7 @@ Nonterminals, with rules where they appear
 ASK                  : 44
 ASSIGNATION          : 40
 BLOCKS               : 1 2 72 73
-BLOCKS2              : 33 35 38 47 49 54 131 132 146
+BLOCKS2              : 33 35 38 47 49 54 132 133 147
 BOXES                : 0
 CALLBOX              : 46
 CODE                 : 37 38
@@ -223,10 +224,10 @@ CONDITION3           : 53
 CTE                  : 101 102 103
 CTEL                 : 30 31 118 119
 CTEL2                : 119
-EXPRESSION           : 58 58 59 85 87 124 125 129 130
+EXPRESSION           : 58 58 59 85 87 124 125 130 131
 LOOP                 : 41
-LOOP2                : 131 131 131 132 132 133 133 133 134 134
-LOOP3                : 131 133
+LOOP2                : 132 132 132 133 133 134 134 134 135 135
+LOOP3                : 132 134
 LOOPIF               : 42
 METHODS              : 1 73
 METHODS2             : 72 73
@@ -234,10 +235,11 @@ METHODS3             : 72 73 81
 OPER                 : 86 87 93
 PARAM                : 81 82
 PARAM2               : 67
-PARAMETERS           : 128 129
+PARAMETERS           : 128 130
 RETURN               : 39
 SAY                  : 45
-STM                  : 47 48 49 50 98 146 147
+SEEN_IDM_CALL        : 128
+STM                  : 47 48 49 50 98 147 148
 STM2                 : 58
 TERM                 : 92 93
 TERM2                : 99
@@ -254,20 +256,20 @@ VARST3               : 20 21 23
 seen_CB              : 118 120
 seen_CC_ELSE         : 54 55
 seen_CC_IF           : 49 50
-seen_CP_LOOP1        : 131 133
-seen_CP_LOOP2        : 132 134
-seen_CP_LOOPIF       : 146 147
+seen_CP_LOOP1        : 132 134
+seen_CP_LOOP2        : 133 135
+seen_CP_LOOPIF       : 147 148
 seen_ELSE            : 53
 seen_EXPF            : 86 87
 seen_EXP_SAY         : 124 125
 seen_FLOAT           : 105
-seen_FLOAT_LOOP      : 139
+seen_FLOAT_LOOP      : 140
 seen_ID              : 107
 seen_IDM             : 72 73
 seen_INT             : 104
-seen_INT_LOOP        : 138
-seen_LOOP            : 131 132 133 134
-seen_LOOPIF          : 146 147
+seen_INT_LOOP        : 139
+seen_LOOP            : 132 133 134 135
+seen_LOOPIF          : 147 148
 seen_OB              : 
 seen_OC_IF           : 47 48 49 50
 seen_OPER            : 87
@@ -276,7 +278,7 @@ seen_STM             : 58
 seen_STRING          : 106
 seen_TERM            : 93
 seen_TERMF           : 92 93
-seen_VAR_LOOP        : 131 132 133 134
+seen_VAR_LOOP        : 132 133 134 135
 seen_globalvars      : 1 2
 seen_methods         : 1 2
 
@@ -1409,19 +1411,19 @@ state 88
     (46) CODE -> . CALLBOX
     (84) RETURN -> . RETURNW EQUALS PC
     (85) ASSIGNATION -> . IDV EQUALS EXPRESSION PC
-    (131) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (132) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-    (133) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-    (134) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
-    (146) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
-    (147) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
+    (132) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (133) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
+    (134) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+    (135) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
+    (147) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
+    (148) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
     (47) CONDITION -> . IF OP STM CP OC seen_OC_IF BLOCKS2 CC CONDITION2
     (48) CONDITION -> . IF OP STM CP OC seen_OC_IF CC CONDITION2
     (49) CONDITION -> . IF OP STM CP OC seen_OC_IF BLOCKS2 CC seen_CC_IF
     (50) CONDITION -> . IF OP STM CP OC seen_OC_IF CC seen_CC_IF
     (127) ASK -> . ASKUSER OP STRING COMMA IDV CP PC
     (123) SAY -> . SAYW OP CONCAT CP PC
-    (128) CALLBOX -> . CALLBOXW OP IDM COMMA PARAMETERS CP PC
+    (128) CALLBOX -> . CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC
 
   ! shift/reduce conflict for CC resolved as shift
   ! shift/reduce conflict for RETURNW resolved as shift
@@ -1578,19 +1580,19 @@ state 98
     (46) CODE -> . CALLBOX
     (84) RETURN -> . RETURNW EQUALS PC
     (85) ASSIGNATION -> . IDV EQUALS EXPRESSION PC
-    (131) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (132) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-    (133) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-    (134) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
-    (146) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
-    (147) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
+    (132) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (133) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
+    (134) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+    (135) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
+    (147) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
+    (148) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
     (47) CONDITION -> . IF OP STM CP OC seen_OC_IF BLOCKS2 CC CONDITION2
     (48) CONDITION -> . IF OP STM CP OC seen_OC_IF CC CONDITION2
     (49) CONDITION -> . IF OP STM CP OC seen_OC_IF BLOCKS2 CC seen_CC_IF
     (50) CONDITION -> . IF OP STM CP OC seen_OC_IF CC seen_CC_IF
     (127) ASK -> . ASKUSER OP STRING COMMA IDV CP PC
     (123) SAY -> . SAYW OP CONCAT CP PC
-    (128) CALLBOX -> . CALLBOXW OP IDM COMMA PARAMETERS CP PC
+    (128) CALLBOX -> . CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC
 
     CC              reduce using rule 37 (BLOCKS2 -> CODE .)
     RETURNW         shift and go to state 109
@@ -1644,19 +1646,19 @@ state 100
     (46) CODE -> . CALLBOX
     (84) RETURN -> . RETURNW EQUALS PC
     (85) ASSIGNATION -> . IDV EQUALS EXPRESSION PC
-    (131) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (132) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-    (133) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-    (134) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
-    (146) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
-    (147) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
+    (132) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (133) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
+    (134) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+    (135) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
+    (147) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
+    (148) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
     (47) CONDITION -> . IF OP STM CP OC seen_OC_IF BLOCKS2 CC CONDITION2
     (48) CONDITION -> . IF OP STM CP OC seen_OC_IF CC CONDITION2
     (49) CONDITION -> . IF OP STM CP OC seen_OC_IF BLOCKS2 CC seen_CC_IF
     (50) CONDITION -> . IF OP STM CP OC seen_OC_IF CC seen_CC_IF
     (127) ASK -> . ASKUSER OP STRING COMMA IDV CP PC
     (123) SAY -> . SAYW OP CONCAT CP PC
-    (128) CALLBOX -> . CALLBOXW OP IDM COMMA PARAMETERS CP PC
+    (128) CALLBOX -> . CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC
 
     CC              shift and go to state 124
     RETURNW         shift and go to state 109
@@ -1688,7 +1690,7 @@ state 101
 
 state 102
 
-    (128) CALLBOX -> CALLBOXW . OP IDM COMMA PARAMETERS CP PC
+    (128) CALLBOX -> CALLBOXW . OP SEEN_IDM_CALL COMMA PARAMETERS CP PC
 
     OP              shift and go to state 127
 
@@ -1769,11 +1771,11 @@ state 107
 
 state 108
 
-    (146) LOOPIF -> LOOPIFW . seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
-    (147) LOOPIF -> LOOPIFW . seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
-    (148) seen_LOOPIF -> .
+    (147) LOOPIF -> LOOPIFW . seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
+    (148) LOOPIF -> LOOPIFW . seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
+    (149) seen_LOOPIF -> .
 
-    OP              reduce using rule 148 (seen_LOOPIF -> .)
+    OP              reduce using rule 149 (seen_LOOPIF -> .)
 
     seen_LOOPIF                    shift and go to state 128
 
@@ -1796,13 +1798,13 @@ state 110
 
 state 111
 
-    (131) LOOP -> LOOPW . seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (132) LOOP -> LOOPW . seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-    (133) LOOP -> LOOPW . seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-    (134) LOOP -> LOOPW . seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
-    (145) seen_LOOP -> .
+    (132) LOOP -> LOOPW . seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (133) LOOP -> LOOPW . seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
+    (134) LOOP -> LOOPW . seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+    (135) LOOP -> LOOPW . seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
+    (146) seen_LOOP -> .
 
-    OP              reduce using rule 145 (seen_LOOP -> .)
+    OP              reduce using rule 146 (seen_LOOP -> .)
 
     seen_LOOP                      shift and go to state 131
 
@@ -2019,24 +2021,26 @@ state 126
 
 state 127
 
-    (128) CALLBOX -> CALLBOXW OP . IDM COMMA PARAMETERS CP PC
+    (128) CALLBOX -> CALLBOXW OP . SEEN_IDM_CALL COMMA PARAMETERS CP PC
+    (129) SEEN_IDM_CALL -> . IDM
 
-    IDM             shift and go to state 151
+    IDM             shift and go to state 152
 
+    SEEN_IDM_CALL                  shift and go to state 151
 
 state 128
 
-    (146) LOOPIF -> LOOPIFW seen_LOOPIF . OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
-    (147) LOOPIF -> LOOPIFW seen_LOOPIF . OP STM CP seen_CP_LOOPIF OC CC
+    (147) LOOPIF -> LOOPIFW seen_LOOPIF . OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
+    (148) LOOPIF -> LOOPIFW seen_LOOPIF . OP STM CP seen_CP_LOOPIF OC CC
 
-    OP              shift and go to state 152
+    OP              shift and go to state 153
 
 
 state 129
 
     (84) RETURN -> RETURNW EQUALS . PC
 
-    PC              shift and go to state 153
+    PC              shift and go to state 154
 
 
 state 130
@@ -2074,19 +2078,19 @@ state 130
     OPER                           shift and go to state 135
     TERM                           shift and go to state 140
     TERM2                          shift and go to state 144
-    STM                            shift and go to state 155
+    STM                            shift and go to state 156
     seen_ID                        shift and go to state 141
     CTE                            shift and go to state 137
-    EXPRESSION                     shift and go to state 154
+    EXPRESSION                     shift and go to state 155
 
 state 131
 
-    (131) LOOP -> LOOPW seen_LOOP . OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (132) LOOP -> LOOPW seen_LOOP . OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-    (133) LOOP -> LOOPW seen_LOOP . OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-    (134) LOOP -> LOOPW seen_LOOP . OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
+    (132) LOOP -> LOOPW seen_LOOP . OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (133) LOOP -> LOOPW seen_LOOP . OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
+    (134) LOOP -> LOOPW seen_LOOP . OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+    (135) LOOP -> LOOPW seen_LOOP . OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
 
-    OP              shift and go to state 156
+    OP              shift and go to state 157
 
 
 state 132
@@ -2107,7 +2111,7 @@ state 133
 
     (127) ASK -> ASKUSER OP . STRING COMMA IDV CP PC
 
-    STRING          shift and go to state 157
+    STRING          shift and go to state 158
 
 
 state 134
@@ -2137,7 +2141,7 @@ state 135
     LTGT            reduce using rule 88 (seen_EXPF -> .)
     COMMA           reduce using rule 88 (seen_EXPF -> .)
 
-    seen_EXPF                      shift and go to state 158
+    seen_EXPF                      shift and go to state 159
 
 state 136
 
@@ -2150,8 +2154,9 @@ state 136
     PLUS            reduce using rule 111 (seen_ID -> IDV .)
     MINUS           reduce using rule 111 (seen_ID -> IDV .)
     OR              reduce using rule 111 (seen_ID -> IDV .)
-    DOT             reduce using rule 111 (seen_ID -> IDV .)
+    COMMA           reduce using rule 111 (seen_ID -> IDV .)
     CP              reduce using rule 111 (seen_ID -> IDV .)
+    DOT             reduce using rule 111 (seen_ID -> IDV .)
     PC              reduce using rule 111 (seen_ID -> IDV .)
     GT              reduce using rule 111 (seen_ID -> IDV .)
     GTE             reduce using rule 111 (seen_ID -> IDV .)
@@ -2159,8 +2164,7 @@ state 136
     LTE             reduce using rule 111 (seen_ID -> IDV .)
     DOUBLEEQUALS    reduce using rule 111 (seen_ID -> IDV .)
     LTGT            reduce using rule 111 (seen_ID -> IDV .)
-    COMMA           reduce using rule 111 (seen_ID -> IDV .)
-    OB              shift and go to state 159
+    OB              shift and go to state 160
 
 
 state 137
@@ -2180,9 +2184,9 @@ state 137
     DOUBLEEQUALS    reduce using rule 101 (TERM2 -> CTE .)
     LTGT            reduce using rule 101 (TERM2 -> CTE .)
     CP              reduce using rule 101 (TERM2 -> CTE .)
+    COMMA           reduce using rule 101 (TERM2 -> CTE .)
     DOT             reduce using rule 101 (TERM2 -> CTE .)
     PC              reduce using rule 101 (TERM2 -> CTE .)
-    COMMA           reduce using rule 101 (TERM2 -> CTE .)
 
 
 state 138
@@ -2200,7 +2204,7 @@ state 138
     STRING          shift and go to state 139
     IDV             shift and go to state 136
 
-    CTE                            shift and go to state 160
+    CTE                            shift and go to state 161
     seen_ID                        shift and go to state 141
 
 state 139
@@ -2225,7 +2229,7 @@ state 139
     LTGT            reduce using rule 110 (seen_STRING -> .)
     COMMA           reduce using rule 110 (seen_STRING -> .)
 
-    seen_STRING                    shift and go to state 161
+    seen_STRING                    shift and go to state 162
 
 state 140
 
@@ -2250,7 +2254,7 @@ state 140
     LTGT            reduce using rule 94 (seen_TERMF -> .)
     COMMA           reduce using rule 94 (seen_TERMF -> .)
 
-    seen_TERMF                     shift and go to state 162
+    seen_TERMF                     shift and go to state 163
 
 state 141
 
@@ -2264,13 +2268,13 @@ state 141
     OR              reduce using rule 107 (CTE -> seen_ID .)
     DOT             reduce using rule 107 (CTE -> seen_ID .)
     CP              reduce using rule 107 (CTE -> seen_ID .)
-    PC              reduce using rule 107 (CTE -> seen_ID .)
     GT              reduce using rule 107 (CTE -> seen_ID .)
     GTE             reduce using rule 107 (CTE -> seen_ID .)
     LT              reduce using rule 107 (CTE -> seen_ID .)
     LTE             reduce using rule 107 (CTE -> seen_ID .)
     DOUBLEEQUALS    reduce using rule 107 (CTE -> seen_ID .)
     LTGT            reduce using rule 107 (CTE -> seen_ID .)
+    PC              reduce using rule 107 (CTE -> seen_ID .)
     COMMA           reduce using rule 107 (CTE -> seen_ID .)
 
 
@@ -2289,7 +2293,7 @@ state 142
     STRING          shift and go to state 139
     IDV             shift and go to state 136
 
-    CTE                            shift and go to state 163
+    CTE                            shift and go to state 164
     seen_ID                        shift and go to state 141
 
 state 143
@@ -2301,7 +2305,7 @@ state 143
     DOT             reduce using rule 126 (seen_EXP_SAY -> .)
     CP              reduce using rule 126 (seen_EXP_SAY -> .)
 
-    seen_EXP_SAY                   shift and go to state 164
+    seen_EXP_SAY                   shift and go to state 165
 
 state 144
 
@@ -2313,23 +2317,23 @@ state 144
     PLUS            reduce using rule 99 (TERM -> TERM2 .)
     MINUS           reduce using rule 99 (TERM -> TERM2 .)
     OR              reduce using rule 99 (TERM -> TERM2 .)
+    COMMA           reduce using rule 99 (TERM -> TERM2 .)
+    CP              reduce using rule 99 (TERM -> TERM2 .)
+    DOT             reduce using rule 99 (TERM -> TERM2 .)
+    PC              reduce using rule 99 (TERM -> TERM2 .)
     GT              reduce using rule 99 (TERM -> TERM2 .)
     GTE             reduce using rule 99 (TERM -> TERM2 .)
     LT              reduce using rule 99 (TERM -> TERM2 .)
     LTE             reduce using rule 99 (TERM -> TERM2 .)
     DOUBLEEQUALS    reduce using rule 99 (TERM -> TERM2 .)
     LTGT            reduce using rule 99 (TERM -> TERM2 .)
-    CP              reduce using rule 99 (TERM -> TERM2 .)
-    COMMA           reduce using rule 99 (TERM -> TERM2 .)
-    DOT             reduce using rule 99 (TERM -> TERM2 .)
-    PC              reduce using rule 99 (TERM -> TERM2 .)
 
 
 state 145
 
     (123) SAY -> SAYW OP CONCAT . CP PC
 
-    CP              shift and go to state 165
+    CP              shift and go to state 166
 
 
 state 146
@@ -2354,7 +2358,7 @@ state 146
     LTGT            reduce using rule 108 (seen_INT -> .)
     COMMA           reduce using rule 108 (seen_INT -> .)
 
-    seen_INT                       shift and go to state 166
+    seen_INT                       shift and go to state 167
 
 state 147
 
@@ -2378,7 +2382,7 @@ state 147
     LTGT            reduce using rule 109 (seen_FLOAT -> .)
     COMMA           reduce using rule 109 (seen_FLOAT -> .)
 
-    seen_FLOAT                     shift and go to state 167
+    seen_FLOAT                     shift and go to state 168
 
 state 148
 
@@ -2393,7 +2397,7 @@ state 148
     STRING          reduce using rule 100 (seen_OP_TERM -> .)
     IDV             reduce using rule 100 (seen_OP_TERM -> .)
 
-    seen_OP_TERM                   shift and go to state 168
+    seen_OP_TERM                   shift and go to state 169
 
 state 149
 
@@ -2413,20 +2417,27 @@ state 150
 
     (85) ASSIGNATION -> IDV EQUALS EXPRESSION . PC
 
-    PC              shift and go to state 169
+    PC              shift and go to state 170
 
 
 state 151
 
-    (128) CALLBOX -> CALLBOXW OP IDM . COMMA PARAMETERS CP PC
+    (128) CALLBOX -> CALLBOXW OP SEEN_IDM_CALL . COMMA PARAMETERS CP PC
 
-    COMMA           shift and go to state 170
+    COMMA           shift and go to state 171
 
 
 state 152
 
-    (146) LOOPIF -> LOOPIFW seen_LOOPIF OP . STM CP seen_CP_LOOPIF OC BLOCKS2 CC
-    (147) LOOPIF -> LOOPIFW seen_LOOPIF OP . STM CP seen_CP_LOOPIF OC CC
+    (129) SEEN_IDM_CALL -> IDM .
+
+    COMMA           reduce using rule 129 (SEEN_IDM_CALL -> IDM .)
+
+
+state 153
+
+    (147) LOOPIF -> LOOPIFW seen_LOOPIF OP . STM CP seen_CP_LOOPIF OC BLOCKS2 CC
+    (148) LOOPIF -> LOOPIFW seen_LOOPIF OP . STM CP seen_CP_LOOPIF OC CC
     (58) STM -> . EXPRESSION STM2 EXPRESSION seen_STM
     (59) STM -> . EXPRESSION
     (86) EXPRESSION -> . OPER seen_EXPF
@@ -2457,11 +2468,11 @@ state 152
     TERM                           shift and go to state 140
     TERM2                          shift and go to state 144
     CTE                            shift and go to state 137
-    STM                            shift and go to state 171
-    EXPRESSION                     shift and go to state 154
+    STM                            shift and go to state 172
+    EXPRESSION                     shift and go to state 155
     seen_ID                        shift and go to state 141
 
-state 153
+state 154
 
     (84) RETURN -> RETURNW EQUALS PC .
 
@@ -2476,7 +2487,7 @@ state 153
     CC              reduce using rule 84 (RETURN -> RETURNW EQUALS PC .)
 
 
-state 154
+state 155
 
     (58) STM -> EXPRESSION . STM2 EXPRESSION seen_STM
     (59) STM -> EXPRESSION .
@@ -2488,45 +2499,45 @@ state 154
     (65) STM2 -> . LTGT
 
     CP              reduce using rule 59 (STM -> EXPRESSION .)
-    GT              shift and go to state 172
-    GTE             shift and go to state 173
-    LT              shift and go to state 175
-    LTE             shift and go to state 177
-    DOUBLEEQUALS    shift and go to state 178
-    LTGT            shift and go to state 176
+    GT              shift and go to state 173
+    GTE             shift and go to state 174
+    LT              shift and go to state 176
+    LTE             shift and go to state 178
+    DOUBLEEQUALS    shift and go to state 179
+    LTGT            shift and go to state 177
 
-    STM2                           shift and go to state 174
+    STM2                           shift and go to state 175
 
-state 155
+state 156
 
     (47) CONDITION -> IF OP STM . CP OC seen_OC_IF BLOCKS2 CC CONDITION2
     (48) CONDITION -> IF OP STM . CP OC seen_OC_IF CC CONDITION2
     (49) CONDITION -> IF OP STM . CP OC seen_OC_IF BLOCKS2 CC seen_CC_IF
     (50) CONDITION -> IF OP STM . CP OC seen_OC_IF CC seen_CC_IF
 
-    CP              shift and go to state 179
+    CP              shift and go to state 180
 
-
-state 156
-
-    (131) LOOP -> LOOPW seen_LOOP OP . seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (132) LOOP -> LOOPW seen_LOOP OP . seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-    (133) LOOP -> LOOPW seen_LOOP OP . seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-    (134) LOOP -> LOOPW seen_LOOP OP . seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
-    (137) seen_VAR_LOOP -> . IDV
-
-    IDV             shift and go to state 181
-
-    seen_VAR_LOOP                  shift and go to state 180
 
 state 157
 
-    (127) ASK -> ASKUSER OP STRING . COMMA IDV CP PC
+    (132) LOOP -> LOOPW seen_LOOP OP . seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (133) LOOP -> LOOPW seen_LOOP OP . seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
+    (134) LOOP -> LOOPW seen_LOOP OP . seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+    (135) LOOP -> LOOPW seen_LOOP OP . seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
+    (138) seen_VAR_LOOP -> . IDV
 
-    COMMA           shift and go to state 182
+    IDV             shift and go to state 182
 
+    seen_VAR_LOOP                  shift and go to state 181
 
 state 158
+
+    (127) ASK -> ASKUSER OP STRING . COMMA IDV CP PC
+
+    COMMA           shift and go to state 183
+
+
+state 159
 
     (86) EXPRESSION -> OPER seen_EXPF .
     (87) EXPRESSION -> OPER seen_EXPF . seen_OPER EXPRESSION
@@ -2534,6 +2545,7 @@ state 158
     (90) seen_OPER -> . MINUS
     (91) seen_OPER -> . OR
 
+    COMMA           reduce using rule 86 (EXPRESSION -> OPER seen_EXPF .)
     CP              reduce using rule 86 (EXPRESSION -> OPER seen_EXPF .)
     DOT             reduce using rule 86 (EXPRESSION -> OPER seen_EXPF .)
     GT              reduce using rule 86 (EXPRESSION -> OPER seen_EXPF .)
@@ -2543,21 +2555,20 @@ state 158
     DOUBLEEQUALS    reduce using rule 86 (EXPRESSION -> OPER seen_EXPF .)
     LTGT            reduce using rule 86 (EXPRESSION -> OPER seen_EXPF .)
     PC              reduce using rule 86 (EXPRESSION -> OPER seen_EXPF .)
-    COMMA           reduce using rule 86 (EXPRESSION -> OPER seen_EXPF .)
-    PLUS            shift and go to state 184
-    MINUS           shift and go to state 186
-    OR              shift and go to state 183
+    PLUS            shift and go to state 185
+    MINUS           shift and go to state 187
+    OR              shift and go to state 184
 
-    seen_OPER                      shift and go to state 185
+    seen_OPER                      shift and go to state 186
 
-state 159
+state 160
 
     (112) seen_ID -> IDV OB . INT CB
 
-    INT             shift and go to state 187
+    INT             shift and go to state 188
 
 
-state 160
+state 161
 
     (103) TERM2 -> MINUS CTE .
 
@@ -2574,12 +2585,12 @@ state 160
     DOUBLEEQUALS    reduce using rule 103 (TERM2 -> MINUS CTE .)
     LTGT            reduce using rule 103 (TERM2 -> MINUS CTE .)
     CP              reduce using rule 103 (TERM2 -> MINUS CTE .)
+    COMMA           reduce using rule 103 (TERM2 -> MINUS CTE .)
     DOT             reduce using rule 103 (TERM2 -> MINUS CTE .)
     PC              reduce using rule 103 (TERM2 -> MINUS CTE .)
-    COMMA           reduce using rule 103 (TERM2 -> MINUS CTE .)
 
 
-state 161
+state 162
 
     (106) CTE -> STRING seen_STRING .
 
@@ -2591,17 +2602,17 @@ state 161
     OR              reduce using rule 106 (CTE -> STRING seen_STRING .)
     DOT             reduce using rule 106 (CTE -> STRING seen_STRING .)
     CP              reduce using rule 106 (CTE -> STRING seen_STRING .)
-    PC              reduce using rule 106 (CTE -> STRING seen_STRING .)
     GT              reduce using rule 106 (CTE -> STRING seen_STRING .)
     GTE             reduce using rule 106 (CTE -> STRING seen_STRING .)
     LT              reduce using rule 106 (CTE -> STRING seen_STRING .)
     LTE             reduce using rule 106 (CTE -> STRING seen_STRING .)
     DOUBLEEQUALS    reduce using rule 106 (CTE -> STRING seen_STRING .)
     LTGT            reduce using rule 106 (CTE -> STRING seen_STRING .)
+    PC              reduce using rule 106 (CTE -> STRING seen_STRING .)
     COMMA           reduce using rule 106 (CTE -> STRING seen_STRING .)
 
 
-state 162
+state 163
 
     (92) OPER -> TERM seen_TERMF .
     (93) OPER -> TERM seen_TERMF . seen_TERM OPER
@@ -2614,21 +2625,21 @@ state 162
     OR              reduce using rule 92 (OPER -> TERM seen_TERMF .)
     DOT             reduce using rule 92 (OPER -> TERM seen_TERMF .)
     CP              reduce using rule 92 (OPER -> TERM seen_TERMF .)
-    PC              reduce using rule 92 (OPER -> TERM seen_TERMF .)
+    COMMA           reduce using rule 92 (OPER -> TERM seen_TERMF .)
     GT              reduce using rule 92 (OPER -> TERM seen_TERMF .)
     GTE             reduce using rule 92 (OPER -> TERM seen_TERMF .)
     LT              reduce using rule 92 (OPER -> TERM seen_TERMF .)
     LTE             reduce using rule 92 (OPER -> TERM seen_TERMF .)
     DOUBLEEQUALS    reduce using rule 92 (OPER -> TERM seen_TERMF .)
     LTGT            reduce using rule 92 (OPER -> TERM seen_TERMF .)
-    COMMA           reduce using rule 92 (OPER -> TERM seen_TERMF .)
-    MULTIPLY        shift and go to state 191
-    DIVISION        shift and go to state 188
-    AND             shift and go to state 189
+    PC              reduce using rule 92 (OPER -> TERM seen_TERMF .)
+    MULTIPLY        shift and go to state 192
+    DIVISION        shift and go to state 189
+    AND             shift and go to state 190
 
-    seen_TERM                      shift and go to state 190
+    seen_TERM                      shift and go to state 191
 
-state 163
+state 164
 
     (102) TERM2 -> PLUS CTE .
 
@@ -2645,28 +2656,28 @@ state 163
     DOUBLEEQUALS    reduce using rule 102 (TERM2 -> PLUS CTE .)
     LTGT            reduce using rule 102 (TERM2 -> PLUS CTE .)
     CP              reduce using rule 102 (TERM2 -> PLUS CTE .)
+    COMMA           reduce using rule 102 (TERM2 -> PLUS CTE .)
     DOT             reduce using rule 102 (TERM2 -> PLUS CTE .)
     PC              reduce using rule 102 (TERM2 -> PLUS CTE .)
-    COMMA           reduce using rule 102 (TERM2 -> PLUS CTE .)
-
-
-state 164
-
-    (124) CONCAT -> EXPRESSION seen_EXP_SAY . DOT CONCAT
-    (125) CONCAT -> EXPRESSION seen_EXP_SAY .
-
-    DOT             shift and go to state 192
-    CP              reduce using rule 125 (CONCAT -> EXPRESSION seen_EXP_SAY .)
 
 
 state 165
 
-    (123) SAY -> SAYW OP CONCAT CP . PC
+    (124) CONCAT -> EXPRESSION seen_EXP_SAY . DOT CONCAT
+    (125) CONCAT -> EXPRESSION seen_EXP_SAY .
 
-    PC              shift and go to state 193
+    DOT             shift and go to state 193
+    CP              reduce using rule 125 (CONCAT -> EXPRESSION seen_EXP_SAY .)
 
 
 state 166
+
+    (123) SAY -> SAYW OP CONCAT CP . PC
+
+    PC              shift and go to state 194
+
+
+state 167
 
     (104) CTE -> INT seen_INT .
 
@@ -2678,17 +2689,17 @@ state 166
     OR              reduce using rule 104 (CTE -> INT seen_INT .)
     DOT             reduce using rule 104 (CTE -> INT seen_INT .)
     CP              reduce using rule 104 (CTE -> INT seen_INT .)
-    PC              reduce using rule 104 (CTE -> INT seen_INT .)
     GT              reduce using rule 104 (CTE -> INT seen_INT .)
     GTE             reduce using rule 104 (CTE -> INT seen_INT .)
     LT              reduce using rule 104 (CTE -> INT seen_INT .)
     LTE             reduce using rule 104 (CTE -> INT seen_INT .)
     DOUBLEEQUALS    reduce using rule 104 (CTE -> INT seen_INT .)
     LTGT            reduce using rule 104 (CTE -> INT seen_INT .)
+    PC              reduce using rule 104 (CTE -> INT seen_INT .)
     COMMA           reduce using rule 104 (CTE -> INT seen_INT .)
 
 
-state 167
+state 168
 
     (105) CTE -> FLOAT seen_FLOAT .
 
@@ -2700,17 +2711,17 @@ state 167
     OR              reduce using rule 105 (CTE -> FLOAT seen_FLOAT .)
     DOT             reduce using rule 105 (CTE -> FLOAT seen_FLOAT .)
     CP              reduce using rule 105 (CTE -> FLOAT seen_FLOAT .)
-    PC              reduce using rule 105 (CTE -> FLOAT seen_FLOAT .)
     GT              reduce using rule 105 (CTE -> FLOAT seen_FLOAT .)
     GTE             reduce using rule 105 (CTE -> FLOAT seen_FLOAT .)
     LT              reduce using rule 105 (CTE -> FLOAT seen_FLOAT .)
     LTE             reduce using rule 105 (CTE -> FLOAT seen_FLOAT .)
     DOUBLEEQUALS    reduce using rule 105 (CTE -> FLOAT seen_FLOAT .)
     LTGT            reduce using rule 105 (CTE -> FLOAT seen_FLOAT .)
+    PC              reduce using rule 105 (CTE -> FLOAT seen_FLOAT .)
     COMMA           reduce using rule 105 (CTE -> FLOAT seen_FLOAT .)
 
 
-state 168
+state 169
 
     (98) TERM -> OP seen_OP_TERM . STM CP
     (58) STM -> . EXPRESSION STM2 EXPRESSION seen_STM
@@ -2742,12 +2753,12 @@ state 168
     OPER                           shift and go to state 135
     TERM                           shift and go to state 140
     TERM2                          shift and go to state 144
-    STM                            shift and go to state 194
+    STM                            shift and go to state 195
     seen_ID                        shift and go to state 141
     CTE                            shift and go to state 137
-    EXPRESSION                     shift and go to state 154
+    EXPRESSION                     shift and go to state 155
 
-state 169
+state 170
 
     (85) ASSIGNATION -> IDV EQUALS EXPRESSION PC .
 
@@ -2762,11 +2773,11 @@ state 169
     CC              reduce using rule 85 (ASSIGNATION -> IDV EQUALS EXPRESSION PC .)
 
 
-state 170
+state 171
 
-    (128) CALLBOX -> CALLBOXW OP IDM COMMA . PARAMETERS CP PC
-    (129) PARAMETERS -> . EXPRESSION COMMA PARAMETERS
-    (130) PARAMETERS -> . EXPRESSION
+    (128) CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA . PARAMETERS CP PC
+    (130) PARAMETERS -> . EXPRESSION COMMA PARAMETERS
+    (131) PARAMETERS -> . EXPRESSION
     (86) EXPRESSION -> . OPER seen_EXPF
     (87) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
     (92) OPER -> . TERM seen_TERMF
@@ -2794,20 +2805,20 @@ state 170
     OPER                           shift and go to state 135
     TERM                           shift and go to state 140
     TERM2                          shift and go to state 144
-    PARAMETERS                     shift and go to state 195
+    PARAMETERS                     shift and go to state 196
     seen_ID                        shift and go to state 141
     CTE                            shift and go to state 137
-    EXPRESSION                     shift and go to state 196
-
-state 171
-
-    (146) LOOPIF -> LOOPIFW seen_LOOPIF OP STM . CP seen_CP_LOOPIF OC BLOCKS2 CC
-    (147) LOOPIF -> LOOPIFW seen_LOOPIF OP STM . CP seen_CP_LOOPIF OC CC
-
-    CP              shift and go to state 197
-
+    EXPRESSION                     shift and go to state 197
 
 state 172
+
+    (147) LOOPIF -> LOOPIFW seen_LOOPIF OP STM . CP seen_CP_LOOPIF OC BLOCKS2 CC
+    (148) LOOPIF -> LOOPIFW seen_LOOPIF OP STM . CP seen_CP_LOOPIF OC CC
+
+    CP              shift and go to state 198
+
+
+state 173
 
     (60) STM2 -> GT .
 
@@ -2820,7 +2831,7 @@ state 172
     IDV             reduce using rule 60 (STM2 -> GT .)
 
 
-state 173
+state 174
 
     (61) STM2 -> GTE .
 
@@ -2833,7 +2844,7 @@ state 173
     IDV             reduce using rule 61 (STM2 -> GTE .)
 
 
-state 174
+state 175
 
     (58) STM -> EXPRESSION STM2 . EXPRESSION seen_STM
     (86) EXPRESSION -> . OPER seen_EXPF
@@ -2865,9 +2876,9 @@ state 174
     TERM2                          shift and go to state 144
     seen_ID                        shift and go to state 141
     CTE                            shift and go to state 137
-    EXPRESSION                     shift and go to state 198
+    EXPRESSION                     shift and go to state 199
 
-state 175
+state 176
 
     (62) STM2 -> LT .
 
@@ -2880,7 +2891,7 @@ state 175
     IDV             reduce using rule 62 (STM2 -> LT .)
 
 
-state 176
+state 177
 
     (65) STM2 -> LTGT .
 
@@ -2893,7 +2904,7 @@ state 176
     IDV             reduce using rule 65 (STM2 -> LTGT .)
 
 
-state 177
+state 178
 
     (63) STM2 -> LTE .
 
@@ -2906,7 +2917,7 @@ state 177
     IDV             reduce using rule 63 (STM2 -> LTE .)
 
 
-state 178
+state 179
 
     (64) STM2 -> DOUBLEEQUALS .
 
@@ -2919,41 +2930,41 @@ state 178
     IDV             reduce using rule 64 (STM2 -> DOUBLEEQUALS .)
 
 
-state 179
+state 180
 
     (47) CONDITION -> IF OP STM CP . OC seen_OC_IF BLOCKS2 CC CONDITION2
     (48) CONDITION -> IF OP STM CP . OC seen_OC_IF CC CONDITION2
     (49) CONDITION -> IF OP STM CP . OC seen_OC_IF BLOCKS2 CC seen_CC_IF
     (50) CONDITION -> IF OP STM CP . OC seen_OC_IF CC seen_CC_IF
 
-    OC              shift and go to state 199
-
-
-state 180
-
-    (131) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP . FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP . FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP . FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP . FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
-
-    FROM            shift and go to state 200
+    OC              shift and go to state 200
 
 
 state 181
 
-    (137) seen_VAR_LOOP -> IDV .
+    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP . FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP . FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
+    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP . FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+    (135) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP . FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
 
-    FROM            reduce using rule 137 (seen_VAR_LOOP -> IDV .)
+    FROM            shift and go to state 201
 
 
 state 182
 
-    (127) ASK -> ASKUSER OP STRING COMMA . IDV CP PC
+    (138) seen_VAR_LOOP -> IDV .
 
-    IDV             shift and go to state 201
+    FROM            reduce using rule 138 (seen_VAR_LOOP -> IDV .)
 
 
 state 183
+
+    (127) ASK -> ASKUSER OP STRING COMMA . IDV CP PC
+
+    IDV             shift and go to state 202
+
+
+state 184
 
     (91) seen_OPER -> OR .
 
@@ -2966,7 +2977,7 @@ state 183
     IDV             reduce using rule 91 (seen_OPER -> OR .)
 
 
-state 184
+state 185
 
     (89) seen_OPER -> PLUS .
 
@@ -2979,7 +2990,7 @@ state 184
     IDV             reduce using rule 89 (seen_OPER -> PLUS .)
 
 
-state 185
+state 186
 
     (87) EXPRESSION -> OPER seen_EXPF seen_OPER . EXPRESSION
     (86) EXPRESSION -> . OPER seen_EXPF
@@ -3011,9 +3022,9 @@ state 185
     TERM2                          shift and go to state 144
     seen_ID                        shift and go to state 141
     CTE                            shift and go to state 137
-    EXPRESSION                     shift and go to state 202
+    EXPRESSION                     shift and go to state 203
 
-state 186
+state 187
 
     (90) seen_OPER -> MINUS .
 
@@ -3026,14 +3037,14 @@ state 186
     IDV             reduce using rule 90 (seen_OPER -> MINUS .)
 
 
-state 187
+state 188
 
     (112) seen_ID -> IDV OB INT . CB
 
-    CB              shift and go to state 203
+    CB              shift and go to state 204
 
 
-state 188
+state 189
 
     (96) seen_TERM -> DIVISION .
 
@@ -3046,7 +3057,7 @@ state 188
     IDV             reduce using rule 96 (seen_TERM -> DIVISION .)
 
 
-state 189
+state 190
 
     (97) seen_TERM -> AND .
 
@@ -3059,7 +3070,7 @@ state 189
     IDV             reduce using rule 97 (seen_TERM -> AND .)
 
 
-state 190
+state 191
 
     (93) OPER -> TERM seen_TERMF seen_TERM . OPER
     (92) OPER -> . TERM seen_TERMF
@@ -3084,13 +3095,13 @@ state 190
     STRING          shift and go to state 139
     IDV             shift and go to state 136
 
-    OPER                           shift and go to state 204
+    OPER                           shift and go to state 205
     TERM                           shift and go to state 140
     TERM2                          shift and go to state 144
     seen_ID                        shift and go to state 141
     CTE                            shift and go to state 137
 
-state 191
+state 192
 
     (95) seen_TERM -> MULTIPLY .
 
@@ -3103,7 +3114,7 @@ state 191
     IDV             reduce using rule 95 (seen_TERM -> MULTIPLY .)
 
 
-state 192
+state 193
 
     (124) CONCAT -> EXPRESSION seen_EXP_SAY DOT . CONCAT
     (124) CONCAT -> . EXPRESSION seen_EXP_SAY DOT CONCAT
@@ -3138,9 +3149,9 @@ state 192
     seen_ID                        shift and go to state 141
     CTE                            shift and go to state 137
     EXPRESSION                     shift and go to state 143
-    CONCAT                         shift and go to state 205
+    CONCAT                         shift and go to state 206
 
-state 193
+state 194
 
     (123) SAY -> SAYW OP CONCAT CP PC .
 
@@ -3155,49 +3166,49 @@ state 193
     CC              reduce using rule 123 (SAY -> SAYW OP CONCAT CP PC .)
 
 
-state 194
-
-    (98) TERM -> OP seen_OP_TERM STM . CP
-
-    CP              shift and go to state 206
-
-
 state 195
 
-    (128) CALLBOX -> CALLBOXW OP IDM COMMA PARAMETERS . CP PC
+    (98) TERM -> OP seen_OP_TERM STM . CP
 
     CP              shift and go to state 207
 
 
 state 196
 
-    (129) PARAMETERS -> EXPRESSION . COMMA PARAMETERS
-    (130) PARAMETERS -> EXPRESSION .
+    (128) CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS . CP PC
 
-    COMMA           shift and go to state 208
-    CP              reduce using rule 130 (PARAMETERS -> EXPRESSION .)
+    CP              shift and go to state 208
 
 
 state 197
 
-    (146) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP . seen_CP_LOOPIF OC BLOCKS2 CC
-    (147) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP . seen_CP_LOOPIF OC CC
-    (149) seen_CP_LOOPIF -> .
+    (130) PARAMETERS -> EXPRESSION . COMMA PARAMETERS
+    (131) PARAMETERS -> EXPRESSION .
 
-    OC              reduce using rule 149 (seen_CP_LOOPIF -> .)
+    COMMA           shift and go to state 209
+    CP              reduce using rule 131 (PARAMETERS -> EXPRESSION .)
 
-    seen_CP_LOOPIF                 shift and go to state 209
 
 state 198
+
+    (147) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP . seen_CP_LOOPIF OC BLOCKS2 CC
+    (148) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP . seen_CP_LOOPIF OC CC
+    (150) seen_CP_LOOPIF -> .
+
+    OC              reduce using rule 150 (seen_CP_LOOPIF -> .)
+
+    seen_CP_LOOPIF                 shift and go to state 210
+
+state 199
 
     (58) STM -> EXPRESSION STM2 EXPRESSION . seen_STM
     (66) seen_STM -> .
 
     CP              reduce using rule 66 (seen_STM -> .)
 
-    seen_STM                       shift and go to state 210
+    seen_STM                       shift and go to state 211
 
-state 199
+state 200
 
     (47) CONDITION -> IF OP STM CP OC . seen_OC_IF BLOCKS2 CC CONDITION2
     (48) CONDITION -> IF OP STM CP OC . seen_OC_IF CC CONDITION2
@@ -3215,37 +3226,38 @@ state 199
     SAYW            reduce using rule 51 (seen_OC_IF -> .)
     CALLBOXW        reduce using rule 51 (seen_OC_IF -> .)
 
-    seen_OC_IF                     shift and go to state 211
-
-state 200
-
-    (131) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM . LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM . LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM . LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM . LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
-    (138) LOOP2 -> . seen_INT_LOOP
-    (139) LOOP2 -> . seen_FLOAT_LOOP
-    (140) seen_INT_LOOP -> . INT
-    (141) seen_FLOAT_LOOP -> . FLOAT
-
-    INT             shift and go to state 215
-    FLOAT           shift and go to state 212
-
-    seen_FLOAT_LOOP                shift and go to state 214
-    LOOP2                          shift and go to state 216
-    seen_INT_LOOP                  shift and go to state 213
+    seen_OC_IF                     shift and go to state 212
 
 state 201
 
-    (127) ASK -> ASKUSER OP STRING COMMA IDV . CP PC
+    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM . LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM . LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
+    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM . LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+    (135) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM . LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
+    (139) LOOP2 -> . seen_INT_LOOP
+    (140) LOOP2 -> . seen_FLOAT_LOOP
+    (141) seen_INT_LOOP -> . INT
+    (142) seen_FLOAT_LOOP -> . FLOAT
 
-    CP              shift and go to state 217
+    INT             shift and go to state 216
+    FLOAT           shift and go to state 213
 
+    seen_FLOAT_LOOP                shift and go to state 215
+    LOOP2                          shift and go to state 217
+    seen_INT_LOOP                  shift and go to state 214
 
 state 202
 
+    (127) ASK -> ASKUSER OP STRING COMMA IDV . CP PC
+
+    CP              shift and go to state 218
+
+
+state 203
+
     (87) EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .
 
+    COMMA           reduce using rule 87 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
     CP              reduce using rule 87 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
     DOT             reduce using rule 87 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
     GT              reduce using rule 87 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
@@ -3255,10 +3267,9 @@ state 202
     DOUBLEEQUALS    reduce using rule 87 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
     LTGT            reduce using rule 87 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
     PC              reduce using rule 87 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
-    COMMA           reduce using rule 87 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
 
 
-state 203
+state 204
 
     (112) seen_ID -> IDV OB INT CB .
 
@@ -3268,8 +3279,9 @@ state 203
     PLUS            reduce using rule 112 (seen_ID -> IDV OB INT CB .)
     MINUS           reduce using rule 112 (seen_ID -> IDV OB INT CB .)
     OR              reduce using rule 112 (seen_ID -> IDV OB INT CB .)
-    DOT             reduce using rule 112 (seen_ID -> IDV OB INT CB .)
+    COMMA           reduce using rule 112 (seen_ID -> IDV OB INT CB .)
     CP              reduce using rule 112 (seen_ID -> IDV OB INT CB .)
+    DOT             reduce using rule 112 (seen_ID -> IDV OB INT CB .)
     PC              reduce using rule 112 (seen_ID -> IDV OB INT CB .)
     GT              reduce using rule 112 (seen_ID -> IDV OB INT CB .)
     GTE             reduce using rule 112 (seen_ID -> IDV OB INT CB .)
@@ -3277,10 +3289,9 @@ state 203
     LTE             reduce using rule 112 (seen_ID -> IDV OB INT CB .)
     DOUBLEEQUALS    reduce using rule 112 (seen_ID -> IDV OB INT CB .)
     LTGT            reduce using rule 112 (seen_ID -> IDV OB INT CB .)
-    COMMA           reduce using rule 112 (seen_ID -> IDV OB INT CB .)
 
 
-state 204
+state 205
 
     (93) OPER -> TERM seen_TERMF seen_TERM OPER .
 
@@ -3289,24 +3300,24 @@ state 204
     OR              reduce using rule 93 (OPER -> TERM seen_TERMF seen_TERM OPER .)
     DOT             reduce using rule 93 (OPER -> TERM seen_TERMF seen_TERM OPER .)
     CP              reduce using rule 93 (OPER -> TERM seen_TERMF seen_TERM OPER .)
-    PC              reduce using rule 93 (OPER -> TERM seen_TERMF seen_TERM OPER .)
+    COMMA           reduce using rule 93 (OPER -> TERM seen_TERMF seen_TERM OPER .)
     GT              reduce using rule 93 (OPER -> TERM seen_TERMF seen_TERM OPER .)
     GTE             reduce using rule 93 (OPER -> TERM seen_TERMF seen_TERM OPER .)
     LT              reduce using rule 93 (OPER -> TERM seen_TERMF seen_TERM OPER .)
     LTE             reduce using rule 93 (OPER -> TERM seen_TERMF seen_TERM OPER .)
     DOUBLEEQUALS    reduce using rule 93 (OPER -> TERM seen_TERMF seen_TERM OPER .)
     LTGT            reduce using rule 93 (OPER -> TERM seen_TERMF seen_TERM OPER .)
-    COMMA           reduce using rule 93 (OPER -> TERM seen_TERMF seen_TERM OPER .)
+    PC              reduce using rule 93 (OPER -> TERM seen_TERMF seen_TERM OPER .)
 
 
-state 205
+state 206
 
     (124) CONCAT -> EXPRESSION seen_EXP_SAY DOT CONCAT .
 
     CP              reduce using rule 124 (CONCAT -> EXPRESSION seen_EXP_SAY DOT CONCAT .)
 
 
-state 206
+state 207
 
     (98) TERM -> OP seen_OP_TERM STM CP .
 
@@ -3316,30 +3327,30 @@ state 206
     PLUS            reduce using rule 98 (TERM -> OP seen_OP_TERM STM CP .)
     MINUS           reduce using rule 98 (TERM -> OP seen_OP_TERM STM CP .)
     OR              reduce using rule 98 (TERM -> OP seen_OP_TERM STM CP .)
+    COMMA           reduce using rule 98 (TERM -> OP seen_OP_TERM STM CP .)
+    CP              reduce using rule 98 (TERM -> OP seen_OP_TERM STM CP .)
+    DOT             reduce using rule 98 (TERM -> OP seen_OP_TERM STM CP .)
+    PC              reduce using rule 98 (TERM -> OP seen_OP_TERM STM CP .)
     GT              reduce using rule 98 (TERM -> OP seen_OP_TERM STM CP .)
     GTE             reduce using rule 98 (TERM -> OP seen_OP_TERM STM CP .)
     LT              reduce using rule 98 (TERM -> OP seen_OP_TERM STM CP .)
     LTE             reduce using rule 98 (TERM -> OP seen_OP_TERM STM CP .)
     DOUBLEEQUALS    reduce using rule 98 (TERM -> OP seen_OP_TERM STM CP .)
     LTGT            reduce using rule 98 (TERM -> OP seen_OP_TERM STM CP .)
-    CP              reduce using rule 98 (TERM -> OP seen_OP_TERM STM CP .)
-    COMMA           reduce using rule 98 (TERM -> OP seen_OP_TERM STM CP .)
-    DOT             reduce using rule 98 (TERM -> OP seen_OP_TERM STM CP .)
-    PC              reduce using rule 98 (TERM -> OP seen_OP_TERM STM CP .)
-
-
-state 207
-
-    (128) CALLBOX -> CALLBOXW OP IDM COMMA PARAMETERS CP . PC
-
-    PC              shift and go to state 218
 
 
 state 208
 
-    (129) PARAMETERS -> EXPRESSION COMMA . PARAMETERS
-    (129) PARAMETERS -> . EXPRESSION COMMA PARAMETERS
-    (130) PARAMETERS -> . EXPRESSION
+    (128) CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP . PC
+
+    PC              shift and go to state 219
+
+
+state 209
+
+    (130) PARAMETERS -> EXPRESSION COMMA . PARAMETERS
+    (130) PARAMETERS -> . EXPRESSION COMMA PARAMETERS
+    (131) PARAMETERS -> . EXPRESSION
     (86) EXPRESSION -> . OPER seen_EXPF
     (87) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
     (92) OPER -> . TERM seen_TERMF
@@ -3367,27 +3378,27 @@ state 208
     OPER                           shift and go to state 135
     TERM                           shift and go to state 140
     TERM2                          shift and go to state 144
-    PARAMETERS                     shift and go to state 219
+    PARAMETERS                     shift and go to state 220
     seen_ID                        shift and go to state 141
     CTE                            shift and go to state 137
-    EXPRESSION                     shift and go to state 196
-
-state 209
-
-    (146) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF . OC BLOCKS2 CC
-    (147) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF . OC CC
-
-    OC              shift and go to state 220
-
+    EXPRESSION                     shift and go to state 197
 
 state 210
+
+    (147) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF . OC BLOCKS2 CC
+    (148) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF . OC CC
+
+    OC              shift and go to state 221
+
+
+state 211
 
     (58) STM -> EXPRESSION STM2 EXPRESSION seen_STM .
 
     CP              reduce using rule 58 (STM -> EXPRESSION STM2 EXPRESSION seen_STM .)
 
 
-state 211
+state 212
 
     (47) CONDITION -> IF OP STM CP OC seen_OC_IF . BLOCKS2 CC CONDITION2
     (48) CONDITION -> IF OP STM CP OC seen_OC_IF . CC CONDITION2
@@ -3405,21 +3416,21 @@ state 211
     (46) CODE -> . CALLBOX
     (84) RETURN -> . RETURNW EQUALS PC
     (85) ASSIGNATION -> . IDV EQUALS EXPRESSION PC
-    (131) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (132) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-    (133) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-    (134) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
-    (146) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
-    (147) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
+    (132) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (133) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
+    (134) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+    (135) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
+    (147) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
+    (148) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
     (47) CONDITION -> . IF OP STM CP OC seen_OC_IF BLOCKS2 CC CONDITION2
     (48) CONDITION -> . IF OP STM CP OC seen_OC_IF CC CONDITION2
     (49) CONDITION -> . IF OP STM CP OC seen_OC_IF BLOCKS2 CC seen_CC_IF
     (50) CONDITION -> . IF OP STM CP OC seen_OC_IF CC seen_CC_IF
     (127) ASK -> . ASKUSER OP STRING COMMA IDV CP PC
     (123) SAY -> . SAYW OP CONCAT CP PC
-    (128) CALLBOX -> . CALLBOXW OP IDM COMMA PARAMETERS CP PC
+    (128) CALLBOX -> . CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC
 
-    CC              shift and go to state 221
+    CC              shift and go to state 222
     RETURNW         shift and go to state 109
     IDV             shift and go to state 101
     LOOPW           shift and go to state 111
@@ -3435,90 +3446,90 @@ state 211
     ASK                            shift and go to state 104
     CONDITION                      shift and go to state 105
     ASSIGNATION                    shift and go to state 106
-    BLOCKS2                        shift and go to state 222
+    BLOCKS2                        shift and go to state 223
     CALLBOX                        shift and go to state 113
     LOOPIF                         shift and go to state 114
     LOOP                           shift and go to state 116
 
-state 212
-
-    (141) seen_FLOAT_LOOP -> FLOAT .
-
-    TO              reduce using rule 141 (seen_FLOAT_LOOP -> FLOAT .)
-    CP              reduce using rule 141 (seen_FLOAT_LOOP -> FLOAT .)
-    BY              reduce using rule 141 (seen_FLOAT_LOOP -> FLOAT .)
-
-
 state 213
 
-    (138) LOOP2 -> seen_INT_LOOP .
+    (142) seen_FLOAT_LOOP -> FLOAT .
 
-    CP              reduce using rule 138 (LOOP2 -> seen_INT_LOOP .)
-    BY              reduce using rule 138 (LOOP2 -> seen_INT_LOOP .)
-    TO              reduce using rule 138 (LOOP2 -> seen_INT_LOOP .)
+    TO              reduce using rule 142 (seen_FLOAT_LOOP -> FLOAT .)
+    CP              reduce using rule 142 (seen_FLOAT_LOOP -> FLOAT .)
+    BY              reduce using rule 142 (seen_FLOAT_LOOP -> FLOAT .)
 
 
 state 214
 
-    (139) LOOP2 -> seen_FLOAT_LOOP .
+    (139) LOOP2 -> seen_INT_LOOP .
 
-    CP              reduce using rule 139 (LOOP2 -> seen_FLOAT_LOOP .)
-    BY              reduce using rule 139 (LOOP2 -> seen_FLOAT_LOOP .)
-    TO              reduce using rule 139 (LOOP2 -> seen_FLOAT_LOOP .)
+    CP              reduce using rule 139 (LOOP2 -> seen_INT_LOOP .)
+    BY              reduce using rule 139 (LOOP2 -> seen_INT_LOOP .)
+    TO              reduce using rule 139 (LOOP2 -> seen_INT_LOOP .)
 
 
 state 215
 
-    (140) seen_INT_LOOP -> INT .
+    (140) LOOP2 -> seen_FLOAT_LOOP .
 
-    BY              reduce using rule 140 (seen_INT_LOOP -> INT .)
-    CP              reduce using rule 140 (seen_INT_LOOP -> INT .)
-    TO              reduce using rule 140 (seen_INT_LOOP -> INT .)
+    CP              reduce using rule 140 (LOOP2 -> seen_FLOAT_LOOP .)
+    BY              reduce using rule 140 (LOOP2 -> seen_FLOAT_LOOP .)
+    TO              reduce using rule 140 (LOOP2 -> seen_FLOAT_LOOP .)
 
 
 state 216
 
-    (131) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 . TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 . TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 . TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 . TO LOOP2 CP seen_CP_LOOP2 OC CC
+    (141) seen_INT_LOOP -> INT .
 
-    TO              shift and go to state 223
+    BY              reduce using rule 141 (seen_INT_LOOP -> INT .)
+    CP              reduce using rule 141 (seen_INT_LOOP -> INT .)
+    TO              reduce using rule 141 (seen_INT_LOOP -> INT .)
 
 
 state 217
 
-    (127) ASK -> ASKUSER OP STRING COMMA IDV CP . PC
+    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 . TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 . TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
+    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 . TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+    (135) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 . TO LOOP2 CP seen_CP_LOOP2 OC CC
 
-    PC              shift and go to state 224
+    TO              shift and go to state 224
 
 
 state 218
 
-    (128) CALLBOX -> CALLBOXW OP IDM COMMA PARAMETERS CP PC .
+    (127) ASK -> ASKUSER OP STRING COMMA IDV CP . PC
 
-    RETURNW         reduce using rule 128 (CALLBOX -> CALLBOXW OP IDM COMMA PARAMETERS CP PC .)
-    IDV             reduce using rule 128 (CALLBOX -> CALLBOXW OP IDM COMMA PARAMETERS CP PC .)
-    LOOPW           reduce using rule 128 (CALLBOX -> CALLBOXW OP IDM COMMA PARAMETERS CP PC .)
-    LOOPIFW         reduce using rule 128 (CALLBOX -> CALLBOXW OP IDM COMMA PARAMETERS CP PC .)
-    IF              reduce using rule 128 (CALLBOX -> CALLBOXW OP IDM COMMA PARAMETERS CP PC .)
-    ASKUSER         reduce using rule 128 (CALLBOX -> CALLBOXW OP IDM COMMA PARAMETERS CP PC .)
-    SAYW            reduce using rule 128 (CALLBOX -> CALLBOXW OP IDM COMMA PARAMETERS CP PC .)
-    CALLBOXW        reduce using rule 128 (CALLBOX -> CALLBOXW OP IDM COMMA PARAMETERS CP PC .)
-    CC              reduce using rule 128 (CALLBOX -> CALLBOXW OP IDM COMMA PARAMETERS CP PC .)
+    PC              shift and go to state 225
 
 
 state 219
 
-    (129) PARAMETERS -> EXPRESSION COMMA PARAMETERS .
+    (128) CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC .
 
-    CP              reduce using rule 129 (PARAMETERS -> EXPRESSION COMMA PARAMETERS .)
+    RETURNW         reduce using rule 128 (CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC .)
+    IDV             reduce using rule 128 (CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC .)
+    LOOPW           reduce using rule 128 (CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC .)
+    LOOPIFW         reduce using rule 128 (CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC .)
+    IF              reduce using rule 128 (CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC .)
+    ASKUSER         reduce using rule 128 (CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC .)
+    SAYW            reduce using rule 128 (CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC .)
+    CALLBOXW        reduce using rule 128 (CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC .)
+    CC              reduce using rule 128 (CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC .)
 
 
 state 220
 
-    (146) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC . BLOCKS2 CC
-    (147) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC . CC
+    (130) PARAMETERS -> EXPRESSION COMMA PARAMETERS .
+
+    CP              reduce using rule 130 (PARAMETERS -> EXPRESSION COMMA PARAMETERS .)
+
+
+state 221
+
+    (147) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC . BLOCKS2 CC
+    (148) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC . CC
     (37) BLOCKS2 -> . CODE
     (38) BLOCKS2 -> . CODE BLOCKS2
     (39) CODE -> . RETURN
@@ -3531,21 +3542,21 @@ state 220
     (46) CODE -> . CALLBOX
     (84) RETURN -> . RETURNW EQUALS PC
     (85) ASSIGNATION -> . IDV EQUALS EXPRESSION PC
-    (131) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (132) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-    (133) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-    (134) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
-    (146) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
-    (147) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
+    (132) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (133) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
+    (134) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+    (135) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
+    (147) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
+    (148) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
     (47) CONDITION -> . IF OP STM CP OC seen_OC_IF BLOCKS2 CC CONDITION2
     (48) CONDITION -> . IF OP STM CP OC seen_OC_IF CC CONDITION2
     (49) CONDITION -> . IF OP STM CP OC seen_OC_IF BLOCKS2 CC seen_CC_IF
     (50) CONDITION -> . IF OP STM CP OC seen_OC_IF CC seen_CC_IF
     (127) ASK -> . ASKUSER OP STRING COMMA IDV CP PC
     (123) SAY -> . SAYW OP CONCAT CP PC
-    (128) CALLBOX -> . CALLBOXW OP IDM COMMA PARAMETERS CP PC
+    (128) CALLBOX -> . CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC
 
-    CC              shift and go to state 225
+    CC              shift and go to state 226
     RETURNW         shift and go to state 109
     IDV             shift and go to state 101
     LOOPW           shift and go to state 111
@@ -3561,19 +3572,19 @@ state 220
     ASK                            shift and go to state 104
     CONDITION                      shift and go to state 105
     ASSIGNATION                    shift and go to state 106
-    BLOCKS2                        shift and go to state 226
+    BLOCKS2                        shift and go to state 227
     CALLBOX                        shift and go to state 113
     LOOPIF                         shift and go to state 114
     LOOP                           shift and go to state 116
 
-state 221
+state 222
 
     (48) CONDITION -> IF OP STM CP OC seen_OC_IF CC . CONDITION2
     (50) CONDITION -> IF OP STM CP OC seen_OC_IF CC . seen_CC_IF
     (53) CONDITION2 -> . ELSE seen_ELSE OC CONDITION3
     (52) seen_CC_IF -> .
 
-    ELSE            shift and go to state 227
+    ELSE            shift and go to state 228
     RETURNW         reduce using rule 52 (seen_CC_IF -> .)
     IDV             reduce using rule 52 (seen_CC_IF -> .)
     LOOPW           reduce using rule 52 (seen_CC_IF -> .)
@@ -3584,36 +3595,36 @@ state 221
     CALLBOXW        reduce using rule 52 (seen_CC_IF -> .)
     CC              reduce using rule 52 (seen_CC_IF -> .)
 
-    seen_CC_IF                     shift and go to state 228
-    CONDITION2                     shift and go to state 229
+    seen_CC_IF                     shift and go to state 229
+    CONDITION2                     shift and go to state 230
 
-state 222
+state 223
 
     (47) CONDITION -> IF OP STM CP OC seen_OC_IF BLOCKS2 . CC CONDITION2
     (49) CONDITION -> IF OP STM CP OC seen_OC_IF BLOCKS2 . CC seen_CC_IF
 
-    CC              shift and go to state 230
+    CC              shift and go to state 231
 
-
-state 223
-
-    (131) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO . LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO . LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO . LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO . LOOP2 CP seen_CP_LOOP2 OC CC
-    (138) LOOP2 -> . seen_INT_LOOP
-    (139) LOOP2 -> . seen_FLOAT_LOOP
-    (140) seen_INT_LOOP -> . INT
-    (141) seen_FLOAT_LOOP -> . FLOAT
-
-    INT             shift and go to state 215
-    FLOAT           shift and go to state 212
-
-    seen_FLOAT_LOOP                shift and go to state 214
-    LOOP2                          shift and go to state 231
-    seen_INT_LOOP                  shift and go to state 213
 
 state 224
+
+    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO . LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO . LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
+    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO . LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+    (135) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO . LOOP2 CP seen_CP_LOOP2 OC CC
+    (139) LOOP2 -> . seen_INT_LOOP
+    (140) LOOP2 -> . seen_FLOAT_LOOP
+    (141) seen_INT_LOOP -> . INT
+    (142) seen_FLOAT_LOOP -> . FLOAT
+
+    INT             shift and go to state 216
+    FLOAT           shift and go to state 213
+
+    seen_FLOAT_LOOP                shift and go to state 215
+    LOOP2                          shift and go to state 232
+    seen_INT_LOOP                  shift and go to state 214
+
+state 225
 
     (127) ASK -> ASKUSER OP STRING COMMA IDV CP PC .
 
@@ -3628,38 +3639,38 @@ state 224
     CC              reduce using rule 127 (ASK -> ASKUSER OP STRING COMMA IDV CP PC .)
 
 
-state 225
-
-    (147) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .
-
-    RETURNW         reduce using rule 147 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
-    IDV             reduce using rule 147 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
-    LOOPW           reduce using rule 147 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
-    LOOPIFW         reduce using rule 147 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
-    IF              reduce using rule 147 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
-    ASKUSER         reduce using rule 147 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
-    SAYW            reduce using rule 147 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
-    CALLBOXW        reduce using rule 147 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
-    CC              reduce using rule 147 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
-
-
 state 226
 
-    (146) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 . CC
+    (148) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .
 
-    CC              shift and go to state 232
+    RETURNW         reduce using rule 148 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
+    IDV             reduce using rule 148 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
+    LOOPW           reduce using rule 148 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
+    LOOPIFW         reduce using rule 148 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
+    IF              reduce using rule 148 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
+    ASKUSER         reduce using rule 148 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
+    SAYW            reduce using rule 148 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
+    CALLBOXW        reduce using rule 148 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
+    CC              reduce using rule 148 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
 
 
 state 227
+
+    (147) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 . CC
+
+    CC              shift and go to state 233
+
+
+state 228
 
     (53) CONDITION2 -> ELSE . seen_ELSE OC CONDITION3
     (56) seen_ELSE -> .
 
     OC              reduce using rule 56 (seen_ELSE -> .)
 
-    seen_ELSE                      shift and go to state 233
+    seen_ELSE                      shift and go to state 234
 
-state 228
+state 229
 
     (50) CONDITION -> IF OP STM CP OC seen_OC_IF CC seen_CC_IF .
 
@@ -3674,7 +3685,7 @@ state 228
     CC              reduce using rule 50 (CONDITION -> IF OP STM CP OC seen_OC_IF CC seen_CC_IF .)
 
 
-state 229
+state 230
 
     (48) CONDITION -> IF OP STM CP OC seen_OC_IF CC CONDITION2 .
 
@@ -3689,14 +3700,14 @@ state 229
     CC              reduce using rule 48 (CONDITION -> IF OP STM CP OC seen_OC_IF CC CONDITION2 .)
 
 
-state 230
+state 231
 
     (47) CONDITION -> IF OP STM CP OC seen_OC_IF BLOCKS2 CC . CONDITION2
     (49) CONDITION -> IF OP STM CP OC seen_OC_IF BLOCKS2 CC . seen_CC_IF
     (53) CONDITION2 -> . ELSE seen_ELSE OC CONDITION3
     (52) seen_CC_IF -> .
 
-    ELSE            shift and go to state 227
+    ELSE            shift and go to state 228
     RETURNW         reduce using rule 52 (seen_CC_IF -> .)
     IDV             reduce using rule 52 (seen_CC_IF -> .)
     LOOPW           reduce using rule 52 (seen_CC_IF -> .)
@@ -3707,43 +3718,43 @@ state 230
     CALLBOXW        reduce using rule 52 (seen_CC_IF -> .)
     CC              reduce using rule 52 (seen_CC_IF -> .)
 
-    seen_CC_IF                     shift and go to state 234
-    CONDITION2                     shift and go to state 235
-
-state 231
-
-    (131) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 . BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 . CP seen_CP_LOOP2 OC BLOCKS2 CC
-    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 . BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 . CP seen_CP_LOOP2 OC CC
-
-    BY              shift and go to state 237
-    CP              shift and go to state 236
-
+    seen_CC_IF                     shift and go to state 235
+    CONDITION2                     shift and go to state 236
 
 state 232
 
-    (146) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .
+    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 . BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 . CP seen_CP_LOOP2 OC BLOCKS2 CC
+    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 . BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+    (135) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 . CP seen_CP_LOOP2 OC CC
 
-    RETURNW         reduce using rule 146 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
-    IDV             reduce using rule 146 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
-    LOOPW           reduce using rule 146 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
-    LOOPIFW         reduce using rule 146 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
-    IF              reduce using rule 146 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
-    ASKUSER         reduce using rule 146 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
-    SAYW            reduce using rule 146 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
-    CALLBOXW        reduce using rule 146 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
-    CC              reduce using rule 146 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
+    BY              shift and go to state 238
+    CP              shift and go to state 237
 
 
 state 233
 
-    (53) CONDITION2 -> ELSE seen_ELSE . OC CONDITION3
+    (147) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .
 
-    OC              shift and go to state 238
+    RETURNW         reduce using rule 147 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
+    IDV             reduce using rule 147 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
+    LOOPW           reduce using rule 147 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
+    LOOPIFW         reduce using rule 147 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
+    IF              reduce using rule 147 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
+    ASKUSER         reduce using rule 147 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
+    SAYW            reduce using rule 147 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
+    CALLBOXW        reduce using rule 147 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
+    CC              reduce using rule 147 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
 
 
 state 234
+
+    (53) CONDITION2 -> ELSE seen_ELSE . OC CONDITION3
+
+    OC              shift and go to state 239
+
+
+state 235
 
     (49) CONDITION -> IF OP STM CP OC seen_OC_IF BLOCKS2 CC seen_CC_IF .
 
@@ -3758,7 +3769,7 @@ state 234
     CC              reduce using rule 49 (CONDITION -> IF OP STM CP OC seen_OC_IF BLOCKS2 CC seen_CC_IF .)
 
 
-state 235
+state 236
 
     (47) CONDITION -> IF OP STM CP OC seen_OC_IF BLOCKS2 CC CONDITION2 .
 
@@ -3773,32 +3784,32 @@ state 235
     CC              reduce using rule 47 (CONDITION -> IF OP STM CP OC seen_OC_IF BLOCKS2 CC CONDITION2 .)
 
 
-state 236
-
-    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP . seen_CP_LOOP2 OC BLOCKS2 CC
-    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP . seen_CP_LOOP2 OC CC
-    (136) seen_CP_LOOP2 -> .
-
-    OC              reduce using rule 136 (seen_CP_LOOP2 -> .)
-
-    seen_CP_LOOP2                  shift and go to state 239
-
 state 237
 
-    (131) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY . LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY . LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-    (142) LOOP3 -> . PLUS
-    (143) LOOP3 -> . MINUS
-    (144) LOOP3 -> .
+    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP . seen_CP_LOOP2 OC BLOCKS2 CC
+    (135) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP . seen_CP_LOOP2 OC CC
+    (137) seen_CP_LOOP2 -> .
 
-    PLUS            shift and go to state 241
-    MINUS           shift and go to state 240
-    INT             reduce using rule 144 (LOOP3 -> .)
-    FLOAT           reduce using rule 144 (LOOP3 -> .)
+    OC              reduce using rule 137 (seen_CP_LOOP2 -> .)
 
-    LOOP3                          shift and go to state 242
+    seen_CP_LOOP2                  shift and go to state 240
 
 state 238
+
+    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY . LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY . LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+    (143) LOOP3 -> . PLUS
+    (144) LOOP3 -> . MINUS
+    (145) LOOP3 -> .
+
+    PLUS            shift and go to state 242
+    MINUS           shift and go to state 241
+    INT             reduce using rule 145 (LOOP3 -> .)
+    FLOAT           reduce using rule 145 (LOOP3 -> .)
+
+    LOOP3                          shift and go to state 243
+
+state 239
 
     (53) CONDITION2 -> ELSE seen_ELSE OC . CONDITION3
     (54) CONDITION3 -> . BLOCKS2 CC seen_CC_ELSE
@@ -3815,21 +3826,21 @@ state 238
     (46) CODE -> . CALLBOX
     (84) RETURN -> . RETURNW EQUALS PC
     (85) ASSIGNATION -> . IDV EQUALS EXPRESSION PC
-    (131) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (132) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-    (133) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-    (134) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
-    (146) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
-    (147) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
+    (132) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (133) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
+    (134) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+    (135) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
+    (147) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
+    (148) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
     (47) CONDITION -> . IF OP STM CP OC seen_OC_IF BLOCKS2 CC CONDITION2
     (48) CONDITION -> . IF OP STM CP OC seen_OC_IF CC CONDITION2
     (49) CONDITION -> . IF OP STM CP OC seen_OC_IF BLOCKS2 CC seen_CC_IF
     (50) CONDITION -> . IF OP STM CP OC seen_OC_IF CC seen_CC_IF
     (127) ASK -> . ASKUSER OP STRING COMMA IDV CP PC
     (123) SAY -> . SAYW OP CONCAT CP PC
-    (128) CALLBOX -> . CALLBOXW OP IDM COMMA PARAMETERS CP PC
+    (128) CALLBOX -> . CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC
 
-    CC              shift and go to state 243
+    CC              shift and go to state 244
     RETURNW         shift and go to state 109
     IDV             shift and go to state 101
     LOOPW           shift and go to state 111
@@ -3845,53 +3856,53 @@ state 238
     ASK                            shift and go to state 104
     CONDITION                      shift and go to state 105
     ASSIGNATION                    shift and go to state 106
-    CONDITION3                     shift and go to state 244
-    BLOCKS2                        shift and go to state 245
+    CONDITION3                     shift and go to state 245
+    BLOCKS2                        shift and go to state 246
     CALLBOX                        shift and go to state 113
     LOOPIF                         shift and go to state 114
     LOOP                           shift and go to state 116
 
-state 239
-
-    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 . OC BLOCKS2 CC
-    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 . OC CC
-
-    OC              shift and go to state 246
-
-
 state 240
 
-    (143) LOOP3 -> MINUS .
+    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 . OC BLOCKS2 CC
+    (135) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 . OC CC
 
-    INT             reduce using rule 143 (LOOP3 -> MINUS .)
-    FLOAT           reduce using rule 143 (LOOP3 -> MINUS .)
+    OC              shift and go to state 247
 
 
 state 241
 
-    (142) LOOP3 -> PLUS .
+    (144) LOOP3 -> MINUS .
 
-    INT             reduce using rule 142 (LOOP3 -> PLUS .)
-    FLOAT           reduce using rule 142 (LOOP3 -> PLUS .)
+    INT             reduce using rule 144 (LOOP3 -> MINUS .)
+    FLOAT           reduce using rule 144 (LOOP3 -> MINUS .)
 
 
 state 242
 
-    (131) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 . LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 . LOOP2 CP seen_CP_LOOP1 OC CC
-    (138) LOOP2 -> . seen_INT_LOOP
-    (139) LOOP2 -> . seen_FLOAT_LOOP
-    (140) seen_INT_LOOP -> . INT
-    (141) seen_FLOAT_LOOP -> . FLOAT
+    (143) LOOP3 -> PLUS .
 
-    INT             shift and go to state 215
-    FLOAT           shift and go to state 212
+    INT             reduce using rule 143 (LOOP3 -> PLUS .)
+    FLOAT           reduce using rule 143 (LOOP3 -> PLUS .)
 
-    seen_FLOAT_LOOP                shift and go to state 214
-    LOOP2                          shift and go to state 247
-    seen_INT_LOOP                  shift and go to state 213
 
 state 243
+
+    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 . LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 . LOOP2 CP seen_CP_LOOP1 OC CC
+    (139) LOOP2 -> . seen_INT_LOOP
+    (140) LOOP2 -> . seen_FLOAT_LOOP
+    (141) seen_INT_LOOP -> . INT
+    (142) seen_FLOAT_LOOP -> . FLOAT
+
+    INT             shift and go to state 216
+    FLOAT           shift and go to state 213
+
+    seen_FLOAT_LOOP                shift and go to state 215
+    LOOP2                          shift and go to state 248
+    seen_INT_LOOP                  shift and go to state 214
+
+state 244
 
     (55) CONDITION3 -> CC . seen_CC_ELSE
     (57) seen_CC_ELSE -> .
@@ -3906,9 +3917,9 @@ state 243
     CALLBOXW        reduce using rule 57 (seen_CC_ELSE -> .)
     CC              reduce using rule 57 (seen_CC_ELSE -> .)
 
-    seen_CC_ELSE                   shift and go to state 248
+    seen_CC_ELSE                   shift and go to state 249
 
-state 244
+state 245
 
     (53) CONDITION2 -> ELSE seen_ELSE OC CONDITION3 .
 
@@ -3923,17 +3934,17 @@ state 244
     CC              reduce using rule 53 (CONDITION2 -> ELSE seen_ELSE OC CONDITION3 .)
 
 
-state 245
+state 246
 
     (54) CONDITION3 -> BLOCKS2 . CC seen_CC_ELSE
 
-    CC              shift and go to state 249
+    CC              shift and go to state 250
 
 
-state 246
+state 247
 
-    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC . BLOCKS2 CC
-    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC . CC
+    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC . BLOCKS2 CC
+    (135) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC . CC
     (37) BLOCKS2 -> . CODE
     (38) BLOCKS2 -> . CODE BLOCKS2
     (39) CODE -> . RETURN
@@ -3946,21 +3957,21 @@ state 246
     (46) CODE -> . CALLBOX
     (84) RETURN -> . RETURNW EQUALS PC
     (85) ASSIGNATION -> . IDV EQUALS EXPRESSION PC
-    (131) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (132) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-    (133) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-    (134) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
-    (146) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
-    (147) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
+    (132) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (133) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
+    (134) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+    (135) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
+    (147) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
+    (148) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
     (47) CONDITION -> . IF OP STM CP OC seen_OC_IF BLOCKS2 CC CONDITION2
     (48) CONDITION -> . IF OP STM CP OC seen_OC_IF CC CONDITION2
     (49) CONDITION -> . IF OP STM CP OC seen_OC_IF BLOCKS2 CC seen_CC_IF
     (50) CONDITION -> . IF OP STM CP OC seen_OC_IF CC seen_CC_IF
     (127) ASK -> . ASKUSER OP STRING COMMA IDV CP PC
     (123) SAY -> . SAYW OP CONCAT CP PC
-    (128) CALLBOX -> . CALLBOXW OP IDM COMMA PARAMETERS CP PC
+    (128) CALLBOX -> . CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC
 
-    CC              shift and go to state 250
+    CC              shift and go to state 251
     RETURNW         shift and go to state 109
     IDV             shift and go to state 101
     LOOPW           shift and go to state 111
@@ -3976,20 +3987,20 @@ state 246
     ASK                            shift and go to state 104
     CONDITION                      shift and go to state 105
     ASSIGNATION                    shift and go to state 106
-    BLOCKS2                        shift and go to state 251
+    BLOCKS2                        shift and go to state 252
     CALLBOX                        shift and go to state 113
     LOOPIF                         shift and go to state 114
     LOOP                           shift and go to state 116
 
-state 247
-
-    (131) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 . CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 . CP seen_CP_LOOP1 OC CC
-
-    CP              shift and go to state 252
-
-
 state 248
+
+    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 . CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 . CP seen_CP_LOOP1 OC CC
+
+    CP              shift and go to state 253
+
+
+state 249
 
     (55) CONDITION3 -> CC seen_CC_ELSE .
 
@@ -4004,7 +4015,7 @@ state 248
     CC              reduce using rule 55 (CONDITION3 -> CC seen_CC_ELSE .)
 
 
-state 249
+state 250
 
     (54) CONDITION3 -> BLOCKS2 CC . seen_CC_ELSE
     (57) seen_CC_ELSE -> .
@@ -4019,41 +4030,41 @@ state 249
     CALLBOXW        reduce using rule 57 (seen_CC_ELSE -> .)
     CC              reduce using rule 57 (seen_CC_ELSE -> .)
 
-    seen_CC_ELSE                   shift and go to state 253
-
-state 250
-
-    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .
-
-    RETURNW         reduce using rule 134 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
-    IDV             reduce using rule 134 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
-    LOOPW           reduce using rule 134 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
-    LOOPIFW         reduce using rule 134 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
-    IF              reduce using rule 134 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
-    ASKUSER         reduce using rule 134 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
-    SAYW            reduce using rule 134 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
-    CALLBOXW        reduce using rule 134 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
-    CC              reduce using rule 134 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
-
+    seen_CC_ELSE                   shift and go to state 254
 
 state 251
 
-    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 . CC
+    (135) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .
 
-    CC              shift and go to state 254
+    RETURNW         reduce using rule 135 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
+    IDV             reduce using rule 135 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
+    LOOPW           reduce using rule 135 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
+    LOOPIFW         reduce using rule 135 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
+    IF              reduce using rule 135 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
+    ASKUSER         reduce using rule 135 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
+    SAYW            reduce using rule 135 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
+    CALLBOXW        reduce using rule 135 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
+    CC              reduce using rule 135 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
 
 
 state 252
 
-    (131) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP . seen_CP_LOOP1 OC BLOCKS2 CC
-    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP . seen_CP_LOOP1 OC CC
-    (135) seen_CP_LOOP1 -> .
+    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 . CC
 
-    OC              reduce using rule 135 (seen_CP_LOOP1 -> .)
+    CC              shift and go to state 255
 
-    seen_CP_LOOP1                  shift and go to state 255
 
 state 253
+
+    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP . seen_CP_LOOP1 OC BLOCKS2 CC
+    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP . seen_CP_LOOP1 OC CC
+    (136) seen_CP_LOOP1 -> .
+
+    OC              reduce using rule 136 (seen_CP_LOOP1 -> .)
+
+    seen_CP_LOOP1                  shift and go to state 256
+
+state 254
 
     (54) CONDITION3 -> BLOCKS2 CC seen_CC_ELSE .
 
@@ -4068,33 +4079,33 @@ state 253
     CC              reduce using rule 54 (CONDITION3 -> BLOCKS2 CC seen_CC_ELSE .)
 
 
-state 254
-
-    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .
-
-    RETURNW         reduce using rule 132 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
-    IDV             reduce using rule 132 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
-    LOOPW           reduce using rule 132 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
-    LOOPIFW         reduce using rule 132 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
-    IF              reduce using rule 132 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
-    ASKUSER         reduce using rule 132 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
-    SAYW            reduce using rule 132 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
-    CALLBOXW        reduce using rule 132 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
-    CC              reduce using rule 132 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
-
-
 state 255
 
-    (131) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 . OC BLOCKS2 CC
-    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 . OC CC
+    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .
 
-    OC              shift and go to state 256
+    RETURNW         reduce using rule 133 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
+    IDV             reduce using rule 133 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
+    LOOPW           reduce using rule 133 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
+    LOOPIFW         reduce using rule 133 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
+    IF              reduce using rule 133 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
+    ASKUSER         reduce using rule 133 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
+    SAYW            reduce using rule 133 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
+    CALLBOXW        reduce using rule 133 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
+    CC              reduce using rule 133 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
 
 
 state 256
 
-    (131) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC . BLOCKS2 CC
-    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC . CC
+    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 . OC BLOCKS2 CC
+    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 . OC CC
+
+    OC              shift and go to state 257
+
+
+state 257
+
+    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC . BLOCKS2 CC
+    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC . CC
     (37) BLOCKS2 -> . CODE
     (38) BLOCKS2 -> . CODE BLOCKS2
     (39) CODE -> . RETURN
@@ -4107,21 +4118,21 @@ state 256
     (46) CODE -> . CALLBOX
     (84) RETURN -> . RETURNW EQUALS PC
     (85) ASSIGNATION -> . IDV EQUALS EXPRESSION PC
-    (131) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (132) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-    (133) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-    (134) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
-    (146) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
-    (147) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
+    (132) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (133) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
+    (134) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+    (135) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
+    (147) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
+    (148) LOOPIF -> . LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC
     (47) CONDITION -> . IF OP STM CP OC seen_OC_IF BLOCKS2 CC CONDITION2
     (48) CONDITION -> . IF OP STM CP OC seen_OC_IF CC CONDITION2
     (49) CONDITION -> . IF OP STM CP OC seen_OC_IF BLOCKS2 CC seen_CC_IF
     (50) CONDITION -> . IF OP STM CP OC seen_OC_IF CC seen_CC_IF
     (127) ASK -> . ASKUSER OP STRING COMMA IDV CP PC
     (123) SAY -> . SAYW OP CONCAT CP PC
-    (128) CALLBOX -> . CALLBOXW OP IDM COMMA PARAMETERS CP PC
+    (128) CALLBOX -> . CALLBOXW OP SEEN_IDM_CALL COMMA PARAMETERS CP PC
 
-    CC              shift and go to state 257
+    CC              shift and go to state 258
     RETURNW         shift and go to state 109
     IDV             shift and go to state 101
     LOOPW           shift and go to state 111
@@ -4137,46 +4148,46 @@ state 256
     ASK                            shift and go to state 104
     CONDITION                      shift and go to state 105
     ASSIGNATION                    shift and go to state 106
-    BLOCKS2                        shift and go to state 258
+    BLOCKS2                        shift and go to state 259
     CALLBOX                        shift and go to state 113
     LOOPIF                         shift and go to state 114
     LOOP                           shift and go to state 116
 
-state 257
-
-    (133) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .
-
-    RETURNW         reduce using rule 133 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
-    IDV             reduce using rule 133 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
-    LOOPW           reduce using rule 133 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
-    LOOPIFW         reduce using rule 133 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
-    IF              reduce using rule 133 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
-    ASKUSER         reduce using rule 133 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
-    SAYW            reduce using rule 133 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
-    CALLBOXW        reduce using rule 133 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
-    CC              reduce using rule 133 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
-
-
 state 258
 
-    (131) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 . CC
+    (134) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .
 
-    CC              shift and go to state 259
+    RETURNW         reduce using rule 134 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
+    IDV             reduce using rule 134 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
+    LOOPW           reduce using rule 134 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
+    LOOPIFW         reduce using rule 134 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
+    IF              reduce using rule 134 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
+    ASKUSER         reduce using rule 134 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
+    SAYW            reduce using rule 134 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
+    CALLBOXW        reduce using rule 134 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
+    CC              reduce using rule 134 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
 
 
 state 259
 
-    (131) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .
+    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 . CC
 
-    RETURNW         reduce using rule 131 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .)
-    IDV             reduce using rule 131 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .)
-    LOOPW           reduce using rule 131 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .)
-    LOOPIFW         reduce using rule 131 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .)
-    IF              reduce using rule 131 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .)
-    ASKUSER         reduce using rule 131 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .)
-    SAYW            reduce using rule 131 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .)
-    CALLBOXW        reduce using rule 131 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .)
-    CC              reduce using rule 131 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .)
+    CC              shift and go to state 260
+
+
+state 260
+
+    (132) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .
+
+    RETURNW         reduce using rule 132 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .)
+    IDV             reduce using rule 132 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .)
+    LOOPW           reduce using rule 132 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .)
+    LOOPIFW         reduce using rule 132 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .)
+    IF              reduce using rule 132 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .)
+    ASKUSER         reduce using rule 132 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .)
+    SAYW            reduce using rule 132 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .)
+    CALLBOXW        reduce using rule 132 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .)
+    CC              reduce using rule 132 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .)
 
 WARNING: 
 WARNING: Conflicts:

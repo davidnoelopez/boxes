@@ -1,8 +1,25 @@
 box{
 	vari #a = 1, #b = 2, #c;
+	vars #salida;
+
+	voidbox uno (vars #i){
+		vars #p;
+	}
 
 	mainbox(){
-		#c = #a + #b * #ad;
-		#b = #a + #b / #c;
+		vari #hola = 3;
+		if (#a > 3)	{
+			#a = #a + 1;
+			say("Hola");
+		}
+		else {
+			if (#a < #b) {
+				#a = #a - #b;
+			}
+			askuser("Dame tu nombre", #salida);
+		}
+		#c = #a + #b * #a;
+		#b = (#a + #b) / #c;
+		callbox(uno, 34);
 	}
 }

@@ -2,11 +2,12 @@ box{
 	vari #a = 1, #b = 2, #c;
 	vars #salida;
 
-	voidbox uno (vari #a, vari #b){
-		#a = #b;
+	voidbox uno (vars #i){
+		vars #p;
 	}
 
 	mainbox(){
+		vari #hola = 3;
 		if (#a > 3)	{
 			#a = #a + 1;
 			say("Hola");
@@ -19,5 +20,6 @@ box{
 		}
 		#c = #a + #b * #a;
 		#b = (#a + #b) / #c;
+		callbox(dos, 34);
 	}
 }

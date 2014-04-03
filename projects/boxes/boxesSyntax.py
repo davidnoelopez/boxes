@@ -12,6 +12,8 @@ tmptypeVar = ""
 tmpDirMethod = 0 #variable para la direccion del metodo
 VarDic = dict()	#diccionario de variables (tabla de variables)
 MetDic = dict()	#diccionario de metodos (directorio de procedimientos)
+ParList = list()	#lista de parametros de cada metodo
+TamList = [0,0,0]	#lista de tipos de variables locales de cada metodo
 tmpList = list() #fila temporal donde guarda los elementos parseados de la lista
 listStack = list() #stack para guardar las listas generadas
 POper = list()	#stack para guardar operadores
@@ -23,22 +25,34 @@ queue = [1, "[", 3, "[", 4, "[", 5, 6, "]", "]", "]"]
 
 
 def addVarDictionary( idVar, valueVar, typeVar, p ):
+	TamList[typeVar] = TamList[typeVar] + 1
 	if idVar in VarDic:
 		print "BoxesSemanticError: Duplicate variable: '", idVar, "' In line: ", str(p.lineno(1))
+		exit(1)
+	elif "global" in MetDic and idVar in MetDic["global"][1]:
+		print "BoxesSemanticError: Duplicate variable in global context: '", idVar, "' In line: ", str(p.lineno(1))
 		exit(1)
 	else:
 		VarDic[idVar] = [valueVar, typeVar]
 		#print "Found var: ", idVar, " - ", VarDic[idVar]
 
 def addMetDictionary( idMet, typeMet, p ):
+	global ParList
 	if idMet in MetDic:
 		print "BoxesSemanticError: Duplicate method: '", idMet, "' In line: ", str(p.lineno(1))
 		exit(1)
 	else:
 		localDic = VarDic.copy()
-		MetDic[idMet] = [typeMet, localDic, tmpDirMethod]
+		localParList = list(ParList)
+		localTamList = list(TamList)
+		MetDic[idMet] = [typeMet, localDic, tmpDirMethod, localParList, localTamList]
 		print "Found method: ", idMet, " - ", MetDic[idMet]
+		if idMet is not "global":
+			MetDic[idMet][1].clear()
 		VarDic.clear()
+		ParList[:] = []
+		TamList[:] = [0,0,0]
+		listQuadruple.append([25, None, None, None])
 
 def queueToList():
 	if len(tmpList) is 0:
@@ -63,8 +77,6 @@ def createArithmeticQuadruple(oper, op1, op2, result, p):
 			exit(1)
 		else:
 			listQuadruple.append([oper, op1[0], None, result[0]])
-			#PilaO.append([result[0], resultCube])
-			#print [result[0], resultCube]	
 	else:
 		#check cube
 		resultCube = cubetest.cube[op1[1],op2[1],oper]
@@ -74,6 +86,7 @@ def createArithmeticQuadruple(oper, op1, op2, result, p):
 		else:
 			listQuadruple.append([oper, op1[0], op2[0], result])
 			PilaO.append([result, resultCube])
+			TamList[resultCube] = TamList[resultCube] + 1
 
 def createGoToQuadruple(oper, op1, op2, result):
 	listQuadruple.append([oper, op1, op2, result])
@@ -369,15 +382,19 @@ def p_PARAM(p):
 	PARAM : PARAM2 IDV
 	"""
 	#dependiendo del tipo de variable se guarda en el diccionario
-	global tmptypeVar
+	global tmptypeVar, TamList
 	if tmptypeVar == 'vari':	
 		addVarDictionary( p[2], None, 0, p )
+		ParList.append(0)
 	if tmptypeVar == 'varf':	
 		addVarDictionary( p[2], None, 1, p )
-	if tmptypeVar == 'vars':	
+		ParList.append(1)
+	if tmptypeVar == 'vars':			
 		addVarDictionary( p[2], None, 2, p )
+		ParList.append(2)
 	if tmptypeVar == 'varl':	
 		addVarDictionary( p[2], None, "L", p )
+		#FALTA PROCEDIMIENTOS DE ARREGLOS
 
 def p_PARAM2(p):
 	"""
@@ -679,7 +696,7 @@ def p_ASK(p):
 	elif valID in MetDic['global'][1]:
 		valType = MetDic['global'][1][p[5]][1]
 	else:
-		print("BoxesSemanticError: Non declared variable: " + p[5], "\nlineno: " + str(p.lineno(1)))
+		print("BoxesSemanticError: Non declared variable: " + p[5] + ". In line: " + str(p.lineno(1)))
 		exit(1)
 
 	if valType is 2:
@@ -691,14 +708,52 @@ def p_ASK(p):
 
 def p_CALLBOX(p):
 	"""
-	CALLBOX : CALLBOXW OP IDM COMMA PARAMETERS CP PC  
+	CALLBOX : CALLBOXW OP SEEN_IDM_CALL COMMA SEEN_CALL PARAMETERS CP PC  
+		| CALLBOXW OP SEEN_IDM_CALL CP PC  
 	"""
+	listQuadruple.append([28, MetDic[tmpCallIDM][2], None, None])
+
+def p_SEEN_IDM_CALL(p):
+	"""
+	SEEN_IDM_CALL : IDM  
+	"""
+	if p[1] not in MetDic:
+		print("BoxesSemanticError: Non declared method: '" + p[1] + "'. In line: " + str(p.lineno(1)))
+		exit(1)
+	else:
+		global tmpCallIDM
+		tmpCallIDM = p[1]
+
+def p_SEEN_CALL(p):
+	"""
+	SEEN_CALL :  
+	"""
+	listQuadruple.append([26, tmpCallIDM, None, None])
+	global k
+	k = 0
 
 def p_PARAMETERS(p):
 	"""
-	PARAMETERS : EXPRESSION COMMA PARAMETERS
-			| EXPRESSION   
+	PARAMETERS : EXPRESSION SEEN_EXPRESSION_PARAM COMMA PARAMETERS
+			| EXPRESSION SEEN_EXPRESSION_PARAM
 	"""
+	if MetDic[tmpCallIDM][3][k] is not None:
+		print("BoxesSemanticError: Missing Parameters in callbox. In line: " + str(p.lineno(1)))
+		exit(1)
+	
+
+def p_SEEN_EXPRESSION_PARAM(p):
+	"""
+	SEEN_EXPRESSION_PARAM :	
+	"""
+	global k
+	argumento = PilaO.pop()
+	if argumento[1] is MetDic[tmpCallIDM][3][k]:
+		listQuadruple.append([27, argumento[0], None, p+str(k)])
+		k = k + 1
+	else:
+		print("BoxesSemanticError: Parameter [" + str( k + 1 ) + "] in callbox mismatched. In line: " + str(p.lineno(1)))
+		exit(1)
 
 def p_LOOP(p):
 	"""
