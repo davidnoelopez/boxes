@@ -27,6 +27,7 @@
 #	(ERA	:> 26)
 #	(PARAM	:> 27)
 #	(GOSUB	:> 28)
+#	(RETURN	:> 29)
 
 
 # varI #

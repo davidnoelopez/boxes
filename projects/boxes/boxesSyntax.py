@@ -21,6 +21,7 @@ PilaO = list()	#stack para guardar operandos
 PSaltos = list() #stack para guardar saltos
 listQuadruple = list() #lista de cuadruplos
 tCounter = 0 #contador para temporales
+valID = None
 queue = [1, "[", 3, "[", 4, "[", 5, 6, "]", "]", "]"]
 
 
@@ -42,17 +43,17 @@ def addMetDictionary( idMet, typeMet, p ):
 		print "BoxesSemanticError: Duplicate method: '", idMet, "' In line: ", str(p.lineno(1))
 		exit(1)
 	else:
-		localDic = VarDic.copy()
 		localParList = list(ParList)
-		localTamList = list(TamList)
-		MetDic[idMet] = [typeMet, localDic, tmpDirMethod, localParList, localTamList]
-		print "Found method: ", idMet, " - ", MetDic[idMet]
-		if idMet is not "global":
-			MetDic[idMet][1].clear()
-		VarDic.clear()
+		MetDic[idMet] = [typeMet, dict(), tmpDirMethod, localParList, list()]
+		print "Found method: ", idMet
+		if idMet is "global":
+			localDic = VarDic.copy()
+			localTamList = list(TamList)
+			MetDic[idMet][1] = localDic
+			MetDic[idMet][4] = localTamList
+			VarDic.clear()
+			TamList[:] = [0,0,0]
 		ParList[:] = []
-		TamList[:] = [0,0,0]
-		listQuadruple.append([25, None, None, None])
 
 def queueToList():
 	if len(tmpList) is 0:
@@ -257,8 +258,6 @@ def p_BLOCKS(p):
 		| OC BLOCKS2 CC
 		| OC CC
 	"""
-	global tmpIdMethod, tmpMethod
-	addMetDictionary( tmpIdMethod, tmpMethod, p )
 
 def p_BLOCKS2(p):
 	"""
@@ -409,9 +408,21 @@ def p_PARAM2(p):
 
 def p_METHODS(p):
 	"""
-	METHODS : METHODS2 seen_IDM OP METHODS3 CP BLOCKS
-		| METHODS2 seen_IDM OP METHODS3 CP BLOCKS METHODS
+	METHODS : METHODS2 seen_IDM OP METHODS3 CP BLOCKS METHOD_UPDATE
+		| METHODS2 seen_IDM OP METHODS3 CP BLOCKS METHOD_UPDATE METHODS
 	"""
+
+def p_METHOD_UPDATE(p):
+	"""
+	METHOD_UPDATE :
+	"""
+
+	#actualizar diccionario de metodos
+	localTamList = list(TamList)
+	MetDic[tmpIdMethod][4] = localTamList
+	VarDic.clear()
+	TamList[:] = [0,0,0]
+	listQuadruple.append([25, None, None, None])
 
 def p_seen_IDM(p):
 	"""
@@ -435,7 +446,15 @@ def p_METHODS2(p):
 	"""
 	#asigna a tmpMethod el nombre del metodo actual
 	global tmpMethod
-	tmpMethod = p[1]
+	print p[1]
+	if p[1] == "voidbox":
+		tmpMethod = -1
+	elif p[1] == "varibox":
+		tmpMethod = 0
+	elif p[1] == "varfbox":
+		tmpMethod = 1
+	elif p[1] == "varsbox":
+		tmpMethod = 2
 
 def p_METHODS3(p):
 	"""
@@ -444,10 +463,20 @@ def p_METHODS3(p):
 		| 
 	"""
 
+	addMetDictionary( tmpIdMethod, tmpMethod, p )
+
 def p_RETURN(p):
 	"""
-	RETURN : RETURNW EQUALS PC
+	RETURN : RETURNW EXPRESSION PC
 	"""
+
+	top = PilaO.pop()
+	print tmpMethod
+	if tmpMethod is top[1]:
+		listQuadruple.append([29, top[0], None, None])
+	else:
+		print("BoxesSemanticError: invalid return value type. In line: " +  str(p.lineno(1)))
+		exit(1)
 
 def p_ASSIGNATION(p):
 	"""
@@ -623,7 +652,7 @@ def p_seen_ID(p):
 			valType = MetDic['global'][1][p[1]][1]
 			valID = p[1]
 		else:
-			print("BoxesSemanticError: Non declared variable: " + p[1] + "\nlineno: " + p.lineno(1))
+			print("BoxesSemanticError: Non declared variable: " + p[1] + ". In line: " + str(p.lineno(1)))
 			exit(1)
 	else:
 		#valType = MetDic[tmpIdMethod][1][p[1]][p[3]]
@@ -734,25 +763,25 @@ def p_SEEN_CALL(p):
 
 def p_PARAMETERS(p):
 	"""
-	PARAMETERS : EXPRESSION SEEN_EXPRESSION_PARAM COMMA PARAMETERS
-			| EXPRESSION SEEN_EXPRESSION_PARAM
+	PARAMETERS :  SEEN_EXPRESSION_PARAM COMMA PARAMETERS
+			| SEEN_EXPRESSION_PARAM
 	"""
-	if MetDic[tmpCallIDM][3][k] is not None:
+	if len(MetDic[tmpCallIDM][3]) is not k:
 		print("BoxesSemanticError: Missing Parameters in callbox. In line: " + str(p.lineno(1)))
 		exit(1)
 	
 
 def p_SEEN_EXPRESSION_PARAM(p):
 	"""
-	SEEN_EXPRESSION_PARAM :	
+	SEEN_EXPRESSION_PARAM :	EXPRESSION
 	"""
 	global k
 	argumento = PilaO.pop()
 	if argumento[1] is MetDic[tmpCallIDM][3][k]:
-		listQuadruple.append([27, argumento[0], None, p+str(k)])
+		listQuadruple.append([27, argumento[0], None, "p"+str(k)])
 		k = k + 1
 	else:
-		print("BoxesSemanticError: Parameter [" + str( k + 1 ) + "] in callbox mismatched. In line: " + str(p.lineno(1)))
+		print("BoxesSemanticError: Parameter [" + str(k+1) + "] in callbox mismatched.")
 		exit(1)
 
 def p_LOOP(p):
