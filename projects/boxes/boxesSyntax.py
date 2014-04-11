@@ -1,8 +1,11 @@
+#!/usr/bin/python
+import cgi
+import json
 import sys
 import boxesLex
 import ply.yacc as yacc
 import cubetest
-cubetest.cube
+from memStruct import MemoryDir
 
 # Get the token map
 tokens = boxesLex.tokens
@@ -12,6 +15,7 @@ tmptypeVar = ""
 tmpDirMethod = 0 #variable para la direccion del metodo
 VarDic = dict()	#diccionario de variables (tabla de variables)
 MetDic = dict()	#diccionario de metodos (directorio de procedimientos)
+ConDic = dict() #diccionario de constantes
 ParList = list()	#lista de parametros de cada metodo
 TamList = [0,0,0]	#lista de tipos de variables locales de cada metodo
 tmpList = list() #fila temporal donde guarda los elementos parseados de la lista
@@ -20,32 +24,52 @@ POper = list()	#stack para guardar operadores
 PilaO = list()	#stack para guardar operandos
 PSaltos = list() #stack para guardar saltos
 listQuadruple = list() #lista de cuadruplos
-tCounter = 0 #contador para temporales
 valID = None
 queue = [1, "[", 3, "[", 4, "[", 5, 6, "]", "]", "]"]
 
+
+#Direcciones de memoria
+memGlobal = MemoryDir(0, 2000, 4000, 6000)
+memLocal = MemoryDir(6000, 8000, 10000, 12000)
+memTemp = MemoryDir(12000, 14000, 16000, 18000)
+memConst = MemoryDir(18000, 20000, 22000, 24000)
 
 def addVarDictionary( idVar, valueVar, typeVar, p ):
 	TamList[typeVar] = TamList[typeVar] + 1
 	if idVar in VarDic:
 		print "BoxesSemanticError: Duplicate variable: '", idVar, "' In line: ", str(p.lineno(1))
+		print "</body></html>"
 		exit(1)
 	elif "global" in MetDic and idVar in MetDic["global"][1]:
 		print "BoxesSemanticError: Duplicate variable in global context: '", idVar, "' In line: ", str(p.lineno(1))
+		print "</body></html>"
 		exit(1)
 	else:
-		VarDic[idVar] = [valueVar, typeVar]
-		#print "Found var: ", idVar, " - ", VarDic[idVar]
+		if tmpMethod is "global":
+			if typeVar is 0:
+				memDir = memGlobal.addVari()
+			elif typeVar is 1:
+				memDir = memGlobal.addVarf()
+			elif typeVar is 2:
+				memDir = memGlobal.addVars()
+		else:
+			if typeVar is 0:
+				memDir = memLocal.addVari()
+			elif typeVar is 1:
+				memDir = memLocal.addVarf()
+			elif typeVar is 2:
+				memDir = memLocal.addVars()
+		VarDic[idVar] = [valueVar, typeVar, memDir]
 
 def addMetDictionary( idMet, typeMet, p ):
 	global ParList
 	if idMet in MetDic:
 		print "BoxesSemanticError: Duplicate method: '", idMet, "' In line: ", str(p.lineno(1))
+		print "</body></html>"
 		exit(1)
 	else:
 		localParList = list(ParList)
 		MetDic[idMet] = [typeMet, dict(), tmpDirMethod, localParList, list()]
-		print "Found method: ", idMet
 		if idMet is "global":
 			localDic = VarDic.copy()
 			localTamList = list(TamList)
@@ -73,9 +97,10 @@ def createArithmeticQuadruple(oper, op1, op2, result, p):
 		#check cube
 		resultCube = cubetest.cube[result[1],op1[1],oper]
 		if resultCube is -1:
-			print [oper, op1[1], None, result[1]]
 			print("BoxesSemanticError: Arithmetic error. In line: " + str(p.lineno(1)))
-			exit(1)
+			print "</body></html>"
+			xit(1)
+
 		else:
 			listQuadruple.append([oper, op1[0], None, result[0]])
 	else:
@@ -83,8 +108,18 @@ def createArithmeticQuadruple(oper, op1, op2, result, p):
 		resultCube = cubetest.cube[op1[1],op2[1],oper]
 		if resultCube is -1:
 			print("BoxesSemanticError: Arithmetic error. In line: " + str(p.lineno(1)))
-			exit(1)
+			print "</body></html>"
+			xit(1)
+
 		else:
+			#saca la direccion para las temporales.
+			if result is "t":
+				if resultCube is 0:
+					result = memTemp.addVari()
+				elif resultCube is 1:
+					result = memTemp.addVarf()
+				elif resultCube is 2:
+					result = memTemp.addVars()
 			listQuadruple.append([oper, op1[0], op2[0], result])
 			PilaO.append([result, resultCube])
 			TamList[resultCube] = TamList[resultCube] + 1
@@ -94,20 +129,28 @@ def createGoToQuadruple(oper, op1, op2, result):
 
 def p_BOXES(p):
 	"""
-	BOXES : BOX OC VARS seen_globalvars METHODS seen_methods MAINBOX OP CP BLOCKS CC
-	| BOX OC VARS seen_globalvars seen_methods MAINBOX OP CP BLOCKS CC
+	BOXES : BOX OC before_vars VARS seen_globalvars METHODS seen_methods MAINBOX OP CP BLOCKS CC
+	| BOX OC before_vars VARS seen_globalvars seen_methods MAINBOX OP CP BLOCKS CC
 	"""
+
+def p_before_vars(p):
+	"""
+	before_vars :
+	"""
+	#inicializa valores para metodo global.
+	global tmpMethod, tmpIdMethod, tmpDirMethod
+	tmpMethod = "global"
+	tmpIdMethod = "global"
+	tmpDirMethod = 0
 
 def p_seen_globalvars(p):
 	"""
 	seen_globalvars :
 	"""
 	#agrega el metodo global a diccionario
-	global tmpMethod, tmpIdMethod, tmpDirMethod
-	tmpMethod = "global"
-	tmpIdMethod = "global"
-	tmpDirMethod = 0
 	addMetDictionary( tmpMethod, tmpMethod, p )
+	createGoToQuadruple(22, None, None, None)
+	PSaltos.append(len(listQuadruple)-1)
 
 def p_seen_methods(p):
 	"""
@@ -118,6 +161,8 @@ def p_seen_methods(p):
 	tmpMethod = "main"
 	tmpIdMethod = "main"
 	tmpDirMethod = len(listQuadruple)
+	jump = PSaltos.pop()
+	listQuadruple[jump][3] = len(listQuadruple)
 
 def p_VARS(p):
 	"""
@@ -149,7 +194,7 @@ def p_VARF3(p):
 		if p[2] is '=':
 			valType = 1
 			valID = p[1]
-			createArithmeticQuadruple(12, [p[3], 1], None, [valID, valType], p)
+			createArithmeticQuadruple(12, [p[3], 1], None, [VarDic[valID][2], valType], p)
 	else:
 		addVarDictionary( p[1], None, 1, p )
 
@@ -172,7 +217,7 @@ def p_VARI3(p):
 		if p[2] is '=':
 			valType = 0
 			valID = p[1]
-			createArithmeticQuadruple(12, [p[3], 0], None, [valID, valType], p)
+			createArithmeticQuadruple(12, [p[3], 0], None, [VarDic[valID][2], valType], p)
 	else:
 		addVarDictionary( p[1], None, 0, p )
 
@@ -196,7 +241,7 @@ def p_VARST3(p):
 		if p[2] is '=':
 			valType = 2
 			valID = p[1]
-			createArithmeticQuadruple(12, [p[3], 2], None, [valID, valType], p)
+			createArithmeticQuadruple(12, [p[3], 2], None, [VarDic[valID][2], valType], p)
 	else:
 		addVarDictionary( p[1], None, 2, p )
 
@@ -365,14 +410,12 @@ def p_seen_STM(p):
 	seen_STM :
 	"""
 
-	global tCounter
 	if len(POper) > 0:
 		top = POper.pop()
 		if top in range(4, 10):
 			op2 = PilaO.pop()
 			op1 = PilaO.pop()
-			createArithmeticQuadruple(top, op1, op2, "t"+str(tCounter), p)
-			tCounter = tCounter + 1
+			createArithmeticQuadruple(top, op1, op2, "t", p)
 		else:
 			POper.append(top)
 
@@ -446,7 +489,6 @@ def p_METHODS2(p):
 	"""
 	#asigna a tmpMethod el nombre del metodo actual
 	global tmpMethod
-	print p[1]
 	if p[1] == "voidbox":
 		tmpMethod = -1
 	elif p[1] == "varibox":
@@ -471,11 +513,11 @@ def p_RETURN(p):
 	"""
 
 	top = PilaO.pop()
-	print tmpMethod
 	if tmpMethod is top[1]:
 		listQuadruple.append([29, top[0], None, None])
 	else:
 		print("BoxesSemanticError: invalid return value type. In line: " +  str(p.lineno(1)))
+		print "</body></html>"
 		exit(1)
 
 def p_ASSIGNATION(p):
@@ -488,12 +530,13 @@ def p_ASSIGNATION(p):
 	valID = p[1]
 	if valID in VarDic:
 		valType = VarDic[valID][1]
-		createArithmeticQuadruple(12, op1, None, [valID, valType], p)
+		createArithmeticQuadruple(12, op1, None, [VarDic[valID][2], valType], p)
 	elif valID in MetDic['global'][1]:
 		valType = MetDic['global'][1][valID][1]
-		createArithmeticQuadruple(12, op1, None, [valID, valType], p)
+		createArithmeticQuadruple(12, op1, None, [VarDic[valID][2], valType], p)
 	else:
 		print("BoxesSemanticError: Non declared variable: " +  valID)
+		print "</body></html>"
 		exit(1)
 
 def p_EXPRESSION(p):
@@ -507,26 +550,21 @@ def p_seen_EXPF(p):
 	seen_EXPF :
 
 	"""
-	global tCounter
 	if len(POper) > 0:
 		top = POper.pop()
 		if top is '+':
 			op2 = PilaO.pop()
 			op1 = PilaO.pop()
-			createArithmeticQuadruple(0, op1, op2, "t"+str(tCounter), p)
-			tCounter = tCounter + 1
+			createArithmeticQuadruple(0, op1, op2, "t", p)
 		elif top is '-':
 			op2 = PilaO.pop()
 			op1 = PilaO.pop()
-			createArithmeticQuadruple(1, op1, op2, "t"+str(tCounter), p)
-			tCounter = tCounter + 1
+			createArithmeticQuadruple(1, op1, op2, "t", p)
 		elif top == """or""":
 			op2 = PilaO.pop()
 			op1 = PilaO.pop()
-			createArithmeticQuadruple(11, op1, op2, "t"+str(tCounter), p)
-			tCounter = tCounter + 1
+			createArithmeticQuadruple(11, op1, op2, "t", p)
 		else:
-			#print top
 			POper.append(top)
 
 def p_seen_OPER(p):
@@ -547,26 +585,21 @@ def p_OPER(p):
 def p_seen_TERMF(p):
 	"""seen_TERMF :	
 	"""
-	global tCounter
 	if len(POper) > 0:
 		top = POper.pop()
 		if top is '*':
 			op2 = PilaO.pop()
 			op1 = PilaO.pop()
-			createArithmeticQuadruple(2, op1, op2, "t"+str(tCounter), p)
-			tCounter = tCounter + 1
+			createArithmeticQuadruple(2, op1, op2, "t", p)
 		elif top is '/':
 			op2 = PilaO.pop()
 			op1 = PilaO.pop()
-			createArithmeticQuadruple(3, op1, op2, "t"+str(tCounter), p)
-			tCounter = tCounter + 1
+			createArithmeticQuadruple(3, op1, op2, "t", p)
 		elif top == """and""":
 			op2 = PilaO.pop()
 			op1 = PilaO.pop()
-			createArithmeticQuadruple(10, op1, op2, "t"+str(tCounter), p)
-			tCounter = tCounter + 1
+			createArithmeticQuadruple(10, op1, op2, "t", p)
 		else:
-			#print top
 			POper.append(top)
 
 
@@ -608,10 +641,31 @@ def p_CTE(p):
 	| seen_ID
 	"""
 	global valType, valID
+	#agrega constante
 	if valID is None:
-		PilaO.append([p[1], valType])
+		if p[1] in ConDic:
+			PilaO.append([ConDic[p[1]], valType])
+		else:
+			if valType is 0:
+				memDir = memConst.addVari()
+			elif valType is 1:
+				memDir = memConst.addVarf()
+			elif valType is 2:
+				memDir = memConst.addVars()
+			ConDic[p[1]] = memDir
+			PilaO.append([memDir, valType])
+	#agrega variable
 	else:
-		PilaO.append([valID, valType])
+		if valID in VarDic:
+			PilaO.append([VarDic[valID][2], valType])
+		elif valID in MetDic["global"][1]:
+			PilaO.append([MetDic["global"][1][valID][2], valType])
+		else:
+			print("BoxesSemanticError: Non declared variable: " + p[1] + ". In line: " + str(p.lineno(1)))
+			print "</body></html>"
+			xit(1)
+
+		
 		valID = None
 
 def p_seen_INT(p):
@@ -653,7 +707,9 @@ def p_seen_ID(p):
 			valID = p[1]
 		else:
 			print("BoxesSemanticError: Non declared variable: " + p[1] + ". In line: " + str(p.lineno(1)))
-			exit(1)
+			print "</body></html>"
+			xit(1)
+
 	else:
 		#valType = MetDic[tmpIdMethod][1][p[1]][p[3]]
 		#ignore - agregar tipos de datos a listas
@@ -726,6 +782,7 @@ def p_ASK(p):
 		valType = MetDic['global'][1][p[5]][1]
 	else:
 		print("BoxesSemanticError: Non declared variable: " + p[5] + ". In line: " + str(p.lineno(1)))
+		print "</body></html>"
 		exit(1)
 
 	if valType is 2:
@@ -733,6 +790,7 @@ def p_ASK(p):
 		listQuadruple.append([24, write, None, valID])
 	else:
 		print("BoxesSemanticError: askuser() return value must be 'vars'. In line: " + str(p.lineno(1)))
+		print "</body></html>"
 		exit(1)
 
 def p_CALLBOX(p):
@@ -748,6 +806,7 @@ def p_SEEN_IDM_CALL(p):
 	"""
 	if p[1] not in MetDic:
 		print("BoxesSemanticError: Non declared method: '" + p[1] + "'. In line: " + str(p.lineno(1)))
+		print "</body></html>"
 		exit(1)
 	else:
 		global tmpCallIDM
@@ -768,6 +827,7 @@ def p_PARAMETERS(p):
 	"""
 	if len(MetDic[tmpCallIDM][3]) is not k:
 		print("BoxesSemanticError: Missing Parameters in callbox. In line: " + str(p.lineno(1)))
+		print "</body></html>"
 		exit(1)
 	
 
@@ -782,6 +842,7 @@ def p_SEEN_EXPRESSION_PARAM(p):
 		k = k + 1
 	else:
 		print("BoxesSemanticError: Parameter [" + str(k+1) + "] in callbox mismatched.")
+		print "</body></html>"
 		exit(1)
 
 def p_LOOP(p):
@@ -792,12 +853,10 @@ def p_LOOP(p):
 	| LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
 	"""
 
-	global tCounter
 	#saca la variable a aumentar de la pila de operandos
 	start = PilaO.pop()
 	#crea cuadruplo de aumento
-	createArithmeticQuadruple(0, start, aumento, "t"+str(tCounter), p)
-	tCounter = tCounter + 1
+	createArithmeticQuadruple(0, start, aumento, "t", p)
 
 	#saca el temporal del aumento y lo asigna a la variable a aumentar
 	aux = PilaO.pop()
@@ -814,23 +873,21 @@ def p_seen_CP_LOOP1(p):
 	"""
 	seen_CP_LOOP1 :
 	"""
-	global aumento, tCounter, simbol
+	global aumento, simbol
 	aumento = PilaO.pop()
 	aumento[0] = str(int(aumento[0]) * simbol)
-	print aumento
 	end = PilaO.pop()
 	start = PilaO.pop()
 
 	global valID, valType
 	createArithmeticQuadruple(12, start, None, [valID, valType], p)
 
-	start = [valID, valType]
+	start = [VarDic[valID][2], valType]
 	PilaO.append(start)
 	if simbol is -1:
-		createArithmeticQuadruple(6, start, end, "t"+str(tCounter), p)
+		createArithmeticQuadruple(6, start, end, "t", p)
 	else:
-		createArithmeticQuadruple(5, start, end, "t"+str(tCounter), p)
-	tCounter = tCounter + 1
+		createArithmeticQuadruple(5, start, end, "t", p)
 
 	aux = PilaO.pop()
 	createGoToQuadruple(20, aux[0], None, None)
@@ -841,7 +898,7 @@ def p_seen_CP_LOOP2(p):
 	seen_CP_LOOP2 :
 	"""
 
-	global aumento, tCounter
+	global aumento
 	aumento = [1, 0]
 	end = PilaO.pop()
 	start = PilaO.pop()
@@ -849,10 +906,9 @@ def p_seen_CP_LOOP2(p):
 	global valID, valType
 	createArithmeticQuadruple(12, start, None, [valID, valType], p)
 
-	start = [valID, valType]
+	start = [VarDic[valID][2], valType]
 	PilaO.append(start)
-	createArithmeticQuadruple(5, start, end, "t"+str(tCounter), p)
-	tCounter = tCounter + 1
+	createArithmeticQuadruple(5, start, end, "t", p)
 
 	aux = PilaO.pop()
 	createGoToQuadruple(20, aux[0], None, None)
@@ -872,6 +928,7 @@ def p_seen_VAR_LOOP(p):
 		valType = MetDic['global'][1][valID][1]
 	else:
 		print("BoxesSemanticError: Non declared variable: " + valID + "\nlineno: " + p.lineno(1))
+		print "</body></html>"
 		exit(1)
 
 def p_LOOP2(p):
@@ -948,20 +1005,37 @@ def p_seen_CP_LOOPIF(p):
 
 def p_error(t):
     print "BoxesParserError: Error, lineno: ", t.lineno
+    print "</body></html>"
     exit(1)
 
+
 import profile
+
 # Build the grammar
-
 yacc.yacc(method='LALR')
+#READ CODE
 with open(sys.argv[1],'r') as content_file:
-	content = content_file.read()
-yacc.parse(content)
+	sourceCode = content_file.read()
 
-print "Procedimientos:"
-print(MetDic)
-print "caudruplos:"
-print(listQuadruple)
+# # Create instance of FieldStorage 
+# form = cgi.FieldStorage() 
+# # Get data from fields
+# sourceCode = form.getvalue('code')
+
+print "Content-type: text/html"
+print
+print "<html><head>"
+print ""
+print "</head><body>"
+
+#parse code
+print sourceCode
+yacc.parse(sourceCode)
+
+outputDic = {'proc': MetDic, 'quad': listQuadruple, 'cons': ConDic}
+
+print json.dumps(outputDic)
+print "</body></html>"
 print("<<SUCCESS>>")
 #profile.run("yacc.yacc(method='LALR')")
 

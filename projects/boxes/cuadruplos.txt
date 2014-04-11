@@ -1,4 +1,6 @@
 box{
+	vari #j;
+
 	voidbox dos (){
 		vari #a;
 
@@ -17,7 +19,7 @@ box{
 
 	mainbox(){
 		vari #x;
-
+		#x = 2 + #j;
 		callbox(uno, 1);
 	}
 }
