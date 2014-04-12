@@ -1,0 +1,11 @@
+box{
+
+	mainbox(){
+		vari #x;
+		vars #nombre;
+		#x = 2 + 3;
+		say("hola");
+		askuser("cual es tu nombre", #nombre);
+		say(#nombre);
+	}
+}

@@ -787,7 +787,7 @@ def p_ASK(p):
 
 	if valType is 2:
 		write = p[3]
-		listQuadruple.append([24, write, None, valID])
+		listQuadruple.append([24, write, None, VarDic[p[5]][2]])
 	else:
 		print("BoxesSemanticError: askuser() return value must be 'vars'. In line: " + str(p.lineno(1)))
 		print "</body></html>"
