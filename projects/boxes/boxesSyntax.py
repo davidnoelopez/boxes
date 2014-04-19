@@ -24,6 +24,9 @@ POper = list()	#stack para guardar operadores
 PilaO = list()	#stack para guardar operandos
 PSaltos = list() #stack para guardar saltos
 listQuadruple = list() #lista de cuadruplos
+tempArray = list() #lista de tamanios de matrices para tabla de variables
+tempArrayStack = list() #pila para almacenar los tamanios de matrices
+tempArraySize = 1 #tamanio del arreglo temporal
 valID = None
 queue = [1, "[", 3, "[", 4, "[", 5, 6, "]", "]", "]"]
 
@@ -34,7 +37,7 @@ memLocal = MemoryDir(6000, 8000, 10000, 12000)
 memTemp = MemoryDir(12000, 14000, 16000, 18000)
 memConst = MemoryDir(18000, 20000, 22000, 24000)
 
-def addVarDictionary( idVar, valueVar, typeVar, p ):
+def addVarDictionary( idVar, valueVar, typeVar, arrayList, p ):
 	TamList[typeVar] = TamList[typeVar] + 1
 	if idVar in VarDic:
 		print "BoxesSemanticError: Duplicate variable: '", idVar, "' In line: ", str(p.lineno(1))
@@ -45,21 +48,24 @@ def addVarDictionary( idVar, valueVar, typeVar, p ):
 		print "</body></html>"
 		exit(1)
 	else:
+		print str(idVar) + '   ' + str(arrayList)
 		if tmpMethod is "global":
 			if typeVar is 0:
-				memDir = memGlobal.addVari()
+				memDir = memGlobal.addVari(arrayList[len(arrayList)-1])
 			elif typeVar is 1:
-				memDir = memGlobal.addVarf()
+				memDir = memGlobal.addVarf(arrayList[len(arrayList)-1])
 			elif typeVar is 2:
-				memDir = memGlobal.addVars()
+				memDir = memGlobal.addVars(arrayList[len(arrayList)-1])
 		else:
 			if typeVar is 0:
-				memDir = memLocal.addVari()
+				memDir = memLocal.addVari(arrayList[len(arrayList)-1])
 			elif typeVar is 1:
-				memDir = memLocal.addVarf()
+				memDir = memLocal.addVarf(arrayList[len(arrayList)-1])
 			elif typeVar is 2:
-				memDir = memLocal.addVars()
-		VarDic[idVar] = [valueVar, typeVar, memDir]
+				memDir = memLocal.addVars(arrayList[len(arrayList)-1])
+		VarDic[idVar] = [valueVar, typeVar, memDir, arrayList]
+		print "VARIABLES: "
+		print VarDic
 
 def addMetDictionary( idMet, typeMet, p ):
 	global ParList
@@ -169,7 +175,6 @@ def p_VARS(p):
 	VARS : VARI VARS
 		| VARF VARS
 		| VARST VARS
-		| VARL VARS
 		|
 	"""
 
@@ -182,21 +187,44 @@ def p_VARF3(p):
 	"""
 	VARF3 : IDV EQUALS FLOAT COMMA VARF3
 		| IDV EQUALS FLOAT
-		| IDV COMMA VARF3
-		| IDV
+		| IDV VAR_ARRAY COMMA VARF3
+		| IDV VAR_ARRAY
 	"""
 
 
 	#varF is type var 1
-	if len(p) >= 4:
-		addVarDictionary( p[1], p[3], 1, p )
+	if p[2] is '=':
+		addVarDictionary( p[1], p[3], 1, [1], p )
 		#add assignation quadruple
-		if p[2] is '=':
-			valType = 1
-			valID = p[1]
-			createArithmeticQuadruple(12, [p[3], 1], None, [VarDic[valID][2], valType], p)
+		valType = 1
+		valID = p[1]
+		createArithmeticQuadruple(12, [p[3], 1], None, [VarDic[valID][2], valType], p)
 	else:
-		addVarDictionary( p[1], None, 1, p )
+		auxList = tempArrayStack.pop()
+		addVarDictionary( p[1], None, 1, auxList, p )
+
+def p_VAR_ARRAY(p):
+	"""
+	VAR_ARRAY : OB seen_ARRAY_LIMIT CB VAR_ARRAY
+	| 
+	"""
+
+	global tempArray, tempArraySize
+	if len(p) is 1:
+		tempArray.append(tempArraySize)
+		tempArrayStack.append(list(tempArray))
+		tempArray[:] = []
+		tempArraySize = 1
+		
+
+def p_seen_ARRAY_LIMIT(p):
+	"""
+	seen_ARRAY_LIMIT : INT
+	"""
+
+	global tempArray, tempArraySize
+	tempArray.append(p[1])
+	tempArraySize = tempArraySize * int(p[1])
 
 def p_VARI(p):
 	"""
@@ -207,19 +235,20 @@ def p_VARI3(p):
 	"""
 	VARI3 : IDV EQUALS INT COMMA VARI3
 		| IDV EQUALS INT
-		| IDV COMMA VARI3
-		| IDV
+		| IDV VAR_ARRAY COMMA VARI3
+		| IDV VAR_ARRAY
 	"""
 	#varI is type var 0
-	if len(p) >= 4:
-		addVarDictionary( p[1], p[3], 0, p )
+	if p[2] is '=':
+		addVarDictionary( p[1], p[3], 0, [1], p )
 		#add assignation quadruple
-		if p[2] is '=':
-			valType = 0
-			valID = p[1]
-			createArithmeticQuadruple(12, [p[3], 0], None, [VarDic[valID][2], valType], p)
+		valType = 0
+		valID = p[1]
+		createArithmeticQuadruple(12, [p[3], 0], None, [VarDic[valID][2], valType], p)
 	else:
-		addVarDictionary( p[1], None, 0, p )
+		print str(tempArrayStack)
+		auxList = tempArrayStack.pop()
+		addVarDictionary( p[1], None, 0, auxList, p )
 
 def p_VARST(p):
 	"""
@@ -230,71 +259,20 @@ def p_VARST3(p):
 	"""
 	VARST3 : IDV EQUALS STRING COMMA VARST3
 		| IDV EQUALS STRING
-		| IDV COMMA VARST3
-		| IDV
+		| IDV VAR_ARRAY COMMA VARST3
+		| IDV VAR_ARRAY
 	"""
 
 	#varST is type var 2
-	if len(p) >= 4:
-		addVarDictionary( p[1], p[3], 2, p )
+	if p[2] is '=':
+		addVarDictionary( p[1], p[3], 2, [1], p )
 		#add assignation quadruple
-		if p[2] is '=':
-			valType = 2
-			valID = p[1]
-			createArithmeticQuadruple(12, [p[3], 2], None, [VarDic[valID][2], valType], p)
+		valType = 2
+		valID = p[1]
+		createArithmeticQuadruple(12, [p[3], 2], None, [VarDic[valID][2], valType], p)
 	else:
-		addVarDictionary( p[1], None, 2, p )
-
-def p_VARL(p):
-	"""
-	VARL : VARLSMALL VARL3 PC 
-	"""
-
-def p_VARL3(p):
-	"""
-	VARL3 : IDV EQUALS OB VARL4 CB
-		| IDV EQUALS OB VARL4 CB COMMA VARL3
-		| IDV COMMA VARL3
-		| IDV
-	"""
-
-	#Si la lista es vacia agrega una lista vacia al diccionario
-	if len(p) is 4:
-		addVarDictionary( p[1], [], "L", p )
-	#si la lista no es vacia y hay listas en el stack, saca un elemento del stack y lo agrega al diccionario, si el ultimo elemento es 0 saca el siguiente elemento del stack y lo agrega.
-	elif len(listStack) > 0:
-		newList = listStack.pop()
-		if newList is 0:
-			addVarDictionary( p[1], listStack.pop(), "L", p )
-		else:
-			addVarDictionary( p[1], newList, "L", p )
-	tmpList[:]
-
-def p_VARL4(p):
-	"""
-	VARL4 : CTEL
-		| CTEL COMMA VARL4
-		| 
-	"""
-
-	#Saca la lista generada con los elementos de tmpList
-	actualList = queueToList()
-	tmpList[:]
-	if len(listStack) > 0:
-		#obtiene los saltos que debe dar
-		jumps = listStack.pop()
-		if jumps > 0:
-			listStack.append(jumps-1)
-		else:
-			#agrega la lista generada en actual-List y el tamanio de la lista menos 1 para saber cuantos elementos debe saltarse.
-			listStack.append(actualList)
-			if (len(actualList)-1) > 0:
-				listStack.append(len(actualList)-1)
-	else:
-		#agrega la lista generada en actualList y el tamanio de la lista menos 1 para saber cuantos elementos debe saltarse.
-		listStack.append(actualList)
-		if len(actualList)-1 > 0:
-			listStack.append(len(actualList)-1)
+		auxList = tempArrayStack.pop()
+		addVarDictionary( p[1], None, 2, auxList, p )
 
 def p_BLOCKS(p):
 	"""
@@ -426,24 +404,20 @@ def p_PARAM(p):
 	#dependiendo del tipo de variable se guarda en el diccionario
 	global tmptypeVar, TamList
 	if tmptypeVar == 'vari':	
-		addVarDictionary( p[2], None, 0, p )
+		addVarDictionary( p[2], None, 0, [1], p )
 		ParList.append(0)
 	if tmptypeVar == 'varf':	
-		addVarDictionary( p[2], None, 1, p )
+		addVarDictionary( p[2], None, 1, [1], p )
 		ParList.append(1)
 	if tmptypeVar == 'vars':			
-		addVarDictionary( p[2], None, 2, p )
+		addVarDictionary( p[2], None, 2, [1], p )
 		ParList.append(2)
-	if tmptypeVar == 'varl':	
-		addVarDictionary( p[2], None, "L", p )
-		#FALTA PROCEDIMIENTOS DE ARREGLOS
 
 def p_PARAM2(p):
 	"""
 	PARAM2 : VARISMALL
    		| VARSTSMALL
    		| VARFSMALL
-   		| VARLSMALL
 	"""
 	global tmptypeVar	
 	tmptypeVar = p[1]
@@ -485,7 +459,6 @@ def p_METHODS2(p):
    		| VARIBOX
    		| VARFBOX
    		| VARSBOX
-   		| VARLBOX
 	"""
 	#asigna a tmpMethod el nombre del metodo actual
 	global tmpMethod
@@ -524,7 +497,6 @@ def p_ASSIGNATION(p):
 	"""
 	ASSIGNATION : IDV EQUALS EXPRESSION PC
 	"""
-
 	
 	op1 = PilaO.pop()
 	valID = p[1]
@@ -533,7 +505,7 @@ def p_ASSIGNATION(p):
 		createArithmeticQuadruple(12, op1, None, [VarDic[valID][2], valType], p)
 	elif valID in MetDic['global'][1]:
 		valType = MetDic['global'][1][valID][1]
-		createArithmeticQuadruple(12, op1, None, [VarDic[valID][2], valType], p)
+		createArithmeticQuadruple(12, op1, None, [MetDic['global'][1][valID][2], valType], p)
 	else:
 		print("BoxesSemanticError: Non declared variable: " +  valID)
 		print "</body></html>"
@@ -695,7 +667,7 @@ def p_seen_STRING(p):
 def p_seen_ID(p):
 	"""
 	seen_ID : IDV
-	| IDV OB INT CB
+	| IDV seen_ARRAY_CTE
 	"""
 	global valType, valID
 	if len(p) is 2:
@@ -715,6 +687,11 @@ def p_seen_ID(p):
 		#ignore - agregar tipos de datos a listas
 		print("lista")
 
+def p_seen_ARRAY_CTE(p):
+	"""
+	seen_ARRAY_CTE : OB EXPRESSION CB seen_ARRAY_CTE
+	| 
+	"""
 
 def p_CTEL(p):
 	"""
@@ -1022,16 +999,15 @@ with open(sys.argv[1],'r') as content_file:
 # # Get data from fields
 # sourceCode = form.getvalue('code')
 
-print "Content-type: text/html"
-print
-print "<html><head>"
-print ""
-print "</head><body>"
+# print "Content-type: text/html"
+# print
+# print "<html><head>"
+# print ""
+# print "</head><body>"
 
-#parse code
-print sourceCode
+# #parse code
+# print sourceCode
 yacc.parse(sourceCode)
-
 outputDic = {'proc': MetDic, 'quad': listQuadruple, 'cons': ConDic}
 
 print json.dumps(outputDic)

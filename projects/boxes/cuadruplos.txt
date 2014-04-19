@@ -1,25 +1,10 @@
 box{
-	vari #j;
-
-	voidbox dos (){
-		vari #a;
-
-		#a = 1 + 2;
-	}
-
-	varibox uno (vari #a){
-		vari #i;
-		#i = #a * 2;
-		if(#i < #a + 4){
-			callbox(uno, #a+1);
-		say(#i);
-		return #i;
-		}
-	}
-
+	vari #prueba;
+	vari #x[10][5][2];
+	
 	mainbox(){
-		vari #x;
-		#x = 2 + #j;
-		callbox(uno, 1);
+		varf #y[2][3][4][5];
+		#x = 1 + 2;
+		
 	}
 }
