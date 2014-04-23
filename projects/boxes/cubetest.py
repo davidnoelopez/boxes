@@ -28,6 +28,7 @@
 #	(PARAM	:> 27)
 #	(GOSUB	:> 28)
 #	(RETURN	:> 29)
+#	(VER	:> 30)
 
 
 # varI #

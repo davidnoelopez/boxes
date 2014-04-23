@@ -1,10 +1,9 @@
 box{
 	vari #prueba;
-	vari #x[10][5][2];
+	vari #x[10];
 	
 	mainbox(){
-		varf #y[2][3][4][5];
-		#x = 1 + 2;
-		
+		vari #y[3][5];
+		#y[2][1] = 1 + #y[1][1];
 	}
 }
