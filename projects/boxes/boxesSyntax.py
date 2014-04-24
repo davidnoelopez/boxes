@@ -492,7 +492,7 @@ def p_RETURN(p):
 
 def p_ASSIGNATION(p):
 	"""
-	ASSIGNATION : seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
+	ASSIGNATION : seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
 	| seen_ID_ASSIGNATION EQUALS EXPRESSION PC
 	"""
 
@@ -554,6 +554,7 @@ def p_seen_EXPF(p):
 		elif top == """or""":
 			op2 = PilaO.pop()
 			op1 = PilaO.pop()
+			print op1, op2
 			createArithmeticQuadruple(11, op1, op2, "t", p)
 		else:
 			POper.append(top)
@@ -630,16 +631,16 @@ def p_CTE(p):
 	| FLOAT seen_FLOAT
 	| STRING seen_STRING
 	| seen_ID
-	| seen_ID seen_ARRAY_CTE end_ARRAY
+	| seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
 	"""
 
 	global valType, valID
 	#borra varID de PilaO
 	if len(p) is 1:
-		PilaO.pop()
+		valID = PilaO.pop()
 
 	#agrega constante
-	if valID is None or len(p) is not 4:
+	if valID is None or len(p) is 3:
 		if p[1] in ConDic:
 			PilaO.append([ConDic[p[1]], valType])
 		else:
@@ -652,7 +653,7 @@ def p_CTE(p):
 			ConDic[p[1]] = memDir
 			PilaO.append([memDir, valType])
 	#agrega variable
-	elif len(p) is not 4:
+	elif len(p) is not 5:
 		if valID in VarDic:
 			PilaOapp = [VarDic[valID][2], valType]
 			
@@ -699,24 +700,24 @@ def p_seen_ID(p):
 
 	global valType, valID
 	PilaO.append(p[1])
-	if len(p) is 2:
-		if p[1] in VarDic:
-			valType = VarDic[p[1]][1]
-			valID = p[1]
-		elif p[1] in MetDic['global'][1]:
-			valType = MetDic['global'][1][p[1]][1]
-			valID = p[1]
-		else:
-			print("BoxesSemanticError: Non declared variable: " + p[1] + ". In line: " + str(p.lineno(1)))
-			print "</body></html>"
-			exit(1)
+	
+	if p[1] in VarDic:
+		valType = VarDic[p[1]][1]
+		valID = p[1]
+	elif p[1] in MetDic['global'][1]:
+		valType = MetDic['global'][1][p[1]][1]
+		valID = p[1]
+	else:
+		print("BoxesSemanticError: Non declared variable: " + p[1] + ". In line: " + str(p.lineno(1)))
+		print "</body></html>"
+		exit(1)
 
 
 
 def p_seen_ARRAY_CTE(p):
 	"""
-	seen_ARRAY_CTE : OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB  seen_ARRAY_CTE
-	| OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB
+	seen_ARRAY_CTE : OB EXPRESSION seen_EXPRESSION_ARRAY CB  seen_ARRAY_CTE
+	| OB EXPRESSION seen_EXPRESSION_ARRAY CB
 	"""
 	global varID
 	varID = None
@@ -727,19 +728,26 @@ def p_start_ARRAY(p):
 	"""
 
 	global varID
-	if varID is None:
-		varID = PilaO.pop()
+	varID = PilaO.pop()
 	
-	if len(VarDic[varID][3]) is 1:
+	if varID in VarDic:
+		RefDic = VarDic
+	elif varID in MetDic['global'][1]:
+		RefDic = MetDic['global'][1]
+
+	if len(RefDic[varID][3]) is 1:
 		print("BoxesSemanticError: Var is not array: " + varID + ". In line: " + str(p.lineno(1)))
 		print "</body></html>"
 		exit(1)
 	else:
 		global pilaDim, arrayLength
 		dim = 0
-		pilaDim.append([varID, dim])
+		#varID = ID de variable
+		#dim = a la dimencion del arreglo
+		#RefDic = referencia de diccionario a utilizar para sacar la informacion de la variable
+		pilaDim.append([varID, dim, RefDic])
 		POper.append('(')
-		arrayLength = VarDic[varID][3][len(VarDic[varID][3]) - 1]
+		arrayLength = RefDic[varID][3][len(RefDic[varID][3]) - 1]
 
 def p_end_ARRAY(p):
 	"""
@@ -748,14 +756,15 @@ def p_end_ARRAY(p):
 
 	aux = PilaO.pop()
 	temporal = memTemp.addVari()
-	varDIM = pilaDim.pop() #varID = [id, DIM]
-	base = VarDic[varDIM[0]][2]
+	varDIM = pilaDim.pop() #varID = [id, DIM, RefDic]
+	RefDic = varDIM[2]
+	base = RefDic[varDIM[0]][2]
 	if base in ConDic:
 		memDir = ConDic[base]
 	else:
 		memDir = memConst.addVari()
 		ConDic[base] = memDir
-	listQuadruple.append([0, aux[0], memDir, (temporal * -1)])
+	listQuadruple.append([0, aux[0], memDir, temporal])
 	PilaO.append([(temporal * -1), 0])
 	POper.pop()
 
@@ -766,16 +775,18 @@ def p_seen_EXPRESSION_ARRAY(p):
 
 	global arrayLength, pilaDim
 	result = PilaO.pop()
-	varDIM = pilaDim.pop() #varDIM = [id, DIM]
-	if str(VarDic[varDIM[0]][3][varDIM[1]]) in ConDic:
-		memDir = ConDic[str(VarDic[varDIM[0]][3][varDIM[1]])]
+	PilaO.append(result)
+	varDIM = pilaDim.pop() #varDIM = [id, DIM, RefDic]
+	RefDic = varDIM[2]
+	if str(RefDic[varDIM[0]][3][varDIM[1]]) in ConDic:
+		memDir = ConDic[str(RefDic[varDIM[0]][3][varDIM[1]])]
 	else:
 		memDir = memConst.addVari()
-		ConDic[str(VarDic[varDIM[0]][3][varDIM[1]])] = memDir
+		ConDic[str(RefDic[varDIM[0]][3][varDIM[1]])] = memDir
 	listQuadruple.append([30, result[0], None, memDir])
-
-	if varDIM[1] < len(VarDic[varDIM[0]][3]) - 2 or varDIM[1] is 0:
-		m = arrayLength / int(VarDic[varDIM[0]][3][varDIM[1]])
+	if varDIM[1] < len(RefDic[varDIM[0]][3]) - 2 or varDIM[1] is 0:
+		aux = PilaO.pop()
+		m = arrayLength / int(RefDic[varDIM[0]][3][varDIM[1]])
 		arrayLength = m
 		if str(m) in ConDic:
 			memDir = ConDic[str(m)]
@@ -783,12 +794,13 @@ def p_seen_EXPRESSION_ARRAY(p):
 			memDir = memConst.addVari()
 			ConDic[str(m)] = memDir
 		temporal = memTemp.addVari()
-		listQuadruple.append([2, result[0], memDir, temporal])
+		listQuadruple.append([2, aux[0], memDir, temporal])
 		PilaO.append([temporal, 0])
 	if varDIM[1] > 0:
 		aux = PilaO.pop()
+		aux2 = PilaO.pop()
 		temporal = memTemp.addVari()
-		listQuadruple.append([0, aux[0], result[0], temporal])
+		listQuadruple.append([0, aux[0], aux2[0], temporal])
 		PilaO.append([temporal, 0])
 
 	varDIM[1] = varDIM[1] + 1

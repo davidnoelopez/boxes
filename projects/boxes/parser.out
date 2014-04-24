@@ -81,7 +81,7 @@ Rule 75    METHODS3 -> PARAM COMMA METHODS3
 Rule 76    METHODS3 -> PARAM
 Rule 77    METHODS3 -> <empty>
 Rule 78    RETURN -> RETURNW EXPRESSION PC
-Rule 79    ASSIGNATION -> seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
+Rule 79    ASSIGNATION -> seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
 Rule 80    ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC
 Rule 81    seen_ID_ASSIGNATION -> IDV
 Rule 82    EXPRESSION -> OPER seen_EXPF
@@ -106,13 +106,13 @@ Rule 100   CTE -> INT seen_INT
 Rule 101   CTE -> FLOAT seen_FLOAT
 Rule 102   CTE -> STRING seen_STRING
 Rule 103   CTE -> seen_ID
-Rule 104   CTE -> seen_ID seen_ARRAY_CTE end_ARRAY
+Rule 104   CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
 Rule 105   seen_INT -> <empty>
 Rule 106   seen_FLOAT -> <empty>
 Rule 107   seen_STRING -> <empty>
 Rule 108   seen_ID -> IDV
-Rule 109   seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE
-Rule 110   seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB
+Rule 109   seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE
+Rule 110   seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB
 Rule 111   start_ARRAY -> <empty>
 Rule 112   end_ARRAY -> <empty>
 Rule 113   seen_EXPRESSION_ARRAY -> <empty>
@@ -276,7 +276,7 @@ seen_TERMF           : 88 89
 seen_VAR_LOOP        : 126 127 128 129
 seen_globalvars      : 1 2
 seen_methods         : 1 2
-start_ARRAY          : 109 110
+start_ARRAY          : 79 104
 
 Parsing method: LALR
 
@@ -1200,7 +1200,7 @@ state 76
     (40) CODE -> . SAY
     (41) CODE -> . CALLBOX
     (78) RETURN -> . RETURNW EXPRESSION PC
-    (79) ASSIGNATION -> . seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
+    (79) ASSIGNATION -> . seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
     (80) ASSIGNATION -> . seen_ID_ASSIGNATION EQUALS EXPRESSION PC
     (126) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
     (127) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
@@ -1235,7 +1235,7 @@ state 76
     LOOPW           shift and go to state 97
     LOOPIFW         shift and go to state 94
     IF              shift and go to state 96
-    ASKUSER         shift and go to state 101
+    ASKUSER         shift and go to state 98
     SAYW            shift and go to state 82
     CALLBOXW        shift and go to state 88
     IDV             shift and go to state 86
@@ -1261,9 +1261,9 @@ state 76
     CONDITION                      shift and go to state 91
     ASSIGNATION                    shift and go to state 92
     VARST                          shift and go to state 9
-    BLOCKS2                        shift and go to state 98
-    CALLBOX                        shift and go to state 99
-    LOOPIF                         shift and go to state 100
+    BLOCKS2                        shift and go to state 99
+    CALLBOX                        shift and go to state 100
+    LOOPIF                         shift and go to state 101
     LOOP                           shift and go to state 102
 
 state 77
@@ -1343,7 +1343,7 @@ state 83
     (40) CODE -> . SAY
     (41) CODE -> . CALLBOX
     (78) RETURN -> . RETURNW EXPRESSION PC
-    (79) ASSIGNATION -> . seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
+    (79) ASSIGNATION -> . seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
     (80) ASSIGNATION -> . seen_ID_ASSIGNATION EQUALS EXPRESSION PC
     (126) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
     (127) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
@@ -1366,7 +1366,7 @@ state 83
     LOOPW           shift and go to state 97
     LOOPIFW         shift and go to state 94
     IF              shift and go to state 96
-    ASKUSER         shift and go to state 101
+    ASKUSER         shift and go to state 98
     SAYW            shift and go to state 82
     CALLBOXW        shift and go to state 88
     IDV             shift and go to state 86
@@ -1379,8 +1379,8 @@ state 83
     CONDITION                      shift and go to state 91
     ASSIGNATION                    shift and go to state 92
     BLOCKS2                        shift and go to state 107
-    CALLBOX                        shift and go to state 99
-    LOOPIF                         shift and go to state 100
+    CALLBOX                        shift and go to state 100
+    LOOPIF                         shift and go to state 101
     LOOP                           shift and go to state 102
 
 state 84
@@ -1413,7 +1413,7 @@ state 85
     (40) CODE -> . SAY
     (41) CODE -> . CALLBOX
     (78) RETURN -> . RETURNW EXPRESSION PC
-    (79) ASSIGNATION -> . seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
+    (79) ASSIGNATION -> . seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
     (80) ASSIGNATION -> . seen_ID_ASSIGNATION EQUALS EXPRESSION PC
     (126) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
     (127) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
@@ -1436,7 +1436,7 @@ state 85
     LOOPW           shift and go to state 97
     LOOPIFW         shift and go to state 94
     IF              shift and go to state 96
-    ASKUSER         shift and go to state 101
+    ASKUSER         shift and go to state 98
     SAYW            shift and go to state 82
     CALLBOXW        shift and go to state 88
     IDV             shift and go to state 86
@@ -1449,8 +1449,8 @@ state 85
     CONDITION                      shift and go to state 91
     ASSIGNATION                    shift and go to state 92
     BLOCKS2                        shift and go to state 109
-    CALLBOX                        shift and go to state 99
-    LOOPIF                         shift and go to state 100
+    CALLBOX                        shift and go to state 100
+    LOOPIF                         shift and go to state 101
     LOOP                           shift and go to state 102
 
 state 86
@@ -1463,22 +1463,21 @@ state 86
 
 state 87
 
-    (79) ASSIGNATION -> seen_ID_ASSIGNATION . seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
+    (79) ASSIGNATION -> seen_ID_ASSIGNATION . start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
     (80) ASSIGNATION -> seen_ID_ASSIGNATION . EQUALS EXPRESSION PC
-    (109) seen_ARRAY_CTE -> . OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE
-    (110) seen_ARRAY_CTE -> . OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB
+    (111) start_ARRAY -> .
 
-    EQUALS          shift and go to state 111
-    OB              shift and go to state 112
+    EQUALS          shift and go to state 110
+    OB              reduce using rule 111 (start_ARRAY -> .)
 
-    seen_ARRAY_CTE                 shift and go to state 110
+    start_ARRAY                    shift and go to state 111
 
 state 88
 
     (119) CALLBOX -> CALLBOXW . OP SEEN_IDM_CALL COMMA SEEN_CALL PARAMETERS CP PC
     (120) CALLBOX -> CALLBOXW . OP SEEN_IDM_CALL CP PC
 
-    OP              shift and go to state 113
+    OP              shift and go to state 112
 
 
 state 89
@@ -1562,7 +1561,7 @@ state 94
 
     OP              reduce using rule 143 (seen_LOOPIF -> .)
 
-    seen_LOOPIF                    shift and go to state 114
+    seen_LOOPIF                    shift and go to state 113
 
 state 95
 
@@ -1580,23 +1579,23 @@ state 95
     (101) CTE -> . FLOAT seen_FLOAT
     (102) CTE -> . STRING seen_STRING
     (103) CTE -> . seen_ID
-    (104) CTE -> . seen_ID seen_ARRAY_CTE end_ARRAY
+    (104) CTE -> . seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
     (108) seen_ID -> . IDV
 
-    OP              shift and go to state 127
-    PLUS            shift and go to state 122
-    MINUS           shift and go to state 118
-    INT             shift and go to state 125
-    FLOAT           shift and go to state 126
-    STRING          shift and go to state 119
-    IDV             shift and go to state 116
+    OP              shift and go to state 126
+    PLUS            shift and go to state 121
+    MINUS           shift and go to state 117
+    INT             shift and go to state 124
+    FLOAT           shift and go to state 125
+    STRING          shift and go to state 118
+    IDV             shift and go to state 115
 
-    OPER                           shift and go to state 115
-    TERM                           shift and go to state 120
-    TERM2                          shift and go to state 124
-    seen_ID                        shift and go to state 121
-    CTE                            shift and go to state 117
-    EXPRESSION                     shift and go to state 123
+    OPER                           shift and go to state 114
+    TERM                           shift and go to state 119
+    TERM2                          shift and go to state 123
+    seen_ID                        shift and go to state 120
+    CTE                            shift and go to state 116
+    EXPRESSION                     shift and go to state 122
 
 state 96
 
@@ -1605,7 +1604,7 @@ state 96
     (44) CONDITION -> IF . OP STM CP OC seen_OC_IF BLOCKS2 CC seen_CC_IF
     (45) CONDITION -> IF . OP STM CP OC seen_OC_IF CC seen_CC_IF
 
-    OP              shift and go to state 128
+    OP              shift and go to state 127
 
 
 state 97
@@ -1618,16 +1617,23 @@ state 97
 
     OP              reduce using rule 140 (seen_LOOP -> .)
 
-    seen_LOOP                      shift and go to state 129
+    seen_LOOP                      shift and go to state 128
 
 state 98
+
+    (118) ASK -> ASKUSER . OP STRING COMMA IDV CP PC
+
+    OP              shift and go to state 129
+
+
+state 99
 
     (30) BLOCKS -> OC BLOCKS2 . CC
 
     CC              shift and go to state 130
 
 
-state 99
+state 100
 
     (41) CODE -> CALLBOX .
 
@@ -1642,7 +1648,7 @@ state 99
     CC              reduce using rule 41 (CODE -> CALLBOX .)
 
 
-state 100
+state 101
 
     (37) CODE -> LOOPIF .
 
@@ -1655,13 +1661,6 @@ state 100
     CALLBOXW        reduce using rule 37 (CODE -> LOOPIF .)
     IDV             reduce using rule 37 (CODE -> LOOPIF .)
     CC              reduce using rule 37 (CODE -> LOOPIF .)
-
-
-state 101
-
-    (118) ASK -> ASKUSER . OP STRING COMMA IDV CP PC
-
-    OP              shift and go to state 131
 
 
 state 102
@@ -1699,7 +1698,7 @@ state 104
     VARSBOX         reduce using rule 68 (METHOD_UPDATE -> .)
     MAINBOX         reduce using rule 68 (METHOD_UPDATE -> .)
 
-    METHOD_UPDATE                  shift and go to state 132
+    METHOD_UPDATE                  shift and go to state 131
 
 state 105
 
@@ -1726,24 +1725,24 @@ state 106
     (101) CTE -> . FLOAT seen_FLOAT
     (102) CTE -> . STRING seen_STRING
     (103) CTE -> . seen_ID
-    (104) CTE -> . seen_ID seen_ARRAY_CTE end_ARRAY
+    (104) CTE -> . seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
     (108) seen_ID -> . IDV
 
-    OP              shift and go to state 127
-    PLUS            shift and go to state 122
-    MINUS           shift and go to state 118
-    INT             shift and go to state 125
-    FLOAT           shift and go to state 126
-    STRING          shift and go to state 119
-    IDV             shift and go to state 116
+    OP              shift and go to state 126
+    PLUS            shift and go to state 121
+    MINUS           shift and go to state 117
+    INT             shift and go to state 124
+    FLOAT           shift and go to state 125
+    STRING          shift and go to state 118
+    IDV             shift and go to state 115
 
-    OPER                           shift and go to state 115
-    TERM                           shift and go to state 120
-    TERM2                          shift and go to state 124
-    seen_ID                        shift and go to state 121
-    CTE                            shift and go to state 117
-    EXPRESSION                     shift and go to state 133
-    CONCAT                         shift and go to state 134
+    OPER                           shift and go to state 114
+    TERM                           shift and go to state 119
+    TERM2                          shift and go to state 123
+    seen_ID                        shift and go to state 120
+    CTE                            shift and go to state 116
+    EXPRESSION                     shift and go to state 132
+    CONCAT                         shift and go to state 133
 
 state 107
 
@@ -1769,19 +1768,10 @@ state 109
 
     (28) BLOCKS -> OC VARS BLOCKS2 . CC
 
-    CC              shift and go to state 135
+    CC              shift and go to state 134
 
 
 state 110
-
-    (79) ASSIGNATION -> seen_ID_ASSIGNATION seen_ARRAY_CTE . end_ARRAY EQUALS EXPRESSION PC
-    (112) end_ARRAY -> .
-
-    EQUALS          reduce using rule 112 (end_ARRAY -> .)
-
-    end_ARRAY                      shift and go to state 136
-
-state 111
 
     (80) ASSIGNATION -> seen_ID_ASSIGNATION EQUALS . EXPRESSION PC
     (82) EXPRESSION -> . OPER seen_EXPF
@@ -1797,59 +1787,53 @@ state 111
     (101) CTE -> . FLOAT seen_FLOAT
     (102) CTE -> . STRING seen_STRING
     (103) CTE -> . seen_ID
-    (104) CTE -> . seen_ID seen_ARRAY_CTE end_ARRAY
+    (104) CTE -> . seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
     (108) seen_ID -> . IDV
 
-    OP              shift and go to state 127
-    PLUS            shift and go to state 122
-    MINUS           shift and go to state 118
-    INT             shift and go to state 125
-    FLOAT           shift and go to state 126
-    STRING          shift and go to state 119
-    IDV             shift and go to state 116
+    OP              shift and go to state 126
+    PLUS            shift and go to state 121
+    MINUS           shift and go to state 117
+    INT             shift and go to state 124
+    FLOAT           shift and go to state 125
+    STRING          shift and go to state 118
+    IDV             shift and go to state 115
 
-    OPER                           shift and go to state 115
-    TERM                           shift and go to state 120
-    TERM2                          shift and go to state 124
-    seen_ID                        shift and go to state 121
-    CTE                            shift and go to state 117
-    EXPRESSION                     shift and go to state 137
+    OPER                           shift and go to state 114
+    TERM                           shift and go to state 119
+    TERM2                          shift and go to state 123
+    seen_ID                        shift and go to state 120
+    CTE                            shift and go to state 116
+    EXPRESSION                     shift and go to state 135
+
+state 111
+
+    (79) ASSIGNATION -> seen_ID_ASSIGNATION start_ARRAY . seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
+    (109) seen_ARRAY_CTE -> . OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE
+    (110) seen_ARRAY_CTE -> . OB EXPRESSION seen_EXPRESSION_ARRAY CB
+
+    OB              shift and go to state 137
+
+    seen_ARRAY_CTE                 shift and go to state 136
 
 state 112
-
-    (109) seen_ARRAY_CTE -> OB . start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE
-    (110) seen_ARRAY_CTE -> OB . start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB
-    (111) start_ARRAY -> .
-
-    OP              reduce using rule 111 (start_ARRAY -> .)
-    PLUS            reduce using rule 111 (start_ARRAY -> .)
-    MINUS           reduce using rule 111 (start_ARRAY -> .)
-    INT             reduce using rule 111 (start_ARRAY -> .)
-    FLOAT           reduce using rule 111 (start_ARRAY -> .)
-    STRING          reduce using rule 111 (start_ARRAY -> .)
-    IDV             reduce using rule 111 (start_ARRAY -> .)
-
-    start_ARRAY                    shift and go to state 138
-
-state 113
 
     (119) CALLBOX -> CALLBOXW OP . SEEN_IDM_CALL COMMA SEEN_CALL PARAMETERS CP PC
     (120) CALLBOX -> CALLBOXW OP . SEEN_IDM_CALL CP PC
     (121) SEEN_IDM_CALL -> . IDM
 
-    IDM             shift and go to state 140
+    IDM             shift and go to state 139
 
-    SEEN_IDM_CALL                  shift and go to state 139
+    SEEN_IDM_CALL                  shift and go to state 138
 
-state 114
+state 113
 
     (141) LOOPIF -> LOOPIFW seen_LOOPIF . OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC
     (142) LOOPIF -> LOOPIFW seen_LOOPIF . OP STM CP seen_CP_LOOPIF OC CC
 
-    OP              shift and go to state 141
+    OP              shift and go to state 140
 
 
-state 115
+state 114
 
     (82) EXPRESSION -> OPER . seen_EXPF
     (83) EXPRESSION -> OPER . seen_EXPF seen_OPER EXPRESSION
@@ -1870,9 +1854,9 @@ state 115
     CB              reduce using rule 84 (seen_EXPF -> .)
     COMMA           reduce using rule 84 (seen_EXPF -> .)
 
-    seen_EXPF                      shift and go to state 142
+    seen_EXPF                      shift and go to state 141
 
-state 116
+state 115
 
     (108) seen_ID -> IDV .
 
@@ -1883,20 +1867,20 @@ state 116
     PLUS            reduce using rule 108 (seen_ID -> IDV .)
     MINUS           reduce using rule 108 (seen_ID -> IDV .)
     OR              reduce using rule 108 (seen_ID -> IDV .)
-    CB              reduce using rule 108 (seen_ID -> IDV .)
-    CP              reduce using rule 108 (seen_ID -> IDV .)
-    DOT             reduce using rule 108 (seen_ID -> IDV .)
     PC              reduce using rule 108 (seen_ID -> IDV .)
-    COMMA           reduce using rule 108 (seen_ID -> IDV .)
+    DOT             reduce using rule 108 (seen_ID -> IDV .)
+    CP              reduce using rule 108 (seen_ID -> IDV .)
     GT              reduce using rule 108 (seen_ID -> IDV .)
     GTE             reduce using rule 108 (seen_ID -> IDV .)
     LT              reduce using rule 108 (seen_ID -> IDV .)
     LTE             reduce using rule 108 (seen_ID -> IDV .)
     DOUBLEEQUALS    reduce using rule 108 (seen_ID -> IDV .)
     LTGT            reduce using rule 108 (seen_ID -> IDV .)
+    CB              reduce using rule 108 (seen_ID -> IDV .)
+    COMMA           reduce using rule 108 (seen_ID -> IDV .)
 
 
-state 117
+state 116
 
     (97) TERM2 -> CTE .
 
@@ -1908,7 +1892,6 @@ state 117
     OR              reduce using rule 97 (TERM2 -> CTE .)
     DOT             reduce using rule 97 (TERM2 -> CTE .)
     CP              reduce using rule 97 (TERM2 -> CTE .)
-    PC              reduce using rule 97 (TERM2 -> CTE .)
     GT              reduce using rule 97 (TERM2 -> CTE .)
     GTE             reduce using rule 97 (TERM2 -> CTE .)
     LT              reduce using rule 97 (TERM2 -> CTE .)
@@ -1917,27 +1900,28 @@ state 117
     LTGT            reduce using rule 97 (TERM2 -> CTE .)
     CB              reduce using rule 97 (TERM2 -> CTE .)
     COMMA           reduce using rule 97 (TERM2 -> CTE .)
+    PC              reduce using rule 97 (TERM2 -> CTE .)
 
 
-state 118
+state 117
 
     (99) TERM2 -> MINUS . CTE
     (100) CTE -> . INT seen_INT
     (101) CTE -> . FLOAT seen_FLOAT
     (102) CTE -> . STRING seen_STRING
     (103) CTE -> . seen_ID
-    (104) CTE -> . seen_ID seen_ARRAY_CTE end_ARRAY
+    (104) CTE -> . seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
     (108) seen_ID -> . IDV
 
-    INT             shift and go to state 125
-    FLOAT           shift and go to state 126
-    STRING          shift and go to state 119
-    IDV             shift and go to state 116
+    INT             shift and go to state 124
+    FLOAT           shift and go to state 125
+    STRING          shift and go to state 118
+    IDV             shift and go to state 115
 
-    seen_ID                        shift and go to state 121
-    CTE                            shift and go to state 143
+    seen_ID                        shift and go to state 120
+    CTE                            shift and go to state 142
 
-state 119
+state 118
 
     (102) CTE -> STRING . seen_STRING
     (107) seen_STRING -> .
@@ -1960,9 +1944,9 @@ state 119
     CB              reduce using rule 107 (seen_STRING -> .)
     COMMA           reduce using rule 107 (seen_STRING -> .)
 
-    seen_STRING                    shift and go to state 144
+    seen_STRING                    shift and go to state 143
 
-state 120
+state 119
 
     (88) OPER -> TERM . seen_TERMF
     (89) OPER -> TERM . seen_TERMF seen_TERM OPER
@@ -1986,14 +1970,13 @@ state 120
     CB              reduce using rule 90 (seen_TERMF -> .)
     COMMA           reduce using rule 90 (seen_TERMF -> .)
 
-    seen_TERMF                     shift and go to state 145
+    seen_TERMF                     shift and go to state 144
 
-state 121
+state 120
 
     (103) CTE -> seen_ID .
-    (104) CTE -> seen_ID . seen_ARRAY_CTE end_ARRAY
-    (109) seen_ARRAY_CTE -> . OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE
-    (110) seen_ARRAY_CTE -> . OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB
+    (104) CTE -> seen_ID . start_ARRAY seen_ARRAY_CTE end_ARRAY
+    (111) start_ARRAY -> .
 
     MULTIPLY        reduce using rule 103 (CTE -> seen_ID .)
     DIVISION        reduce using rule 103 (CTE -> seen_ID .)
@@ -2002,7 +1985,8 @@ state 121
     MINUS           reduce using rule 103 (CTE -> seen_ID .)
     OR              reduce using rule 103 (CTE -> seen_ID .)
     PC              reduce using rule 103 (CTE -> seen_ID .)
-    COMMA           reduce using rule 103 (CTE -> seen_ID .)
+    CB              reduce using rule 103 (CTE -> seen_ID .)
+    DOT             reduce using rule 103 (CTE -> seen_ID .)
     CP              reduce using rule 103 (CTE -> seen_ID .)
     GT              reduce using rule 103 (CTE -> seen_ID .)
     GTE             reduce using rule 103 (CTE -> seen_ID .)
@@ -2010,38 +1994,37 @@ state 121
     LTE             reduce using rule 103 (CTE -> seen_ID .)
     DOUBLEEQUALS    reduce using rule 103 (CTE -> seen_ID .)
     LTGT            reduce using rule 103 (CTE -> seen_ID .)
-    DOT             reduce using rule 103 (CTE -> seen_ID .)
-    CB              reduce using rule 103 (CTE -> seen_ID .)
-    OB              shift and go to state 112
+    COMMA           reduce using rule 103 (CTE -> seen_ID .)
+    OB              reduce using rule 111 (start_ARRAY -> .)
 
-    seen_ARRAY_CTE                 shift and go to state 146
+    start_ARRAY                    shift and go to state 145
 
-state 122
+state 121
 
     (98) TERM2 -> PLUS . CTE
     (100) CTE -> . INT seen_INT
     (101) CTE -> . FLOAT seen_FLOAT
     (102) CTE -> . STRING seen_STRING
     (103) CTE -> . seen_ID
-    (104) CTE -> . seen_ID seen_ARRAY_CTE end_ARRAY
+    (104) CTE -> . seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
     (108) seen_ID -> . IDV
 
-    INT             shift and go to state 125
-    FLOAT           shift and go to state 126
-    STRING          shift and go to state 119
-    IDV             shift and go to state 116
+    INT             shift and go to state 124
+    FLOAT           shift and go to state 125
+    STRING          shift and go to state 118
+    IDV             shift and go to state 115
 
-    seen_ID                        shift and go to state 121
-    CTE                            shift and go to state 147
+    seen_ID                        shift and go to state 120
+    CTE                            shift and go to state 146
 
-state 123
+state 122
 
     (78) RETURN -> RETURNW EXPRESSION . PC
 
-    PC              shift and go to state 148
+    PC              shift and go to state 147
 
 
-state 124
+state 123
 
     (95) TERM -> TERM2 .
 
@@ -2053,8 +2036,8 @@ state 124
     OR              reduce using rule 95 (TERM -> TERM2 .)
     COMMA           reduce using rule 95 (TERM -> TERM2 .)
     CP              reduce using rule 95 (TERM -> TERM2 .)
-    PC              reduce using rule 95 (TERM -> TERM2 .)
     DOT             reduce using rule 95 (TERM -> TERM2 .)
+    PC              reduce using rule 95 (TERM -> TERM2 .)
     GT              reduce using rule 95 (TERM -> TERM2 .)
     GTE             reduce using rule 95 (TERM -> TERM2 .)
     LT              reduce using rule 95 (TERM -> TERM2 .)
@@ -2064,7 +2047,7 @@ state 124
     CB              reduce using rule 95 (TERM -> TERM2 .)
 
 
-state 125
+state 124
 
     (100) CTE -> INT . seen_INT
     (105) seen_INT -> .
@@ -2087,9 +2070,9 @@ state 125
     CB              reduce using rule 105 (seen_INT -> .)
     COMMA           reduce using rule 105 (seen_INT -> .)
 
-    seen_INT                       shift and go to state 149
+    seen_INT                       shift and go to state 148
 
-state 126
+state 125
 
     (101) CTE -> FLOAT . seen_FLOAT
     (106) seen_FLOAT -> .
@@ -2112,9 +2095,9 @@ state 126
     CB              reduce using rule 106 (seen_FLOAT -> .)
     COMMA           reduce using rule 106 (seen_FLOAT -> .)
 
-    seen_FLOAT                     shift and go to state 150
+    seen_FLOAT                     shift and go to state 149
 
-state 127
+state 126
 
     (94) TERM -> OP . seen_OP_TERM STM CP
     (96) seen_OP_TERM -> .
@@ -2127,9 +2110,9 @@ state 127
     STRING          reduce using rule 96 (seen_OP_TERM -> .)
     IDV             reduce using rule 96 (seen_OP_TERM -> .)
 
-    seen_OP_TERM                   shift and go to state 151
+    seen_OP_TERM                   shift and go to state 150
 
-state 128
+state 127
 
     (42) CONDITION -> IF OP . STM CP OC seen_OC_IF BLOCKS2 CC CONDITION2
     (43) CONDITION -> IF OP . STM CP OC seen_OC_IF CC CONDITION2
@@ -2150,33 +2133,40 @@ state 128
     (101) CTE -> . FLOAT seen_FLOAT
     (102) CTE -> . STRING seen_STRING
     (103) CTE -> . seen_ID
-    (104) CTE -> . seen_ID seen_ARRAY_CTE end_ARRAY
+    (104) CTE -> . seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
     (108) seen_ID -> . IDV
 
-    OP              shift and go to state 127
-    PLUS            shift and go to state 122
-    MINUS           shift and go to state 118
-    INT             shift and go to state 125
-    FLOAT           shift and go to state 126
-    STRING          shift and go to state 119
-    IDV             shift and go to state 116
+    OP              shift and go to state 126
+    PLUS            shift and go to state 121
+    MINUS           shift and go to state 117
+    INT             shift and go to state 124
+    FLOAT           shift and go to state 125
+    STRING          shift and go to state 118
+    IDV             shift and go to state 115
 
-    OPER                           shift and go to state 115
-    CTE                            shift and go to state 117
-    TERM                           shift and go to state 120
-    seen_ID                        shift and go to state 121
-    EXPRESSION                     shift and go to state 152
-    TERM2                          shift and go to state 124
-    STM                            shift and go to state 153
+    OPER                           shift and go to state 114
+    CTE                            shift and go to state 116
+    TERM                           shift and go to state 119
+    seen_ID                        shift and go to state 120
+    EXPRESSION                     shift and go to state 151
+    TERM2                          shift and go to state 123
+    STM                            shift and go to state 152
 
-state 129
+state 128
 
     (126) LOOP -> LOOPW seen_LOOP . OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
     (127) LOOP -> LOOPW seen_LOOP . OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
     (128) LOOP -> LOOPW seen_LOOP . OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
     (129) LOOP -> LOOPW seen_LOOP . OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
 
-    OP              shift and go to state 154
+    OP              shift and go to state 153
+
+
+state 129
+
+    (118) ASK -> ASKUSER OP . STRING COMMA IDV CP PC
+
+    STRING          shift and go to state 154
 
 
 state 130
@@ -2193,13 +2183,6 @@ state 130
 
 
 state 131
-
-    (118) ASK -> ASKUSER OP . STRING COMMA IDV CP PC
-
-    STRING          shift and go to state 155
-
-
-state 132
 
     (66) METHODS -> METHODS2 seen_IDM OP METHODS3 CP BLOCKS METHOD_UPDATE .
     (67) METHODS -> METHODS2 seen_IDM OP METHODS3 CP BLOCKS METHOD_UPDATE . METHODS
@@ -2218,10 +2201,10 @@ state 132
     VARFBOX         shift and go to state 25
     VARSBOX         shift and go to state 26
 
-    METHODS                        shift and go to state 156
+    METHODS                        shift and go to state 155
     METHODS2                       shift and go to state 29
 
-state 133
+state 132
 
     (115) CONCAT -> EXPRESSION . seen_EXP_SAY DOT CONCAT
     (116) CONCAT -> EXPRESSION . seen_EXP_SAY
@@ -2230,16 +2213,16 @@ state 133
     DOT             reduce using rule 117 (seen_EXP_SAY -> .)
     CP              reduce using rule 117 (seen_EXP_SAY -> .)
 
-    seen_EXP_SAY                   shift and go to state 157
+    seen_EXP_SAY                   shift and go to state 156
 
-state 134
+state 133
 
     (114) SAY -> SAYW OP CONCAT . CP PC
 
-    CP              shift and go to state 158
+    CP              shift and go to state 157
 
 
-state 135
+state 134
 
     (28) BLOCKS -> OC VARS BLOCKS2 CC .
 
@@ -2252,24 +2235,26 @@ state 135
     CC              reduce using rule 28 (BLOCKS -> OC VARS BLOCKS2 CC .)
 
 
-state 136
-
-    (79) ASSIGNATION -> seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY . EQUALS EXPRESSION PC
-
-    EQUALS          shift and go to state 159
-
-
-state 137
+state 135
 
     (80) ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION . PC
 
-    PC              shift and go to state 160
+    PC              shift and go to state 158
 
 
-state 138
+state 136
 
-    (109) seen_ARRAY_CTE -> OB start_ARRAY . EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE
-    (110) seen_ARRAY_CTE -> OB start_ARRAY . EXPRESSION seen_EXPRESSION_ARRAY CB
+    (79) ASSIGNATION -> seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE . end_ARRAY EQUALS EXPRESSION PC
+    (112) end_ARRAY -> .
+
+    EQUALS          reduce using rule 112 (end_ARRAY -> .)
+
+    end_ARRAY                      shift and go to state 159
+
+state 137
+
+    (109) seen_ARRAY_CTE -> OB . EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE
+    (110) seen_ARRAY_CTE -> OB . EXPRESSION seen_EXPRESSION_ARRAY CB
     (82) EXPRESSION -> . OPER seen_EXPF
     (83) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
     (88) OPER -> . TERM seen_TERMF
@@ -2283,34 +2268,34 @@ state 138
     (101) CTE -> . FLOAT seen_FLOAT
     (102) CTE -> . STRING seen_STRING
     (103) CTE -> . seen_ID
-    (104) CTE -> . seen_ID seen_ARRAY_CTE end_ARRAY
+    (104) CTE -> . seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
     (108) seen_ID -> . IDV
 
-    OP              shift and go to state 127
-    PLUS            shift and go to state 122
-    MINUS           shift and go to state 118
-    INT             shift and go to state 125
-    FLOAT           shift and go to state 126
-    STRING          shift and go to state 119
-    IDV             shift and go to state 116
+    OP              shift and go to state 126
+    PLUS            shift and go to state 121
+    MINUS           shift and go to state 117
+    INT             shift and go to state 124
+    FLOAT           shift and go to state 125
+    STRING          shift and go to state 118
+    IDV             shift and go to state 115
 
-    OPER                           shift and go to state 115
-    TERM2                          shift and go to state 124
-    TERM                           shift and go to state 120
-    seen_ID                        shift and go to state 121
-    CTE                            shift and go to state 117
-    EXPRESSION                     shift and go to state 161
+    OPER                           shift and go to state 114
+    TERM2                          shift and go to state 123
+    TERM                           shift and go to state 119
+    seen_ID                        shift and go to state 120
+    CTE                            shift and go to state 116
+    EXPRESSION                     shift and go to state 160
 
-state 139
+state 138
 
     (119) CALLBOX -> CALLBOXW OP SEEN_IDM_CALL . COMMA SEEN_CALL PARAMETERS CP PC
     (120) CALLBOX -> CALLBOXW OP SEEN_IDM_CALL . CP PC
 
-    COMMA           shift and go to state 162
-    CP              shift and go to state 163
+    COMMA           shift and go to state 161
+    CP              shift and go to state 162
 
 
-state 140
+state 139
 
     (121) SEEN_IDM_CALL -> IDM .
 
@@ -2318,7 +2303,7 @@ state 140
     CP              reduce using rule 121 (SEEN_IDM_CALL -> IDM .)
 
 
-state 141
+state 140
 
     (141) LOOPIF -> LOOPIFW seen_LOOPIF OP . STM CP seen_CP_LOOPIF OC BLOCKS2 CC
     (142) LOOPIF -> LOOPIFW seen_LOOPIF OP . STM CP seen_CP_LOOPIF OC CC
@@ -2337,26 +2322,26 @@ state 141
     (101) CTE -> . FLOAT seen_FLOAT
     (102) CTE -> . STRING seen_STRING
     (103) CTE -> . seen_ID
-    (104) CTE -> . seen_ID seen_ARRAY_CTE end_ARRAY
+    (104) CTE -> . seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
     (108) seen_ID -> . IDV
 
-    OP              shift and go to state 127
-    PLUS            shift and go to state 122
-    MINUS           shift and go to state 118
-    INT             shift and go to state 125
-    FLOAT           shift and go to state 126
-    STRING          shift and go to state 119
-    IDV             shift and go to state 116
+    OP              shift and go to state 126
+    PLUS            shift and go to state 121
+    MINUS           shift and go to state 117
+    INT             shift and go to state 124
+    FLOAT           shift and go to state 125
+    STRING          shift and go to state 118
+    IDV             shift and go to state 115
 
-    OPER                           shift and go to state 115
-    CTE                            shift and go to state 117
-    seen_ID                        shift and go to state 121
-    TERM                           shift and go to state 120
-    EXPRESSION                     shift and go to state 152
-    TERM2                          shift and go to state 124
-    STM                            shift and go to state 164
+    OPER                           shift and go to state 114
+    CTE                            shift and go to state 116
+    seen_ID                        shift and go to state 120
+    TERM                           shift and go to state 119
+    EXPRESSION                     shift and go to state 151
+    TERM2                          shift and go to state 123
+    STM                            shift and go to state 163
 
-state 142
+state 141
 
     (82) EXPRESSION -> OPER seen_EXPF .
     (83) EXPRESSION -> OPER seen_EXPF . seen_OPER EXPRESSION
@@ -2364,7 +2349,6 @@ state 142
     (86) seen_OPER -> . MINUS
     (87) seen_OPER -> . OR
 
-    CB              reduce using rule 82 (EXPRESSION -> OPER seen_EXPF .)
     GT              reduce using rule 82 (EXPRESSION -> OPER seen_EXPF .)
     GTE             reduce using rule 82 (EXPRESSION -> OPER seen_EXPF .)
     LT              reduce using rule 82 (EXPRESSION -> OPER seen_EXPF .)
@@ -2372,16 +2356,17 @@ state 142
     DOUBLEEQUALS    reduce using rule 82 (EXPRESSION -> OPER seen_EXPF .)
     LTGT            reduce using rule 82 (EXPRESSION -> OPER seen_EXPF .)
     CP              reduce using rule 82 (EXPRESSION -> OPER seen_EXPF .)
-    DOT             reduce using rule 82 (EXPRESSION -> OPER seen_EXPF .)
     COMMA           reduce using rule 82 (EXPRESSION -> OPER seen_EXPF .)
+    DOT             reduce using rule 82 (EXPRESSION -> OPER seen_EXPF .)
     PC              reduce using rule 82 (EXPRESSION -> OPER seen_EXPF .)
-    PLUS            shift and go to state 166
-    MINUS           shift and go to state 168
-    OR              shift and go to state 165
+    CB              reduce using rule 82 (EXPRESSION -> OPER seen_EXPF .)
+    PLUS            shift and go to state 165
+    MINUS           shift and go to state 167
+    OR              shift and go to state 164
 
-    seen_OPER                      shift and go to state 167
+    seen_OPER                      shift and go to state 166
 
-state 143
+state 142
 
     (99) TERM2 -> MINUS CTE .
 
@@ -2393,7 +2378,6 @@ state 143
     OR              reduce using rule 99 (TERM2 -> MINUS CTE .)
     DOT             reduce using rule 99 (TERM2 -> MINUS CTE .)
     CP              reduce using rule 99 (TERM2 -> MINUS CTE .)
-    PC              reduce using rule 99 (TERM2 -> MINUS CTE .)
     GT              reduce using rule 99 (TERM2 -> MINUS CTE .)
     GTE             reduce using rule 99 (TERM2 -> MINUS CTE .)
     LT              reduce using rule 99 (TERM2 -> MINUS CTE .)
@@ -2402,9 +2386,10 @@ state 143
     LTGT            reduce using rule 99 (TERM2 -> MINUS CTE .)
     CB              reduce using rule 99 (TERM2 -> MINUS CTE .)
     COMMA           reduce using rule 99 (TERM2 -> MINUS CTE .)
+    PC              reduce using rule 99 (TERM2 -> MINUS CTE .)
 
 
-state 144
+state 143
 
     (102) CTE -> STRING seen_STRING .
 
@@ -2415,7 +2400,8 @@ state 144
     MINUS           reduce using rule 102 (CTE -> STRING seen_STRING .)
     OR              reduce using rule 102 (CTE -> STRING seen_STRING .)
     PC              reduce using rule 102 (CTE -> STRING seen_STRING .)
-    COMMA           reduce using rule 102 (CTE -> STRING seen_STRING .)
+    CB              reduce using rule 102 (CTE -> STRING seen_STRING .)
+    DOT             reduce using rule 102 (CTE -> STRING seen_STRING .)
     CP              reduce using rule 102 (CTE -> STRING seen_STRING .)
     GT              reduce using rule 102 (CTE -> STRING seen_STRING .)
     GTE             reduce using rule 102 (CTE -> STRING seen_STRING .)
@@ -2423,11 +2409,10 @@ state 144
     LTE             reduce using rule 102 (CTE -> STRING seen_STRING .)
     DOUBLEEQUALS    reduce using rule 102 (CTE -> STRING seen_STRING .)
     LTGT            reduce using rule 102 (CTE -> STRING seen_STRING .)
-    DOT             reduce using rule 102 (CTE -> STRING seen_STRING .)
-    CB              reduce using rule 102 (CTE -> STRING seen_STRING .)
+    COMMA           reduce using rule 102 (CTE -> STRING seen_STRING .)
 
 
-state 145
+state 144
 
     (88) OPER -> TERM seen_TERMF .
     (89) OPER -> TERM seen_TERMF . seen_TERM OPER
@@ -2439,25 +2424,434 @@ state 145
     MINUS           reduce using rule 88 (OPER -> TERM seen_TERMF .)
     OR              reduce using rule 88 (OPER -> TERM seen_TERMF .)
     PC              reduce using rule 88 (OPER -> TERM seen_TERMF .)
-    DOT             reduce using rule 88 (OPER -> TERM seen_TERMF .)
+    CB              reduce using rule 88 (OPER -> TERM seen_TERMF .)
+    COMMA           reduce using rule 88 (OPER -> TERM seen_TERMF .)
     CP              reduce using rule 88 (OPER -> TERM seen_TERMF .)
+    DOT             reduce using rule 88 (OPER -> TERM seen_TERMF .)
     GT              reduce using rule 88 (OPER -> TERM seen_TERMF .)
     GTE             reduce using rule 88 (OPER -> TERM seen_TERMF .)
     LT              reduce using rule 88 (OPER -> TERM seen_TERMF .)
     LTE             reduce using rule 88 (OPER -> TERM seen_TERMF .)
     DOUBLEEQUALS    reduce using rule 88 (OPER -> TERM seen_TERMF .)
     LTGT            reduce using rule 88 (OPER -> TERM seen_TERMF .)
-    CB              reduce using rule 88 (OPER -> TERM seen_TERMF .)
-    COMMA           reduce using rule 88 (OPER -> TERM seen_TERMF .)
-    MULTIPLY        shift and go to state 172
-    DIVISION        shift and go to state 169
-    AND             shift and go to state 170
+    MULTIPLY        shift and go to state 171
+    DIVISION        shift and go to state 168
+    AND             shift and go to state 169
 
-    seen_TERM                      shift and go to state 171
+    seen_TERM                      shift and go to state 170
+
+state 145
+
+    (104) CTE -> seen_ID start_ARRAY . seen_ARRAY_CTE end_ARRAY
+    (109) seen_ARRAY_CTE -> . OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE
+    (110) seen_ARRAY_CTE -> . OB EXPRESSION seen_EXPRESSION_ARRAY CB
+
+    OB              shift and go to state 137
+
+    seen_ARRAY_CTE                 shift and go to state 172
 
 state 146
 
-    (104) CTE -> seen_ID seen_ARRAY_CTE . end_ARRAY
+    (98) TERM2 -> PLUS CTE .
+
+    MULTIPLY        reduce using rule 98 (TERM2 -> PLUS CTE .)
+    DIVISION        reduce using rule 98 (TERM2 -> PLUS CTE .)
+    AND             reduce using rule 98 (TERM2 -> PLUS CTE .)
+    PLUS            reduce using rule 98 (TERM2 -> PLUS CTE .)
+    MINUS           reduce using rule 98 (TERM2 -> PLUS CTE .)
+    OR              reduce using rule 98 (TERM2 -> PLUS CTE .)
+    DOT             reduce using rule 98 (TERM2 -> PLUS CTE .)
+    CP              reduce using rule 98 (TERM2 -> PLUS CTE .)
+    GT              reduce using rule 98 (TERM2 -> PLUS CTE .)
+    GTE             reduce using rule 98 (TERM2 -> PLUS CTE .)
+    LT              reduce using rule 98 (TERM2 -> PLUS CTE .)
+    LTE             reduce using rule 98 (TERM2 -> PLUS CTE .)
+    DOUBLEEQUALS    reduce using rule 98 (TERM2 -> PLUS CTE .)
+    LTGT            reduce using rule 98 (TERM2 -> PLUS CTE .)
+    CB              reduce using rule 98 (TERM2 -> PLUS CTE .)
+    COMMA           reduce using rule 98 (TERM2 -> PLUS CTE .)
+    PC              reduce using rule 98 (TERM2 -> PLUS CTE .)
+
+
+state 147
+
+    (78) RETURN -> RETURNW EXPRESSION PC .
+
+    RETURNW         reduce using rule 78 (RETURN -> RETURNW EXPRESSION PC .)
+    LOOPW           reduce using rule 78 (RETURN -> RETURNW EXPRESSION PC .)
+    LOOPIFW         reduce using rule 78 (RETURN -> RETURNW EXPRESSION PC .)
+    IF              reduce using rule 78 (RETURN -> RETURNW EXPRESSION PC .)
+    ASKUSER         reduce using rule 78 (RETURN -> RETURNW EXPRESSION PC .)
+    SAYW            reduce using rule 78 (RETURN -> RETURNW EXPRESSION PC .)
+    CALLBOXW        reduce using rule 78 (RETURN -> RETURNW EXPRESSION PC .)
+    IDV             reduce using rule 78 (RETURN -> RETURNW EXPRESSION PC .)
+    CC              reduce using rule 78 (RETURN -> RETURNW EXPRESSION PC .)
+
+
+state 148
+
+    (100) CTE -> INT seen_INT .
+
+    MULTIPLY        reduce using rule 100 (CTE -> INT seen_INT .)
+    DIVISION        reduce using rule 100 (CTE -> INT seen_INT .)
+    AND             reduce using rule 100 (CTE -> INT seen_INT .)
+    PLUS            reduce using rule 100 (CTE -> INT seen_INT .)
+    MINUS           reduce using rule 100 (CTE -> INT seen_INT .)
+    OR              reduce using rule 100 (CTE -> INT seen_INT .)
+    PC              reduce using rule 100 (CTE -> INT seen_INT .)
+    CB              reduce using rule 100 (CTE -> INT seen_INT .)
+    DOT             reduce using rule 100 (CTE -> INT seen_INT .)
+    CP              reduce using rule 100 (CTE -> INT seen_INT .)
+    GT              reduce using rule 100 (CTE -> INT seen_INT .)
+    GTE             reduce using rule 100 (CTE -> INT seen_INT .)
+    LT              reduce using rule 100 (CTE -> INT seen_INT .)
+    LTE             reduce using rule 100 (CTE -> INT seen_INT .)
+    DOUBLEEQUALS    reduce using rule 100 (CTE -> INT seen_INT .)
+    LTGT            reduce using rule 100 (CTE -> INT seen_INT .)
+    COMMA           reduce using rule 100 (CTE -> INT seen_INT .)
+
+
+state 149
+
+    (101) CTE -> FLOAT seen_FLOAT .
+
+    MULTIPLY        reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
+    DIVISION        reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
+    AND             reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
+    PLUS            reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
+    MINUS           reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
+    OR              reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
+    PC              reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
+    CB              reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
+    DOT             reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
+    CP              reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
+    GT              reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
+    GTE             reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
+    LT              reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
+    LTE             reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
+    DOUBLEEQUALS    reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
+    LTGT            reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
+    COMMA           reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
+
+
+state 150
+
+    (94) TERM -> OP seen_OP_TERM . STM CP
+    (53) STM -> . EXPRESSION STM2 EXPRESSION seen_STM
+    (54) STM -> . EXPRESSION
+    (82) EXPRESSION -> . OPER seen_EXPF
+    (83) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
+    (88) OPER -> . TERM seen_TERMF
+    (89) OPER -> . TERM seen_TERMF seen_TERM OPER
+    (94) TERM -> . OP seen_OP_TERM STM CP
+    (95) TERM -> . TERM2
+    (97) TERM2 -> . CTE
+    (98) TERM2 -> . PLUS CTE
+    (99) TERM2 -> . MINUS CTE
+    (100) CTE -> . INT seen_INT
+    (101) CTE -> . FLOAT seen_FLOAT
+    (102) CTE -> . STRING seen_STRING
+    (103) CTE -> . seen_ID
+    (104) CTE -> . seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
+    (108) seen_ID -> . IDV
+
+    OP              shift and go to state 126
+    PLUS            shift and go to state 121
+    MINUS           shift and go to state 117
+    INT             shift and go to state 124
+    FLOAT           shift and go to state 125
+    STRING          shift and go to state 118
+    IDV             shift and go to state 115
+
+    OPER                           shift and go to state 114
+    TERM                           shift and go to state 119
+    TERM2                          shift and go to state 123
+    STM                            shift and go to state 173
+    seen_ID                        shift and go to state 120
+    CTE                            shift and go to state 116
+    EXPRESSION                     shift and go to state 151
+
+state 151
+
+    (53) STM -> EXPRESSION . STM2 EXPRESSION seen_STM
+    (54) STM -> EXPRESSION .
+    (55) STM2 -> . GT
+    (56) STM2 -> . GTE
+    (57) STM2 -> . LT
+    (58) STM2 -> . LTE
+    (59) STM2 -> . DOUBLEEQUALS
+    (60) STM2 -> . LTGT
+
+    CP              reduce using rule 54 (STM -> EXPRESSION .)
+    GT              shift and go to state 174
+    GTE             shift and go to state 175
+    LT              shift and go to state 177
+    LTE             shift and go to state 179
+    DOUBLEEQUALS    shift and go to state 180
+    LTGT            shift and go to state 178
+
+    STM2                           shift and go to state 176
+
+state 152
+
+    (42) CONDITION -> IF OP STM . CP OC seen_OC_IF BLOCKS2 CC CONDITION2
+    (43) CONDITION -> IF OP STM . CP OC seen_OC_IF CC CONDITION2
+    (44) CONDITION -> IF OP STM . CP OC seen_OC_IF BLOCKS2 CC seen_CC_IF
+    (45) CONDITION -> IF OP STM . CP OC seen_OC_IF CC seen_CC_IF
+
+    CP              shift and go to state 181
+
+
+state 153
+
+    (126) LOOP -> LOOPW seen_LOOP OP . seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+    (127) LOOP -> LOOPW seen_LOOP OP . seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
+    (128) LOOP -> LOOPW seen_LOOP OP . seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+    (129) LOOP -> LOOPW seen_LOOP OP . seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
+    (132) seen_VAR_LOOP -> . IDV
+
+    IDV             shift and go to state 183
+
+    seen_VAR_LOOP                  shift and go to state 182
+
+state 154
+
+    (118) ASK -> ASKUSER OP STRING . COMMA IDV CP PC
+
+    COMMA           shift and go to state 184
+
+
+state 155
+
+    (67) METHODS -> METHODS2 seen_IDM OP METHODS3 CP BLOCKS METHOD_UPDATE METHODS .
+
+    MAINBOX         reduce using rule 67 (METHODS -> METHODS2 seen_IDM OP METHODS3 CP BLOCKS METHOD_UPDATE METHODS .)
+
+
+state 156
+
+    (115) CONCAT -> EXPRESSION seen_EXP_SAY . DOT CONCAT
+    (116) CONCAT -> EXPRESSION seen_EXP_SAY .
+
+    DOT             shift and go to state 185
+    CP              reduce using rule 116 (CONCAT -> EXPRESSION seen_EXP_SAY .)
+
+
+state 157
+
+    (114) SAY -> SAYW OP CONCAT CP . PC
+
+    PC              shift and go to state 186
+
+
+state 158
+
+    (80) ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .
+
+    RETURNW         reduce using rule 80 (ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .)
+    LOOPW           reduce using rule 80 (ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .)
+    LOOPIFW         reduce using rule 80 (ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .)
+    IF              reduce using rule 80 (ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .)
+    ASKUSER         reduce using rule 80 (ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .)
+    SAYW            reduce using rule 80 (ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .)
+    CALLBOXW        reduce using rule 80 (ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .)
+    IDV             reduce using rule 80 (ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .)
+    CC              reduce using rule 80 (ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .)
+
+
+state 159
+
+    (79) ASSIGNATION -> seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY . EQUALS EXPRESSION PC
+
+    EQUALS          shift and go to state 187
+
+
+state 160
+
+    (109) seen_ARRAY_CTE -> OB EXPRESSION . seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE
+    (110) seen_ARRAY_CTE -> OB EXPRESSION . seen_EXPRESSION_ARRAY CB
+    (113) seen_EXPRESSION_ARRAY -> .
+
+    CB              reduce using rule 113 (seen_EXPRESSION_ARRAY -> .)
+
+    seen_EXPRESSION_ARRAY          shift and go to state 188
+
+state 161
+
+    (119) CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA . SEEN_CALL PARAMETERS CP PC
+    (122) SEEN_CALL -> .
+
+    OP              reduce using rule 122 (SEEN_CALL -> .)
+    PLUS            reduce using rule 122 (SEEN_CALL -> .)
+    MINUS           reduce using rule 122 (SEEN_CALL -> .)
+    INT             reduce using rule 122 (SEEN_CALL -> .)
+    FLOAT           reduce using rule 122 (SEEN_CALL -> .)
+    STRING          reduce using rule 122 (SEEN_CALL -> .)
+    IDV             reduce using rule 122 (SEEN_CALL -> .)
+
+    SEEN_CALL                      shift and go to state 189
+
+state 162
+
+    (120) CALLBOX -> CALLBOXW OP SEEN_IDM_CALL CP . PC
+
+    PC              shift and go to state 190
+
+
+state 163
+
+    (141) LOOPIF -> LOOPIFW seen_LOOPIF OP STM . CP seen_CP_LOOPIF OC BLOCKS2 CC
+    (142) LOOPIF -> LOOPIFW seen_LOOPIF OP STM . CP seen_CP_LOOPIF OC CC
+
+    CP              shift and go to state 191
+
+
+state 164
+
+    (87) seen_OPER -> OR .
+
+    OP              reduce using rule 87 (seen_OPER -> OR .)
+    PLUS            reduce using rule 87 (seen_OPER -> OR .)
+    MINUS           reduce using rule 87 (seen_OPER -> OR .)
+    INT             reduce using rule 87 (seen_OPER -> OR .)
+    FLOAT           reduce using rule 87 (seen_OPER -> OR .)
+    STRING          reduce using rule 87 (seen_OPER -> OR .)
+    IDV             reduce using rule 87 (seen_OPER -> OR .)
+
+
+state 165
+
+    (85) seen_OPER -> PLUS .
+
+    OP              reduce using rule 85 (seen_OPER -> PLUS .)
+    PLUS            reduce using rule 85 (seen_OPER -> PLUS .)
+    MINUS           reduce using rule 85 (seen_OPER -> PLUS .)
+    INT             reduce using rule 85 (seen_OPER -> PLUS .)
+    FLOAT           reduce using rule 85 (seen_OPER -> PLUS .)
+    STRING          reduce using rule 85 (seen_OPER -> PLUS .)
+    IDV             reduce using rule 85 (seen_OPER -> PLUS .)
+
+
+state 166
+
+    (83) EXPRESSION -> OPER seen_EXPF seen_OPER . EXPRESSION
+    (82) EXPRESSION -> . OPER seen_EXPF
+    (83) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
+    (88) OPER -> . TERM seen_TERMF
+    (89) OPER -> . TERM seen_TERMF seen_TERM OPER
+    (94) TERM -> . OP seen_OP_TERM STM CP
+    (95) TERM -> . TERM2
+    (97) TERM2 -> . CTE
+    (98) TERM2 -> . PLUS CTE
+    (99) TERM2 -> . MINUS CTE
+    (100) CTE -> . INT seen_INT
+    (101) CTE -> . FLOAT seen_FLOAT
+    (102) CTE -> . STRING seen_STRING
+    (103) CTE -> . seen_ID
+    (104) CTE -> . seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
+    (108) seen_ID -> . IDV
+
+    OP              shift and go to state 126
+    PLUS            shift and go to state 121
+    MINUS           shift and go to state 117
+    INT             shift and go to state 124
+    FLOAT           shift and go to state 125
+    STRING          shift and go to state 118
+    IDV             shift and go to state 115
+
+    OPER                           shift and go to state 114
+    TERM                           shift and go to state 119
+    TERM2                          shift and go to state 123
+    seen_ID                        shift and go to state 120
+    CTE                            shift and go to state 116
+    EXPRESSION                     shift and go to state 192
+
+state 167
+
+    (86) seen_OPER -> MINUS .
+
+    OP              reduce using rule 86 (seen_OPER -> MINUS .)
+    PLUS            reduce using rule 86 (seen_OPER -> MINUS .)
+    MINUS           reduce using rule 86 (seen_OPER -> MINUS .)
+    INT             reduce using rule 86 (seen_OPER -> MINUS .)
+    FLOAT           reduce using rule 86 (seen_OPER -> MINUS .)
+    STRING          reduce using rule 86 (seen_OPER -> MINUS .)
+    IDV             reduce using rule 86 (seen_OPER -> MINUS .)
+
+
+state 168
+
+    (92) seen_TERM -> DIVISION .
+
+    OP              reduce using rule 92 (seen_TERM -> DIVISION .)
+    PLUS            reduce using rule 92 (seen_TERM -> DIVISION .)
+    MINUS           reduce using rule 92 (seen_TERM -> DIVISION .)
+    INT             reduce using rule 92 (seen_TERM -> DIVISION .)
+    FLOAT           reduce using rule 92 (seen_TERM -> DIVISION .)
+    STRING          reduce using rule 92 (seen_TERM -> DIVISION .)
+    IDV             reduce using rule 92 (seen_TERM -> DIVISION .)
+
+
+state 169
+
+    (93) seen_TERM -> AND .
+
+    OP              reduce using rule 93 (seen_TERM -> AND .)
+    PLUS            reduce using rule 93 (seen_TERM -> AND .)
+    MINUS           reduce using rule 93 (seen_TERM -> AND .)
+    INT             reduce using rule 93 (seen_TERM -> AND .)
+    FLOAT           reduce using rule 93 (seen_TERM -> AND .)
+    STRING          reduce using rule 93 (seen_TERM -> AND .)
+    IDV             reduce using rule 93 (seen_TERM -> AND .)
+
+
+state 170
+
+    (89) OPER -> TERM seen_TERMF seen_TERM . OPER
+    (88) OPER -> . TERM seen_TERMF
+    (89) OPER -> . TERM seen_TERMF seen_TERM OPER
+    (94) TERM -> . OP seen_OP_TERM STM CP
+    (95) TERM -> . TERM2
+    (97) TERM2 -> . CTE
+    (98) TERM2 -> . PLUS CTE
+    (99) TERM2 -> . MINUS CTE
+    (100) CTE -> . INT seen_INT
+    (101) CTE -> . FLOAT seen_FLOAT
+    (102) CTE -> . STRING seen_STRING
+    (103) CTE -> . seen_ID
+    (104) CTE -> . seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
+    (108) seen_ID -> . IDV
+
+    OP              shift and go to state 126
+    PLUS            shift and go to state 121
+    MINUS           shift and go to state 117
+    INT             shift and go to state 124
+    FLOAT           shift and go to state 125
+    STRING          shift and go to state 118
+    IDV             shift and go to state 115
+
+    OPER                           shift and go to state 193
+    TERM                           shift and go to state 119
+    TERM2                          shift and go to state 123
+    seen_ID                        shift and go to state 120
+    CTE                            shift and go to state 116
+
+state 171
+
+    (91) seen_TERM -> MULTIPLY .
+
+    OP              reduce using rule 91 (seen_TERM -> MULTIPLY .)
+    PLUS            reduce using rule 91 (seen_TERM -> MULTIPLY .)
+    MINUS           reduce using rule 91 (seen_TERM -> MULTIPLY .)
+    INT             reduce using rule 91 (seen_TERM -> MULTIPLY .)
+    FLOAT           reduce using rule 91 (seen_TERM -> MULTIPLY .)
+    STRING          reduce using rule 91 (seen_TERM -> MULTIPLY .)
+    IDV             reduce using rule 91 (seen_TERM -> MULTIPLY .)
+
+
+state 172
+
+    (104) CTE -> seen_ID start_ARRAY seen_ARRAY_CTE . end_ARRAY
     (112) end_ARRAY -> .
 
     MULTIPLY        reduce using rule 112 (end_ARRAY -> .)
@@ -2478,465 +2872,16 @@ state 146
     CB              reduce using rule 112 (end_ARRAY -> .)
     COMMA           reduce using rule 112 (end_ARRAY -> .)
 
-    end_ARRAY                      shift and go to state 173
-
-state 147
-
-    (98) TERM2 -> PLUS CTE .
-
-    MULTIPLY        reduce using rule 98 (TERM2 -> PLUS CTE .)
-    DIVISION        reduce using rule 98 (TERM2 -> PLUS CTE .)
-    AND             reduce using rule 98 (TERM2 -> PLUS CTE .)
-    PLUS            reduce using rule 98 (TERM2 -> PLUS CTE .)
-    MINUS           reduce using rule 98 (TERM2 -> PLUS CTE .)
-    OR              reduce using rule 98 (TERM2 -> PLUS CTE .)
-    DOT             reduce using rule 98 (TERM2 -> PLUS CTE .)
-    CP              reduce using rule 98 (TERM2 -> PLUS CTE .)
-    PC              reduce using rule 98 (TERM2 -> PLUS CTE .)
-    GT              reduce using rule 98 (TERM2 -> PLUS CTE .)
-    GTE             reduce using rule 98 (TERM2 -> PLUS CTE .)
-    LT              reduce using rule 98 (TERM2 -> PLUS CTE .)
-    LTE             reduce using rule 98 (TERM2 -> PLUS CTE .)
-    DOUBLEEQUALS    reduce using rule 98 (TERM2 -> PLUS CTE .)
-    LTGT            reduce using rule 98 (TERM2 -> PLUS CTE .)
-    CB              reduce using rule 98 (TERM2 -> PLUS CTE .)
-    COMMA           reduce using rule 98 (TERM2 -> PLUS CTE .)
-
-
-state 148
-
-    (78) RETURN -> RETURNW EXPRESSION PC .
-
-    RETURNW         reduce using rule 78 (RETURN -> RETURNW EXPRESSION PC .)
-    LOOPW           reduce using rule 78 (RETURN -> RETURNW EXPRESSION PC .)
-    LOOPIFW         reduce using rule 78 (RETURN -> RETURNW EXPRESSION PC .)
-    IF              reduce using rule 78 (RETURN -> RETURNW EXPRESSION PC .)
-    ASKUSER         reduce using rule 78 (RETURN -> RETURNW EXPRESSION PC .)
-    SAYW            reduce using rule 78 (RETURN -> RETURNW EXPRESSION PC .)
-    CALLBOXW        reduce using rule 78 (RETURN -> RETURNW EXPRESSION PC .)
-    IDV             reduce using rule 78 (RETURN -> RETURNW EXPRESSION PC .)
-    CC              reduce using rule 78 (RETURN -> RETURNW EXPRESSION PC .)
-
-
-state 149
-
-    (100) CTE -> INT seen_INT .
-
-    MULTIPLY        reduce using rule 100 (CTE -> INT seen_INT .)
-    DIVISION        reduce using rule 100 (CTE -> INT seen_INT .)
-    AND             reduce using rule 100 (CTE -> INT seen_INT .)
-    PLUS            reduce using rule 100 (CTE -> INT seen_INT .)
-    MINUS           reduce using rule 100 (CTE -> INT seen_INT .)
-    OR              reduce using rule 100 (CTE -> INT seen_INT .)
-    PC              reduce using rule 100 (CTE -> INT seen_INT .)
-    COMMA           reduce using rule 100 (CTE -> INT seen_INT .)
-    CP              reduce using rule 100 (CTE -> INT seen_INT .)
-    GT              reduce using rule 100 (CTE -> INT seen_INT .)
-    GTE             reduce using rule 100 (CTE -> INT seen_INT .)
-    LT              reduce using rule 100 (CTE -> INT seen_INT .)
-    LTE             reduce using rule 100 (CTE -> INT seen_INT .)
-    DOUBLEEQUALS    reduce using rule 100 (CTE -> INT seen_INT .)
-    LTGT            reduce using rule 100 (CTE -> INT seen_INT .)
-    DOT             reduce using rule 100 (CTE -> INT seen_INT .)
-    CB              reduce using rule 100 (CTE -> INT seen_INT .)
-
-
-state 150
-
-    (101) CTE -> FLOAT seen_FLOAT .
-
-    MULTIPLY        reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
-    DIVISION        reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
-    AND             reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
-    PLUS            reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
-    MINUS           reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
-    OR              reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
-    PC              reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
-    COMMA           reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
-    CP              reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
-    GT              reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
-    GTE             reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
-    LT              reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
-    LTE             reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
-    DOUBLEEQUALS    reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
-    LTGT            reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
-    DOT             reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
-    CB              reduce using rule 101 (CTE -> FLOAT seen_FLOAT .)
-
-
-state 151
-
-    (94) TERM -> OP seen_OP_TERM . STM CP
-    (53) STM -> . EXPRESSION STM2 EXPRESSION seen_STM
-    (54) STM -> . EXPRESSION
-    (82) EXPRESSION -> . OPER seen_EXPF
-    (83) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
-    (88) OPER -> . TERM seen_TERMF
-    (89) OPER -> . TERM seen_TERMF seen_TERM OPER
-    (94) TERM -> . OP seen_OP_TERM STM CP
-    (95) TERM -> . TERM2
-    (97) TERM2 -> . CTE
-    (98) TERM2 -> . PLUS CTE
-    (99) TERM2 -> . MINUS CTE
-    (100) CTE -> . INT seen_INT
-    (101) CTE -> . FLOAT seen_FLOAT
-    (102) CTE -> . STRING seen_STRING
-    (103) CTE -> . seen_ID
-    (104) CTE -> . seen_ID seen_ARRAY_CTE end_ARRAY
-    (108) seen_ID -> . IDV
-
-    OP              shift and go to state 127
-    PLUS            shift and go to state 122
-    MINUS           shift and go to state 118
-    INT             shift and go to state 125
-    FLOAT           shift and go to state 126
-    STRING          shift and go to state 119
-    IDV             shift and go to state 116
-
-    OPER                           shift and go to state 115
-    TERM                           shift and go to state 120
-    TERM2                          shift and go to state 124
-    STM                            shift and go to state 174
-    seen_ID                        shift and go to state 121
-    CTE                            shift and go to state 117
-    EXPRESSION                     shift and go to state 152
-
-state 152
-
-    (53) STM -> EXPRESSION . STM2 EXPRESSION seen_STM
-    (54) STM -> EXPRESSION .
-    (55) STM2 -> . GT
-    (56) STM2 -> . GTE
-    (57) STM2 -> . LT
-    (58) STM2 -> . LTE
-    (59) STM2 -> . DOUBLEEQUALS
-    (60) STM2 -> . LTGT
-
-    CP              reduce using rule 54 (STM -> EXPRESSION .)
-    GT              shift and go to state 175
-    GTE             shift and go to state 176
-    LT              shift and go to state 178
-    LTE             shift and go to state 180
-    DOUBLEEQUALS    shift and go to state 181
-    LTGT            shift and go to state 179
-
-    STM2                           shift and go to state 177
-
-state 153
-
-    (42) CONDITION -> IF OP STM . CP OC seen_OC_IF BLOCKS2 CC CONDITION2
-    (43) CONDITION -> IF OP STM . CP OC seen_OC_IF CC CONDITION2
-    (44) CONDITION -> IF OP STM . CP OC seen_OC_IF BLOCKS2 CC seen_CC_IF
-    (45) CONDITION -> IF OP STM . CP OC seen_OC_IF CC seen_CC_IF
-
-    CP              shift and go to state 182
-
-
-state 154
-
-    (126) LOOP -> LOOPW seen_LOOP OP . seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
-    (127) LOOP -> LOOPW seen_LOOP OP . seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-    (128) LOOP -> LOOPW seen_LOOP OP . seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
-    (129) LOOP -> LOOPW seen_LOOP OP . seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
-    (132) seen_VAR_LOOP -> . IDV
-
-    IDV             shift and go to state 184
-
-    seen_VAR_LOOP                  shift and go to state 183
-
-state 155
-
-    (118) ASK -> ASKUSER OP STRING . COMMA IDV CP PC
-
-    COMMA           shift and go to state 185
-
-
-state 156
-
-    (67) METHODS -> METHODS2 seen_IDM OP METHODS3 CP BLOCKS METHOD_UPDATE METHODS .
-
-    MAINBOX         reduce using rule 67 (METHODS -> METHODS2 seen_IDM OP METHODS3 CP BLOCKS METHOD_UPDATE METHODS .)
-
-
-state 157
-
-    (115) CONCAT -> EXPRESSION seen_EXP_SAY . DOT CONCAT
-    (116) CONCAT -> EXPRESSION seen_EXP_SAY .
-
-    DOT             shift and go to state 186
-    CP              reduce using rule 116 (CONCAT -> EXPRESSION seen_EXP_SAY .)
-
-
-state 158
-
-    (114) SAY -> SAYW OP CONCAT CP . PC
-
-    PC              shift and go to state 187
-
-
-state 159
-
-    (79) ASSIGNATION -> seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS . EXPRESSION PC
-    (82) EXPRESSION -> . OPER seen_EXPF
-    (83) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
-    (88) OPER -> . TERM seen_TERMF
-    (89) OPER -> . TERM seen_TERMF seen_TERM OPER
-    (94) TERM -> . OP seen_OP_TERM STM CP
-    (95) TERM -> . TERM2
-    (97) TERM2 -> . CTE
-    (98) TERM2 -> . PLUS CTE
-    (99) TERM2 -> . MINUS CTE
-    (100) CTE -> . INT seen_INT
-    (101) CTE -> . FLOAT seen_FLOAT
-    (102) CTE -> . STRING seen_STRING
-    (103) CTE -> . seen_ID
-    (104) CTE -> . seen_ID seen_ARRAY_CTE end_ARRAY
-    (108) seen_ID -> . IDV
-
-    OP              shift and go to state 127
-    PLUS            shift and go to state 122
-    MINUS           shift and go to state 118
-    INT             shift and go to state 125
-    FLOAT           shift and go to state 126
-    STRING          shift and go to state 119
-    IDV             shift and go to state 116
-
-    OPER                           shift and go to state 115
-    TERM2                          shift and go to state 124
-    TERM                           shift and go to state 120
-    seen_ID                        shift and go to state 121
-    CTE                            shift and go to state 117
-    EXPRESSION                     shift and go to state 188
-
-state 160
-
-    (80) ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .
-
-    RETURNW         reduce using rule 80 (ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .)
-    LOOPW           reduce using rule 80 (ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .)
-    LOOPIFW         reduce using rule 80 (ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .)
-    IF              reduce using rule 80 (ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .)
-    ASKUSER         reduce using rule 80 (ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .)
-    SAYW            reduce using rule 80 (ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .)
-    CALLBOXW        reduce using rule 80 (ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .)
-    IDV             reduce using rule 80 (ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .)
-    CC              reduce using rule 80 (ASSIGNATION -> seen_ID_ASSIGNATION EQUALS EXPRESSION PC .)
-
-
-state 161
-
-    (109) seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION . seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE
-    (110) seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION . seen_EXPRESSION_ARRAY CB
-    (113) seen_EXPRESSION_ARRAY -> .
-
-    CB              reduce using rule 113 (seen_EXPRESSION_ARRAY -> .)
-
-    seen_EXPRESSION_ARRAY          shift and go to state 189
-
-state 162
-
-    (119) CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA . SEEN_CALL PARAMETERS CP PC
-    (122) SEEN_CALL -> .
-
-    OP              reduce using rule 122 (SEEN_CALL -> .)
-    PLUS            reduce using rule 122 (SEEN_CALL -> .)
-    MINUS           reduce using rule 122 (SEEN_CALL -> .)
-    INT             reduce using rule 122 (SEEN_CALL -> .)
-    FLOAT           reduce using rule 122 (SEEN_CALL -> .)
-    STRING          reduce using rule 122 (SEEN_CALL -> .)
-    IDV             reduce using rule 122 (SEEN_CALL -> .)
-
-    SEEN_CALL                      shift and go to state 190
-
-state 163
-
-    (120) CALLBOX -> CALLBOXW OP SEEN_IDM_CALL CP . PC
-
-    PC              shift and go to state 191
-
-
-state 164
-
-    (141) LOOPIF -> LOOPIFW seen_LOOPIF OP STM . CP seen_CP_LOOPIF OC BLOCKS2 CC
-    (142) LOOPIF -> LOOPIFW seen_LOOPIF OP STM . CP seen_CP_LOOPIF OC CC
-
-    CP              shift and go to state 192
-
-
-state 165
-
-    (87) seen_OPER -> OR .
-
-    OP              reduce using rule 87 (seen_OPER -> OR .)
-    PLUS            reduce using rule 87 (seen_OPER -> OR .)
-    MINUS           reduce using rule 87 (seen_OPER -> OR .)
-    INT             reduce using rule 87 (seen_OPER -> OR .)
-    FLOAT           reduce using rule 87 (seen_OPER -> OR .)
-    STRING          reduce using rule 87 (seen_OPER -> OR .)
-    IDV             reduce using rule 87 (seen_OPER -> OR .)
-
-
-state 166
-
-    (85) seen_OPER -> PLUS .
-
-    OP              reduce using rule 85 (seen_OPER -> PLUS .)
-    PLUS            reduce using rule 85 (seen_OPER -> PLUS .)
-    MINUS           reduce using rule 85 (seen_OPER -> PLUS .)
-    INT             reduce using rule 85 (seen_OPER -> PLUS .)
-    FLOAT           reduce using rule 85 (seen_OPER -> PLUS .)
-    STRING          reduce using rule 85 (seen_OPER -> PLUS .)
-    IDV             reduce using rule 85 (seen_OPER -> PLUS .)
-
-
-state 167
-
-    (83) EXPRESSION -> OPER seen_EXPF seen_OPER . EXPRESSION
-    (82) EXPRESSION -> . OPER seen_EXPF
-    (83) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
-    (88) OPER -> . TERM seen_TERMF
-    (89) OPER -> . TERM seen_TERMF seen_TERM OPER
-    (94) TERM -> . OP seen_OP_TERM STM CP
-    (95) TERM -> . TERM2
-    (97) TERM2 -> . CTE
-    (98) TERM2 -> . PLUS CTE
-    (99) TERM2 -> . MINUS CTE
-    (100) CTE -> . INT seen_INT
-    (101) CTE -> . FLOAT seen_FLOAT
-    (102) CTE -> . STRING seen_STRING
-    (103) CTE -> . seen_ID
-    (104) CTE -> . seen_ID seen_ARRAY_CTE end_ARRAY
-    (108) seen_ID -> . IDV
-
-    OP              shift and go to state 127
-    PLUS            shift and go to state 122
-    MINUS           shift and go to state 118
-    INT             shift and go to state 125
-    FLOAT           shift and go to state 126
-    STRING          shift and go to state 119
-    IDV             shift and go to state 116
-
-    OPER                           shift and go to state 115
-    TERM                           shift and go to state 120
-    TERM2                          shift and go to state 124
-    seen_ID                        shift and go to state 121
-    CTE                            shift and go to state 117
-    EXPRESSION                     shift and go to state 193
-
-state 168
-
-    (86) seen_OPER -> MINUS .
-
-    OP              reduce using rule 86 (seen_OPER -> MINUS .)
-    PLUS            reduce using rule 86 (seen_OPER -> MINUS .)
-    MINUS           reduce using rule 86 (seen_OPER -> MINUS .)
-    INT             reduce using rule 86 (seen_OPER -> MINUS .)
-    FLOAT           reduce using rule 86 (seen_OPER -> MINUS .)
-    STRING          reduce using rule 86 (seen_OPER -> MINUS .)
-    IDV             reduce using rule 86 (seen_OPER -> MINUS .)
-
-
-state 169
-
-    (92) seen_TERM -> DIVISION .
-
-    OP              reduce using rule 92 (seen_TERM -> DIVISION .)
-    PLUS            reduce using rule 92 (seen_TERM -> DIVISION .)
-    MINUS           reduce using rule 92 (seen_TERM -> DIVISION .)
-    INT             reduce using rule 92 (seen_TERM -> DIVISION .)
-    FLOAT           reduce using rule 92 (seen_TERM -> DIVISION .)
-    STRING          reduce using rule 92 (seen_TERM -> DIVISION .)
-    IDV             reduce using rule 92 (seen_TERM -> DIVISION .)
-
-
-state 170
-
-    (93) seen_TERM -> AND .
-
-    OP              reduce using rule 93 (seen_TERM -> AND .)
-    PLUS            reduce using rule 93 (seen_TERM -> AND .)
-    MINUS           reduce using rule 93 (seen_TERM -> AND .)
-    INT             reduce using rule 93 (seen_TERM -> AND .)
-    FLOAT           reduce using rule 93 (seen_TERM -> AND .)
-    STRING          reduce using rule 93 (seen_TERM -> AND .)
-    IDV             reduce using rule 93 (seen_TERM -> AND .)
-
-
-state 171
-
-    (89) OPER -> TERM seen_TERMF seen_TERM . OPER
-    (88) OPER -> . TERM seen_TERMF
-    (89) OPER -> . TERM seen_TERMF seen_TERM OPER
-    (94) TERM -> . OP seen_OP_TERM STM CP
-    (95) TERM -> . TERM2
-    (97) TERM2 -> . CTE
-    (98) TERM2 -> . PLUS CTE
-    (99) TERM2 -> . MINUS CTE
-    (100) CTE -> . INT seen_INT
-    (101) CTE -> . FLOAT seen_FLOAT
-    (102) CTE -> . STRING seen_STRING
-    (103) CTE -> . seen_ID
-    (104) CTE -> . seen_ID seen_ARRAY_CTE end_ARRAY
-    (108) seen_ID -> . IDV
-
-    OP              shift and go to state 127
-    PLUS            shift and go to state 122
-    MINUS           shift and go to state 118
-    INT             shift and go to state 125
-    FLOAT           shift and go to state 126
-    STRING          shift and go to state 119
-    IDV             shift and go to state 116
-
-    OPER                           shift and go to state 194
-    TERM                           shift and go to state 120
-    TERM2                          shift and go to state 124
-    seen_ID                        shift and go to state 121
-    CTE                            shift and go to state 117
-
-state 172
-
-    (91) seen_TERM -> MULTIPLY .
-
-    OP              reduce using rule 91 (seen_TERM -> MULTIPLY .)
-    PLUS            reduce using rule 91 (seen_TERM -> MULTIPLY .)
-    MINUS           reduce using rule 91 (seen_TERM -> MULTIPLY .)
-    INT             reduce using rule 91 (seen_TERM -> MULTIPLY .)
-    FLOAT           reduce using rule 91 (seen_TERM -> MULTIPLY .)
-    STRING          reduce using rule 91 (seen_TERM -> MULTIPLY .)
-    IDV             reduce using rule 91 (seen_TERM -> MULTIPLY .)
-
+    end_ARRAY                      shift and go to state 194
 
 state 173
-
-    (104) CTE -> seen_ID seen_ARRAY_CTE end_ARRAY .
-
-    MULTIPLY        reduce using rule 104 (CTE -> seen_ID seen_ARRAY_CTE end_ARRAY .)
-    DIVISION        reduce using rule 104 (CTE -> seen_ID seen_ARRAY_CTE end_ARRAY .)
-    AND             reduce using rule 104 (CTE -> seen_ID seen_ARRAY_CTE end_ARRAY .)
-    PLUS            reduce using rule 104 (CTE -> seen_ID seen_ARRAY_CTE end_ARRAY .)
-    MINUS           reduce using rule 104 (CTE -> seen_ID seen_ARRAY_CTE end_ARRAY .)
-    OR              reduce using rule 104 (CTE -> seen_ID seen_ARRAY_CTE end_ARRAY .)
-    PC              reduce using rule 104 (CTE -> seen_ID seen_ARRAY_CTE end_ARRAY .)
-    COMMA           reduce using rule 104 (CTE -> seen_ID seen_ARRAY_CTE end_ARRAY .)
-    CP              reduce using rule 104 (CTE -> seen_ID seen_ARRAY_CTE end_ARRAY .)
-    GT              reduce using rule 104 (CTE -> seen_ID seen_ARRAY_CTE end_ARRAY .)
-    GTE             reduce using rule 104 (CTE -> seen_ID seen_ARRAY_CTE end_ARRAY .)
-    LT              reduce using rule 104 (CTE -> seen_ID seen_ARRAY_CTE end_ARRAY .)
-    LTE             reduce using rule 104 (CTE -> seen_ID seen_ARRAY_CTE end_ARRAY .)
-    DOUBLEEQUALS    reduce using rule 104 (CTE -> seen_ID seen_ARRAY_CTE end_ARRAY .)
-    LTGT            reduce using rule 104 (CTE -> seen_ID seen_ARRAY_CTE end_ARRAY .)
-    DOT             reduce using rule 104 (CTE -> seen_ID seen_ARRAY_CTE end_ARRAY .)
-    CB              reduce using rule 104 (CTE -> seen_ID seen_ARRAY_CTE end_ARRAY .)
-
-
-state 174
 
     (94) TERM -> OP seen_OP_TERM STM . CP
 
     CP              shift and go to state 195
 
 
-state 175
+state 174
 
     (55) STM2 -> GT .
 
@@ -2949,7 +2894,7 @@ state 175
     IDV             reduce using rule 55 (STM2 -> GT .)
 
 
-state 176
+state 175
 
     (56) STM2 -> GTE .
 
@@ -2962,7 +2907,7 @@ state 176
     IDV             reduce using rule 56 (STM2 -> GTE .)
 
 
-state 177
+state 176
 
     (53) STM -> EXPRESSION STM2 . EXPRESSION seen_STM
     (82) EXPRESSION -> . OPER seen_EXPF
@@ -2978,25 +2923,25 @@ state 177
     (101) CTE -> . FLOAT seen_FLOAT
     (102) CTE -> . STRING seen_STRING
     (103) CTE -> . seen_ID
-    (104) CTE -> . seen_ID seen_ARRAY_CTE end_ARRAY
+    (104) CTE -> . seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
     (108) seen_ID -> . IDV
 
-    OP              shift and go to state 127
-    PLUS            shift and go to state 122
-    MINUS           shift and go to state 118
-    INT             shift and go to state 125
-    FLOAT           shift and go to state 126
-    STRING          shift and go to state 119
-    IDV             shift and go to state 116
+    OP              shift and go to state 126
+    PLUS            shift and go to state 121
+    MINUS           shift and go to state 117
+    INT             shift and go to state 124
+    FLOAT           shift and go to state 125
+    STRING          shift and go to state 118
+    IDV             shift and go to state 115
 
-    OPER                           shift and go to state 115
-    TERM                           shift and go to state 120
-    TERM2                          shift and go to state 124
-    seen_ID                        shift and go to state 121
-    CTE                            shift and go to state 117
+    OPER                           shift and go to state 114
+    TERM                           shift and go to state 119
+    TERM2                          shift and go to state 123
+    seen_ID                        shift and go to state 120
+    CTE                            shift and go to state 116
     EXPRESSION                     shift and go to state 196
 
-state 178
+state 177
 
     (57) STM2 -> LT .
 
@@ -3009,7 +2954,7 @@ state 178
     IDV             reduce using rule 57 (STM2 -> LT .)
 
 
-state 179
+state 178
 
     (60) STM2 -> LTGT .
 
@@ -3022,7 +2967,7 @@ state 179
     IDV             reduce using rule 60 (STM2 -> LTGT .)
 
 
-state 180
+state 179
 
     (58) STM2 -> LTE .
 
@@ -3035,7 +2980,7 @@ state 180
     IDV             reduce using rule 58 (STM2 -> LTE .)
 
 
-state 181
+state 180
 
     (59) STM2 -> DOUBLEEQUALS .
 
@@ -3048,7 +2993,7 @@ state 181
     IDV             reduce using rule 59 (STM2 -> DOUBLEEQUALS .)
 
 
-state 182
+state 181
 
     (42) CONDITION -> IF OP STM CP . OC seen_OC_IF BLOCKS2 CC CONDITION2
     (43) CONDITION -> IF OP STM CP . OC seen_OC_IF CC CONDITION2
@@ -3058,7 +3003,7 @@ state 182
     OC              shift and go to state 197
 
 
-state 183
+state 182
 
     (126) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP . FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
     (127) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP . FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
@@ -3068,21 +3013,21 @@ state 183
     FROM            shift and go to state 198
 
 
-state 184
+state 183
 
     (132) seen_VAR_LOOP -> IDV .
 
     FROM            reduce using rule 132 (seen_VAR_LOOP -> IDV .)
 
 
-state 185
+state 184
 
     (118) ASK -> ASKUSER OP STRING COMMA . IDV CP PC
 
     IDV             shift and go to state 199
 
 
-state 186
+state 185
 
     (115) CONCAT -> EXPRESSION seen_EXP_SAY DOT . CONCAT
     (115) CONCAT -> . EXPRESSION seen_EXP_SAY DOT CONCAT
@@ -3100,26 +3045,26 @@ state 186
     (101) CTE -> . FLOAT seen_FLOAT
     (102) CTE -> . STRING seen_STRING
     (103) CTE -> . seen_ID
-    (104) CTE -> . seen_ID seen_ARRAY_CTE end_ARRAY
+    (104) CTE -> . seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
     (108) seen_ID -> . IDV
 
-    OP              shift and go to state 127
-    PLUS            shift and go to state 122
-    MINUS           shift and go to state 118
-    INT             shift and go to state 125
-    FLOAT           shift and go to state 126
-    STRING          shift and go to state 119
-    IDV             shift and go to state 116
+    OP              shift and go to state 126
+    PLUS            shift and go to state 121
+    MINUS           shift and go to state 117
+    INT             shift and go to state 124
+    FLOAT           shift and go to state 125
+    STRING          shift and go to state 118
+    IDV             shift and go to state 115
 
-    OPER                           shift and go to state 115
-    TERM                           shift and go to state 120
-    TERM2                          shift and go to state 124
-    seen_ID                        shift and go to state 121
-    CTE                            shift and go to state 117
-    EXPRESSION                     shift and go to state 133
+    OPER                           shift and go to state 114
+    TERM                           shift and go to state 119
+    TERM2                          shift and go to state 123
+    seen_ID                        shift and go to state 120
+    CTE                            shift and go to state 116
+    EXPRESSION                     shift and go to state 132
     CONCAT                         shift and go to state 200
 
-state 187
+state 186
 
     (114) SAY -> SAYW OP CONCAT CP PC .
 
@@ -3134,22 +3079,49 @@ state 187
     CC              reduce using rule 114 (SAY -> SAYW OP CONCAT CP PC .)
 
 
+state 187
+
+    (79) ASSIGNATION -> seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS . EXPRESSION PC
+    (82) EXPRESSION -> . OPER seen_EXPF
+    (83) EXPRESSION -> . OPER seen_EXPF seen_OPER EXPRESSION
+    (88) OPER -> . TERM seen_TERMF
+    (89) OPER -> . TERM seen_TERMF seen_TERM OPER
+    (94) TERM -> . OP seen_OP_TERM STM CP
+    (95) TERM -> . TERM2
+    (97) TERM2 -> . CTE
+    (98) TERM2 -> . PLUS CTE
+    (99) TERM2 -> . MINUS CTE
+    (100) CTE -> . INT seen_INT
+    (101) CTE -> . FLOAT seen_FLOAT
+    (102) CTE -> . STRING seen_STRING
+    (103) CTE -> . seen_ID
+    (104) CTE -> . seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
+    (108) seen_ID -> . IDV
+
+    OP              shift and go to state 126
+    PLUS            shift and go to state 121
+    MINUS           shift and go to state 117
+    INT             shift and go to state 124
+    FLOAT           shift and go to state 125
+    STRING          shift and go to state 118
+    IDV             shift and go to state 115
+
+    OPER                           shift and go to state 114
+    TERM2                          shift and go to state 123
+    TERM                           shift and go to state 119
+    seen_ID                        shift and go to state 120
+    CTE                            shift and go to state 116
+    EXPRESSION                     shift and go to state 201
+
 state 188
 
-    (79) ASSIGNATION -> seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION . PC
-
-    PC              shift and go to state 201
-
-
-state 189
-
-    (109) seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY . CB seen_ARRAY_CTE
-    (110) seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY . CB
+    (109) seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY . CB seen_ARRAY_CTE
+    (110) seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY . CB
 
     CB              shift and go to state 202
 
 
-state 190
+state 189
 
     (119) CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA SEEN_CALL . PARAMETERS CP PC
     (123) PARAMETERS -> . SEEN_EXPRESSION_PARAM COMMA PARAMETERS
@@ -3168,27 +3140,27 @@ state 190
     (101) CTE -> . FLOAT seen_FLOAT
     (102) CTE -> . STRING seen_STRING
     (103) CTE -> . seen_ID
-    (104) CTE -> . seen_ID seen_ARRAY_CTE end_ARRAY
+    (104) CTE -> . seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
     (108) seen_ID -> . IDV
 
-    OP              shift and go to state 127
-    PLUS            shift and go to state 122
-    MINUS           shift and go to state 118
-    INT             shift and go to state 125
-    FLOAT           shift and go to state 126
-    STRING          shift and go to state 119
-    IDV             shift and go to state 116
+    OP              shift and go to state 126
+    PLUS            shift and go to state 121
+    MINUS           shift and go to state 117
+    INT             shift and go to state 124
+    FLOAT           shift and go to state 125
+    STRING          shift and go to state 118
+    IDV             shift and go to state 115
 
-    OPER                           shift and go to state 115
-    SEEN_EXPRESSION_PARAM          shift and go to state 205
-    TERM                           shift and go to state 120
-    TERM2                          shift and go to state 124
+    OPER                           shift and go to state 114
+    CTE                            shift and go to state 116
+    TERM                           shift and go to state 119
     PARAMETERS                     shift and go to state 203
-    CTE                            shift and go to state 117
-    seen_ID                        shift and go to state 121
+    seen_ID                        shift and go to state 120
     EXPRESSION                     shift and go to state 204
+    SEEN_EXPRESSION_PARAM          shift and go to state 205
+    TERM2                          shift and go to state 123
 
-state 191
+state 190
 
     (120) CALLBOX -> CALLBOXW OP SEEN_IDM_CALL CP PC .
 
@@ -3203,7 +3175,7 @@ state 191
     CC              reduce using rule 120 (CALLBOX -> CALLBOXW OP SEEN_IDM_CALL CP PC .)
 
 
-state 192
+state 191
 
     (141) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP . seen_CP_LOOPIF OC BLOCKS2 CC
     (142) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP . seen_CP_LOOPIF OC CC
@@ -3213,11 +3185,10 @@ state 192
 
     seen_CP_LOOPIF                 shift and go to state 206
 
-state 193
+state 192
 
     (83) EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .
 
-    CB              reduce using rule 83 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
     GT              reduce using rule 83 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
     GTE             reduce using rule 83 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
     LT              reduce using rule 83 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
@@ -3225,12 +3196,13 @@ state 193
     DOUBLEEQUALS    reduce using rule 83 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
     LTGT            reduce using rule 83 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
     CP              reduce using rule 83 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
-    DOT             reduce using rule 83 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
     COMMA           reduce using rule 83 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
+    DOT             reduce using rule 83 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
     PC              reduce using rule 83 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
+    CB              reduce using rule 83 (EXPRESSION -> OPER seen_EXPF seen_OPER EXPRESSION .)
 
 
-state 194
+state 193
 
     (89) OPER -> TERM seen_TERMF seen_TERM OPER .
 
@@ -3238,16 +3210,39 @@ state 194
     MINUS           reduce using rule 89 (OPER -> TERM seen_TERMF seen_TERM OPER .)
     OR              reduce using rule 89 (OPER -> TERM seen_TERMF seen_TERM OPER .)
     PC              reduce using rule 89 (OPER -> TERM seen_TERMF seen_TERM OPER .)
-    DOT             reduce using rule 89 (OPER -> TERM seen_TERMF seen_TERM OPER .)
+    CB              reduce using rule 89 (OPER -> TERM seen_TERMF seen_TERM OPER .)
+    COMMA           reduce using rule 89 (OPER -> TERM seen_TERMF seen_TERM OPER .)
     CP              reduce using rule 89 (OPER -> TERM seen_TERMF seen_TERM OPER .)
+    DOT             reduce using rule 89 (OPER -> TERM seen_TERMF seen_TERM OPER .)
     GT              reduce using rule 89 (OPER -> TERM seen_TERMF seen_TERM OPER .)
     GTE             reduce using rule 89 (OPER -> TERM seen_TERMF seen_TERM OPER .)
     LT              reduce using rule 89 (OPER -> TERM seen_TERMF seen_TERM OPER .)
     LTE             reduce using rule 89 (OPER -> TERM seen_TERMF seen_TERM OPER .)
     DOUBLEEQUALS    reduce using rule 89 (OPER -> TERM seen_TERMF seen_TERM OPER .)
     LTGT            reduce using rule 89 (OPER -> TERM seen_TERMF seen_TERM OPER .)
-    CB              reduce using rule 89 (OPER -> TERM seen_TERMF seen_TERM OPER .)
-    COMMA           reduce using rule 89 (OPER -> TERM seen_TERMF seen_TERM OPER .)
+
+
+state 194
+
+    (104) CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY .
+
+    MULTIPLY        reduce using rule 104 (CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY .)
+    DIVISION        reduce using rule 104 (CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY .)
+    AND             reduce using rule 104 (CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY .)
+    PLUS            reduce using rule 104 (CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY .)
+    MINUS           reduce using rule 104 (CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY .)
+    OR              reduce using rule 104 (CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY .)
+    PC              reduce using rule 104 (CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY .)
+    CB              reduce using rule 104 (CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY .)
+    DOT             reduce using rule 104 (CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY .)
+    CP              reduce using rule 104 (CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY .)
+    GT              reduce using rule 104 (CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY .)
+    GTE             reduce using rule 104 (CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY .)
+    LT              reduce using rule 104 (CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY .)
+    LTE             reduce using rule 104 (CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY .)
+    DOUBLEEQUALS    reduce using rule 104 (CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY .)
+    LTGT            reduce using rule 104 (CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY .)
+    COMMA           reduce using rule 104 (CTE -> seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY .)
 
 
 state 195
@@ -3262,8 +3257,8 @@ state 195
     OR              reduce using rule 94 (TERM -> OP seen_OP_TERM STM CP .)
     COMMA           reduce using rule 94 (TERM -> OP seen_OP_TERM STM CP .)
     CP              reduce using rule 94 (TERM -> OP seen_OP_TERM STM CP .)
-    PC              reduce using rule 94 (TERM -> OP seen_OP_TERM STM CP .)
     DOT             reduce using rule 94 (TERM -> OP seen_OP_TERM STM CP .)
+    PC              reduce using rule 94 (TERM -> OP seen_OP_TERM STM CP .)
     GT              reduce using rule 94 (TERM -> OP seen_OP_TERM STM CP .)
     GTE             reduce using rule 94 (TERM -> OP seen_OP_TERM STM CP .)
     LT              reduce using rule 94 (TERM -> OP seen_OP_TERM STM CP .)
@@ -3336,53 +3331,45 @@ state 200
 
 state 201
 
-    (79) ASSIGNATION -> seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .
+    (79) ASSIGNATION -> seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION . PC
 
-    RETURNW         reduce using rule 79 (ASSIGNATION -> seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .)
-    LOOPW           reduce using rule 79 (ASSIGNATION -> seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .)
-    LOOPIFW         reduce using rule 79 (ASSIGNATION -> seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .)
-    IF              reduce using rule 79 (ASSIGNATION -> seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .)
-    ASKUSER         reduce using rule 79 (ASSIGNATION -> seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .)
-    SAYW            reduce using rule 79 (ASSIGNATION -> seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .)
-    CALLBOXW        reduce using rule 79 (ASSIGNATION -> seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .)
-    IDV             reduce using rule 79 (ASSIGNATION -> seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .)
-    CC              reduce using rule 79 (ASSIGNATION -> seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .)
+    PC              shift and go to state 215
 
 
 state 202
 
-    (109) seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB . seen_ARRAY_CTE
-    (110) seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .
-    (109) seen_ARRAY_CTE -> . OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE
-    (110) seen_ARRAY_CTE -> . OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB
+    (109) seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB . seen_ARRAY_CTE
+    (110) seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .
+    (109) seen_ARRAY_CTE -> . OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE
+    (110) seen_ARRAY_CTE -> . OB EXPRESSION seen_EXPRESSION_ARRAY CB
 
-    EQUALS          reduce using rule 110 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .)
-    MULTIPLY        reduce using rule 110 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .)
-    DIVISION        reduce using rule 110 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .)
-    AND             reduce using rule 110 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .)
-    PLUS            reduce using rule 110 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .)
-    MINUS           reduce using rule 110 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .)
-    OR              reduce using rule 110 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .)
-    PC              reduce using rule 110 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .)
-    DOT             reduce using rule 110 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .)
-    CP              reduce using rule 110 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .)
-    GT              reduce using rule 110 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .)
-    GTE             reduce using rule 110 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .)
-    LT              reduce using rule 110 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .)
-    LTE             reduce using rule 110 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .)
-    DOUBLEEQUALS    reduce using rule 110 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .)
-    LTGT            reduce using rule 110 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .)
-    CB              reduce using rule 110 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .)
-    COMMA           reduce using rule 110 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB .)
-    OB              shift and go to state 112
+    MULTIPLY        reduce using rule 110 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .)
+    DIVISION        reduce using rule 110 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .)
+    AND             reduce using rule 110 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .)
+    PLUS            reduce using rule 110 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .)
+    MINUS           reduce using rule 110 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .)
+    OR              reduce using rule 110 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .)
+    PC              reduce using rule 110 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .)
+    DOT             reduce using rule 110 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .)
+    CP              reduce using rule 110 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .)
+    GT              reduce using rule 110 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .)
+    GTE             reduce using rule 110 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .)
+    LT              reduce using rule 110 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .)
+    LTE             reduce using rule 110 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .)
+    DOUBLEEQUALS    reduce using rule 110 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .)
+    LTGT            reduce using rule 110 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .)
+    CB              reduce using rule 110 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .)
+    COMMA           reduce using rule 110 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .)
+    EQUALS          reduce using rule 110 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB .)
+    OB              shift and go to state 137
 
-    seen_ARRAY_CTE                 shift and go to state 215
+    seen_ARRAY_CTE                 shift and go to state 216
 
 state 203
 
     (119) CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA SEEN_CALL PARAMETERS . CP PC
 
-    CP              shift and go to state 216
+    CP              shift and go to state 217
 
 
 state 204
@@ -3398,7 +3385,7 @@ state 205
     (123) PARAMETERS -> SEEN_EXPRESSION_PARAM . COMMA PARAMETERS
     (124) PARAMETERS -> SEEN_EXPRESSION_PARAM .
 
-    COMMA           shift and go to state 217
+    COMMA           shift and go to state 218
     CP              reduce using rule 124 (PARAMETERS -> SEEN_EXPRESSION_PARAM .)
 
 
@@ -3407,7 +3394,7 @@ state 206
     (141) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF . OC BLOCKS2 CC
     (142) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF . OC CC
 
-    OC              shift and go to state 218
+    OC              shift and go to state 219
 
 
 state 207
@@ -3434,7 +3421,7 @@ state 208
     (40) CODE -> . SAY
     (41) CODE -> . CALLBOX
     (78) RETURN -> . RETURNW EXPRESSION PC
-    (79) ASSIGNATION -> . seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
+    (79) ASSIGNATION -> . seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
     (80) ASSIGNATION -> . seen_ID_ASSIGNATION EQUALS EXPRESSION PC
     (126) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
     (127) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
@@ -3452,12 +3439,12 @@ state 208
     (120) CALLBOX -> . CALLBOXW OP SEEN_IDM_CALL CP PC
     (81) seen_ID_ASSIGNATION -> . IDV
 
-    CC              shift and go to state 219
+    CC              shift and go to state 220
     RETURNW         shift and go to state 95
     LOOPW           shift and go to state 97
     LOOPIFW         shift and go to state 94
     IF              shift and go to state 96
-    ASKUSER         shift and go to state 101
+    ASKUSER         shift and go to state 98
     SAYW            shift and go to state 82
     CALLBOXW        shift and go to state 88
     IDV             shift and go to state 86
@@ -3469,45 +3456,45 @@ state 208
     ASK                            shift and go to state 90
     CONDITION                      shift and go to state 91
     ASSIGNATION                    shift and go to state 92
-    BLOCKS2                        shift and go to state 220
-    CALLBOX                        shift and go to state 99
-    LOOPIF                         shift and go to state 100
+    BLOCKS2                        shift and go to state 221
+    CALLBOX                        shift and go to state 100
+    LOOPIF                         shift and go to state 101
     LOOP                           shift and go to state 102
 
 state 209
 
     (136) seen_FLOAT_LOOP -> FLOAT .
 
+    TO              reduce using rule 136 (seen_FLOAT_LOOP -> FLOAT .)
     BY              reduce using rule 136 (seen_FLOAT_LOOP -> FLOAT .)
     CP              reduce using rule 136 (seen_FLOAT_LOOP -> FLOAT .)
-    TO              reduce using rule 136 (seen_FLOAT_LOOP -> FLOAT .)
 
 
 state 210
 
     (133) LOOP2 -> seen_INT_LOOP .
 
-    CP              reduce using rule 133 (LOOP2 -> seen_INT_LOOP .)
     TO              reduce using rule 133 (LOOP2 -> seen_INT_LOOP .)
     BY              reduce using rule 133 (LOOP2 -> seen_INT_LOOP .)
+    CP              reduce using rule 133 (LOOP2 -> seen_INT_LOOP .)
 
 
 state 211
 
     (134) LOOP2 -> seen_FLOAT_LOOP .
 
-    CP              reduce using rule 134 (LOOP2 -> seen_FLOAT_LOOP .)
     TO              reduce using rule 134 (LOOP2 -> seen_FLOAT_LOOP .)
     BY              reduce using rule 134 (LOOP2 -> seen_FLOAT_LOOP .)
+    CP              reduce using rule 134 (LOOP2 -> seen_FLOAT_LOOP .)
 
 
 state 212
 
     (135) seen_INT_LOOP -> INT .
 
-    TO              reduce using rule 135 (seen_INT_LOOP -> INT .)
     BY              reduce using rule 135 (seen_INT_LOOP -> INT .)
     CP              reduce using rule 135 (seen_INT_LOOP -> INT .)
+    TO              reduce using rule 135 (seen_INT_LOOP -> INT .)
 
 
 state 213
@@ -3517,48 +3504,63 @@ state 213
     (128) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 . TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
     (129) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 . TO LOOP2 CP seen_CP_LOOP2 OC CC
 
-    TO              shift and go to state 221
+    TO              shift and go to state 222
 
 
 state 214
 
     (118) ASK -> ASKUSER OP STRING COMMA IDV CP . PC
 
-    PC              shift and go to state 222
+    PC              shift and go to state 223
 
 
 state 215
 
-    (109) seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .
+    (79) ASSIGNATION -> seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .
 
-    EQUALS          reduce using rule 109 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
-    MULTIPLY        reduce using rule 109 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
-    DIVISION        reduce using rule 109 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
-    AND             reduce using rule 109 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
-    PLUS            reduce using rule 109 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
-    MINUS           reduce using rule 109 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
-    OR              reduce using rule 109 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
-    PC              reduce using rule 109 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
-    DOT             reduce using rule 109 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
-    CP              reduce using rule 109 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
-    GT              reduce using rule 109 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
-    GTE             reduce using rule 109 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
-    LT              reduce using rule 109 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
-    LTE             reduce using rule 109 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
-    DOUBLEEQUALS    reduce using rule 109 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
-    LTGT            reduce using rule 109 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
-    CB              reduce using rule 109 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
-    COMMA           reduce using rule 109 (seen_ARRAY_CTE -> OB start_ARRAY EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
+    RETURNW         reduce using rule 79 (ASSIGNATION -> seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .)
+    LOOPW           reduce using rule 79 (ASSIGNATION -> seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .)
+    LOOPIFW         reduce using rule 79 (ASSIGNATION -> seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .)
+    IF              reduce using rule 79 (ASSIGNATION -> seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .)
+    ASKUSER         reduce using rule 79 (ASSIGNATION -> seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .)
+    SAYW            reduce using rule 79 (ASSIGNATION -> seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .)
+    CALLBOXW        reduce using rule 79 (ASSIGNATION -> seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .)
+    IDV             reduce using rule 79 (ASSIGNATION -> seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .)
+    CC              reduce using rule 79 (ASSIGNATION -> seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC .)
 
 
 state 216
 
-    (119) CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA SEEN_CALL PARAMETERS CP . PC
+    (109) seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .
 
-    PC              shift and go to state 223
+    MULTIPLY        reduce using rule 109 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
+    DIVISION        reduce using rule 109 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
+    AND             reduce using rule 109 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
+    PLUS            reduce using rule 109 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
+    MINUS           reduce using rule 109 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
+    OR              reduce using rule 109 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
+    PC              reduce using rule 109 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
+    DOT             reduce using rule 109 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
+    CP              reduce using rule 109 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
+    GT              reduce using rule 109 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
+    GTE             reduce using rule 109 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
+    LT              reduce using rule 109 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
+    LTE             reduce using rule 109 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
+    DOUBLEEQUALS    reduce using rule 109 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
+    LTGT            reduce using rule 109 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
+    CB              reduce using rule 109 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
+    COMMA           reduce using rule 109 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
+    EQUALS          reduce using rule 109 (seen_ARRAY_CTE -> OB EXPRESSION seen_EXPRESSION_ARRAY CB seen_ARRAY_CTE .)
 
 
 state 217
+
+    (119) CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA SEEN_CALL PARAMETERS CP . PC
+
+    PC              shift and go to state 224
+
+
+state 218
 
     (123) PARAMETERS -> SEEN_EXPRESSION_PARAM COMMA . PARAMETERS
     (123) PARAMETERS -> . SEEN_EXPRESSION_PARAM COMMA PARAMETERS
@@ -3577,27 +3579,27 @@ state 217
     (101) CTE -> . FLOAT seen_FLOAT
     (102) CTE -> . STRING seen_STRING
     (103) CTE -> . seen_ID
-    (104) CTE -> . seen_ID seen_ARRAY_CTE end_ARRAY
+    (104) CTE -> . seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
     (108) seen_ID -> . IDV
 
-    OP              shift and go to state 127
-    PLUS            shift and go to state 122
-    MINUS           shift and go to state 118
-    INT             shift and go to state 125
-    FLOAT           shift and go to state 126
-    STRING          shift and go to state 119
-    IDV             shift and go to state 116
+    OP              shift and go to state 126
+    PLUS            shift and go to state 121
+    MINUS           shift and go to state 117
+    INT             shift and go to state 124
+    FLOAT           shift and go to state 125
+    STRING          shift and go to state 118
+    IDV             shift and go to state 115
 
-    OPER                           shift and go to state 115
+    OPER                           shift and go to state 114
     SEEN_EXPRESSION_PARAM          shift and go to state 205
-    TERM                           shift and go to state 120
-    TERM2                          shift and go to state 124
-    PARAMETERS                     shift and go to state 224
-    seen_ID                        shift and go to state 121
-    CTE                            shift and go to state 117
+    TERM                           shift and go to state 119
+    TERM2                          shift and go to state 123
+    PARAMETERS                     shift and go to state 225
+    seen_ID                        shift and go to state 120
+    CTE                            shift and go to state 116
     EXPRESSION                     shift and go to state 204
 
-state 218
+state 219
 
     (141) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC . BLOCKS2 CC
     (142) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC . CC
@@ -3612,7 +3614,7 @@ state 218
     (40) CODE -> . SAY
     (41) CODE -> . CALLBOX
     (78) RETURN -> . RETURNW EXPRESSION PC
-    (79) ASSIGNATION -> . seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
+    (79) ASSIGNATION -> . seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
     (80) ASSIGNATION -> . seen_ID_ASSIGNATION EQUALS EXPRESSION PC
     (126) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
     (127) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
@@ -3630,12 +3632,12 @@ state 218
     (120) CALLBOX -> . CALLBOXW OP SEEN_IDM_CALL CP PC
     (81) seen_ID_ASSIGNATION -> . IDV
 
-    CC              shift and go to state 225
+    CC              shift and go to state 226
     RETURNW         shift and go to state 95
     LOOPW           shift and go to state 97
     LOOPIFW         shift and go to state 94
     IF              shift and go to state 96
-    ASKUSER         shift and go to state 101
+    ASKUSER         shift and go to state 98
     SAYW            shift and go to state 82
     CALLBOXW        shift and go to state 88
     IDV             shift and go to state 86
@@ -3647,19 +3649,19 @@ state 218
     ASK                            shift and go to state 90
     CONDITION                      shift and go to state 91
     ASSIGNATION                    shift and go to state 92
-    BLOCKS2                        shift and go to state 226
-    CALLBOX                        shift and go to state 99
-    LOOPIF                         shift and go to state 100
+    BLOCKS2                        shift and go to state 227
+    CALLBOX                        shift and go to state 100
+    LOOPIF                         shift and go to state 101
     LOOP                           shift and go to state 102
 
-state 219
+state 220
 
     (43) CONDITION -> IF OP STM CP OC seen_OC_IF CC . CONDITION2
     (45) CONDITION -> IF OP STM CP OC seen_OC_IF CC . seen_CC_IF
     (48) CONDITION2 -> . ELSE seen_ELSE OC CONDITION3
     (47) seen_CC_IF -> .
 
-    ELSE            shift and go to state 227
+    ELSE            shift and go to state 228
     RETURNW         reduce using rule 47 (seen_CC_IF -> .)
     LOOPW           reduce using rule 47 (seen_CC_IF -> .)
     LOOPIFW         reduce using rule 47 (seen_CC_IF -> .)
@@ -3670,18 +3672,18 @@ state 219
     IDV             reduce using rule 47 (seen_CC_IF -> .)
     CC              reduce using rule 47 (seen_CC_IF -> .)
 
-    seen_CC_IF                     shift and go to state 228
-    CONDITION2                     shift and go to state 229
+    seen_CC_IF                     shift and go to state 229
+    CONDITION2                     shift and go to state 230
 
-state 220
+state 221
 
     (42) CONDITION -> IF OP STM CP OC seen_OC_IF BLOCKS2 . CC CONDITION2
     (44) CONDITION -> IF OP STM CP OC seen_OC_IF BLOCKS2 . CC seen_CC_IF
 
-    CC              shift and go to state 230
+    CC              shift and go to state 231
 
 
-state 221
+state 222
 
     (126) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO . LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
     (127) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO . LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
@@ -3696,10 +3698,10 @@ state 221
     FLOAT           shift and go to state 209
 
     seen_FLOAT_LOOP                shift and go to state 211
-    LOOP2                          shift and go to state 231
+    LOOP2                          shift and go to state 232
     seen_INT_LOOP                  shift and go to state 210
 
-state 222
+state 223
 
     (118) ASK -> ASKUSER OP STRING COMMA IDV CP PC .
 
@@ -3714,7 +3716,7 @@ state 222
     CC              reduce using rule 118 (ASK -> ASKUSER OP STRING COMMA IDV CP PC .)
 
 
-state 223
+state 224
 
     (119) CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA SEEN_CALL PARAMETERS CP PC .
 
@@ -3729,14 +3731,14 @@ state 223
     CC              reduce using rule 119 (CALLBOX -> CALLBOXW OP SEEN_IDM_CALL COMMA SEEN_CALL PARAMETERS CP PC .)
 
 
-state 224
+state 225
 
     (123) PARAMETERS -> SEEN_EXPRESSION_PARAM COMMA PARAMETERS .
 
     CP              reduce using rule 123 (PARAMETERS -> SEEN_EXPRESSION_PARAM COMMA PARAMETERS .)
 
 
-state 225
+state 226
 
     (142) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .
 
@@ -3751,23 +3753,23 @@ state 225
     CC              reduce using rule 142 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC CC .)
 
 
-state 226
+state 227
 
     (141) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 . CC
 
-    CC              shift and go to state 232
+    CC              shift and go to state 233
 
 
-state 227
+state 228
 
     (48) CONDITION2 -> ELSE . seen_ELSE OC CONDITION3
     (51) seen_ELSE -> .
 
     OC              reduce using rule 51 (seen_ELSE -> .)
 
-    seen_ELSE                      shift and go to state 233
+    seen_ELSE                      shift and go to state 234
 
-state 228
+state 229
 
     (45) CONDITION -> IF OP STM CP OC seen_OC_IF CC seen_CC_IF .
 
@@ -3782,7 +3784,7 @@ state 228
     CC              reduce using rule 45 (CONDITION -> IF OP STM CP OC seen_OC_IF CC seen_CC_IF .)
 
 
-state 229
+state 230
 
     (43) CONDITION -> IF OP STM CP OC seen_OC_IF CC CONDITION2 .
 
@@ -3797,14 +3799,14 @@ state 229
     CC              reduce using rule 43 (CONDITION -> IF OP STM CP OC seen_OC_IF CC CONDITION2 .)
 
 
-state 230
+state 231
 
     (42) CONDITION -> IF OP STM CP OC seen_OC_IF BLOCKS2 CC . CONDITION2
     (44) CONDITION -> IF OP STM CP OC seen_OC_IF BLOCKS2 CC . seen_CC_IF
     (48) CONDITION2 -> . ELSE seen_ELSE OC CONDITION3
     (47) seen_CC_IF -> .
 
-    ELSE            shift and go to state 227
+    ELSE            shift and go to state 228
     RETURNW         reduce using rule 47 (seen_CC_IF -> .)
     LOOPW           reduce using rule 47 (seen_CC_IF -> .)
     LOOPIFW         reduce using rule 47 (seen_CC_IF -> .)
@@ -3815,21 +3817,21 @@ state 230
     IDV             reduce using rule 47 (seen_CC_IF -> .)
     CC              reduce using rule 47 (seen_CC_IF -> .)
 
-    seen_CC_IF                     shift and go to state 234
-    CONDITION2                     shift and go to state 235
+    seen_CC_IF                     shift and go to state 235
+    CONDITION2                     shift and go to state 236
 
-state 231
+state 232
 
     (126) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 . BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
     (127) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 . CP seen_CP_LOOP2 OC BLOCKS2 CC
     (128) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 . BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
     (129) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 . CP seen_CP_LOOP2 OC CC
 
-    BY              shift and go to state 237
-    CP              shift and go to state 236
+    BY              shift and go to state 238
+    CP              shift and go to state 237
 
 
-state 232
+state 233
 
     (141) LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .
 
@@ -3844,14 +3846,14 @@ state 232
     CC              reduce using rule 141 (LOOPIF -> LOOPIFW seen_LOOPIF OP STM CP seen_CP_LOOPIF OC BLOCKS2 CC .)
 
 
-state 233
+state 234
 
     (48) CONDITION2 -> ELSE seen_ELSE . OC CONDITION3
 
-    OC              shift and go to state 238
+    OC              shift and go to state 239
 
 
-state 234
+state 235
 
     (44) CONDITION -> IF OP STM CP OC seen_OC_IF BLOCKS2 CC seen_CC_IF .
 
@@ -3866,7 +3868,7 @@ state 234
     CC              reduce using rule 44 (CONDITION -> IF OP STM CP OC seen_OC_IF BLOCKS2 CC seen_CC_IF .)
 
 
-state 235
+state 236
 
     (42) CONDITION -> IF OP STM CP OC seen_OC_IF BLOCKS2 CC CONDITION2 .
 
@@ -3881,7 +3883,7 @@ state 235
     CC              reduce using rule 42 (CONDITION -> IF OP STM CP OC seen_OC_IF BLOCKS2 CC CONDITION2 .)
 
 
-state 236
+state 237
 
     (127) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP . seen_CP_LOOP2 OC BLOCKS2 CC
     (129) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP . seen_CP_LOOP2 OC CC
@@ -3889,9 +3891,9 @@ state 236
 
     OC              reduce using rule 131 (seen_CP_LOOP2 -> .)
 
-    seen_CP_LOOP2                  shift and go to state 239
+    seen_CP_LOOP2                  shift and go to state 240
 
-state 237
+state 238
 
     (126) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY . LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
     (128) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY . LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
@@ -3899,14 +3901,14 @@ state 237
     (138) LOOP3 -> . MINUS
     (139) LOOP3 -> .
 
-    PLUS            shift and go to state 241
-    MINUS           shift and go to state 240
+    PLUS            shift and go to state 242
+    MINUS           shift and go to state 241
     INT             reduce using rule 139 (LOOP3 -> .)
     FLOAT           reduce using rule 139 (LOOP3 -> .)
 
-    LOOP3                          shift and go to state 242
+    LOOP3                          shift and go to state 243
 
-state 238
+state 239
 
     (48) CONDITION2 -> ELSE seen_ELSE OC . CONDITION3
     (49) CONDITION3 -> . BLOCKS2 CC seen_CC_ELSE
@@ -3922,7 +3924,7 @@ state 238
     (40) CODE -> . SAY
     (41) CODE -> . CALLBOX
     (78) RETURN -> . RETURNW EXPRESSION PC
-    (79) ASSIGNATION -> . seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
+    (79) ASSIGNATION -> . seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
     (80) ASSIGNATION -> . seen_ID_ASSIGNATION EQUALS EXPRESSION PC
     (126) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
     (127) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
@@ -3940,12 +3942,12 @@ state 238
     (120) CALLBOX -> . CALLBOXW OP SEEN_IDM_CALL CP PC
     (81) seen_ID_ASSIGNATION -> . IDV
 
-    CC              shift and go to state 243
+    CC              shift and go to state 244
     RETURNW         shift and go to state 95
     LOOPW           shift and go to state 97
     LOOPIFW         shift and go to state 94
     IF              shift and go to state 96
-    ASKUSER         shift and go to state 101
+    ASKUSER         shift and go to state 98
     SAYW            shift and go to state 82
     CALLBOXW        shift and go to state 88
     IDV             shift and go to state 86
@@ -3957,21 +3959,21 @@ state 238
     ASK                            shift and go to state 90
     CONDITION                      shift and go to state 91
     ASSIGNATION                    shift and go to state 92
-    CONDITION3                     shift and go to state 244
-    BLOCKS2                        shift and go to state 245
-    CALLBOX                        shift and go to state 99
-    LOOPIF                         shift and go to state 100
+    CONDITION3                     shift and go to state 245
+    BLOCKS2                        shift and go to state 246
+    CALLBOX                        shift and go to state 100
+    LOOPIF                         shift and go to state 101
     LOOP                           shift and go to state 102
 
-state 239
+state 240
 
     (127) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 . OC BLOCKS2 CC
     (129) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 . OC CC
 
-    OC              shift and go to state 246
+    OC              shift and go to state 247
 
 
-state 240
+state 241
 
     (138) LOOP3 -> MINUS .
 
@@ -3979,7 +3981,7 @@ state 240
     FLOAT           reduce using rule 138 (LOOP3 -> MINUS .)
 
 
-state 241
+state 242
 
     (137) LOOP3 -> PLUS .
 
@@ -3987,7 +3989,7 @@ state 241
     FLOAT           reduce using rule 137 (LOOP3 -> PLUS .)
 
 
-state 242
+state 243
 
     (126) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 . LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
     (128) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 . LOOP2 CP seen_CP_LOOP1 OC CC
@@ -4000,10 +4002,10 @@ state 242
     FLOAT           shift and go to state 209
 
     seen_FLOAT_LOOP                shift and go to state 211
-    LOOP2                          shift and go to state 247
+    LOOP2                          shift and go to state 248
     seen_INT_LOOP                  shift and go to state 210
 
-state 243
+state 244
 
     (50) CONDITION3 -> CC . seen_CC_ELSE
     (52) seen_CC_ELSE -> .
@@ -4018,9 +4020,9 @@ state 243
     IDV             reduce using rule 52 (seen_CC_ELSE -> .)
     CC              reduce using rule 52 (seen_CC_ELSE -> .)
 
-    seen_CC_ELSE                   shift and go to state 248
+    seen_CC_ELSE                   shift and go to state 249
 
-state 244
+state 245
 
     (48) CONDITION2 -> ELSE seen_ELSE OC CONDITION3 .
 
@@ -4035,14 +4037,14 @@ state 244
     CC              reduce using rule 48 (CONDITION2 -> ELSE seen_ELSE OC CONDITION3 .)
 
 
-state 245
+state 246
 
     (49) CONDITION3 -> BLOCKS2 . CC seen_CC_ELSE
 
-    CC              shift and go to state 249
+    CC              shift and go to state 250
 
 
-state 246
+state 247
 
     (127) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC . BLOCKS2 CC
     (129) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC . CC
@@ -4057,7 +4059,7 @@ state 246
     (40) CODE -> . SAY
     (41) CODE -> . CALLBOX
     (78) RETURN -> . RETURNW EXPRESSION PC
-    (79) ASSIGNATION -> . seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
+    (79) ASSIGNATION -> . seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
     (80) ASSIGNATION -> . seen_ID_ASSIGNATION EQUALS EXPRESSION PC
     (126) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
     (127) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
@@ -4075,12 +4077,12 @@ state 246
     (120) CALLBOX -> . CALLBOXW OP SEEN_IDM_CALL CP PC
     (81) seen_ID_ASSIGNATION -> . IDV
 
-    CC              shift and go to state 250
+    CC              shift and go to state 251
     RETURNW         shift and go to state 95
     LOOPW           shift and go to state 97
     LOOPIFW         shift and go to state 94
     IF              shift and go to state 96
-    ASKUSER         shift and go to state 101
+    ASKUSER         shift and go to state 98
     SAYW            shift and go to state 82
     CALLBOXW        shift and go to state 88
     IDV             shift and go to state 86
@@ -4092,20 +4094,20 @@ state 246
     ASK                            shift and go to state 90
     CONDITION                      shift and go to state 91
     ASSIGNATION                    shift and go to state 92
-    BLOCKS2                        shift and go to state 251
-    CALLBOX                        shift and go to state 99
-    LOOPIF                         shift and go to state 100
+    BLOCKS2                        shift and go to state 252
+    CALLBOX                        shift and go to state 100
+    LOOPIF                         shift and go to state 101
     LOOP                           shift and go to state 102
 
-state 247
+state 248
 
     (126) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 . CP seen_CP_LOOP1 OC BLOCKS2 CC
     (128) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 . CP seen_CP_LOOP1 OC CC
 
-    CP              shift and go to state 252
+    CP              shift and go to state 253
 
 
-state 248
+state 249
 
     (50) CONDITION3 -> CC seen_CC_ELSE .
 
@@ -4120,7 +4122,7 @@ state 248
     CC              reduce using rule 50 (CONDITION3 -> CC seen_CC_ELSE .)
 
 
-state 249
+state 250
 
     (49) CONDITION3 -> BLOCKS2 CC . seen_CC_ELSE
     (52) seen_CC_ELSE -> .
@@ -4135,9 +4137,9 @@ state 249
     IDV             reduce using rule 52 (seen_CC_ELSE -> .)
     CC              reduce using rule 52 (seen_CC_ELSE -> .)
 
-    seen_CC_ELSE                   shift and go to state 253
+    seen_CC_ELSE                   shift and go to state 254
 
-state 250
+state 251
 
     (129) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .
 
@@ -4152,14 +4154,14 @@ state 250
     CC              reduce using rule 129 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC .)
 
 
-state 251
+state 252
 
     (127) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 . CC
 
-    CC              shift and go to state 254
+    CC              shift and go to state 255
 
 
-state 252
+state 253
 
     (126) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP . seen_CP_LOOP1 OC BLOCKS2 CC
     (128) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP . seen_CP_LOOP1 OC CC
@@ -4167,9 +4169,9 @@ state 252
 
     OC              reduce using rule 130 (seen_CP_LOOP1 -> .)
 
-    seen_CP_LOOP1                  shift and go to state 255
+    seen_CP_LOOP1                  shift and go to state 256
 
-state 253
+state 254
 
     (49) CONDITION3 -> BLOCKS2 CC seen_CC_ELSE .
 
@@ -4184,7 +4186,7 @@ state 253
     CC              reduce using rule 49 (CONDITION3 -> BLOCKS2 CC seen_CC_ELSE .)
 
 
-state 254
+state 255
 
     (127) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .
 
@@ -4199,15 +4201,15 @@ state 254
     CC              reduce using rule 127 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC .)
 
 
-state 255
+state 256
 
     (126) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 . OC BLOCKS2 CC
     (128) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 . OC CC
 
-    OC              shift and go to state 256
+    OC              shift and go to state 257
 
 
-state 256
+state 257
 
     (126) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC . BLOCKS2 CC
     (128) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC . CC
@@ -4222,7 +4224,7 @@ state 256
     (40) CODE -> . SAY
     (41) CODE -> . CALLBOX
     (78) RETURN -> . RETURNW EXPRESSION PC
-    (79) ASSIGNATION -> . seen_ID_ASSIGNATION seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
+    (79) ASSIGNATION -> . seen_ID_ASSIGNATION start_ARRAY seen_ARRAY_CTE end_ARRAY EQUALS EXPRESSION PC
     (80) ASSIGNATION -> . seen_ID_ASSIGNATION EQUALS EXPRESSION PC
     (126) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
     (127) LOOP -> . LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
@@ -4240,12 +4242,12 @@ state 256
     (120) CALLBOX -> . CALLBOXW OP SEEN_IDM_CALL CP PC
     (81) seen_ID_ASSIGNATION -> . IDV
 
-    CC              shift and go to state 257
+    CC              shift and go to state 258
     RETURNW         shift and go to state 95
     LOOPW           shift and go to state 97
     LOOPIFW         shift and go to state 94
     IF              shift and go to state 96
-    ASKUSER         shift and go to state 101
+    ASKUSER         shift and go to state 98
     SAYW            shift and go to state 82
     CALLBOXW        shift and go to state 88
     IDV             shift and go to state 86
@@ -4257,12 +4259,12 @@ state 256
     ASK                            shift and go to state 90
     CONDITION                      shift and go to state 91
     ASSIGNATION                    shift and go to state 92
-    BLOCKS2                        shift and go to state 258
-    CALLBOX                        shift and go to state 99
-    LOOPIF                         shift and go to state 100
+    BLOCKS2                        shift and go to state 259
+    CALLBOX                        shift and go to state 100
+    LOOPIF                         shift and go to state 101
     LOOP                           shift and go to state 102
 
-state 257
+state 258
 
     (128) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .
 
@@ -4277,14 +4279,14 @@ state 257
     CC              reduce using rule 128 (LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC .)
 
 
-state 258
+state 259
 
     (126) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 . CC
 
-    CC              shift and go to state 259
+    CC              shift and go to state 260
 
 
-state 259
+state 260
 
     (126) LOOP -> LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC .
 
