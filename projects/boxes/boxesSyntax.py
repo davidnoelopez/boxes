@@ -639,10 +639,11 @@ def p_CTE(p):
 	if len(p) is 1:
 		valID = PilaO.pop()
 
+	cteADD = str(p[1])
 	#agrega constante
 	if valID is None or len(p) is 3:
-		if p[1] in ConDic:
-			PilaO.append([ConDic[p[1]], valType])
+		if cteADD in ConDic:
+			PilaO.append([ConDic[cteADD], valType])
 		else:
 			if valType is 0:
 				memDir = memConst.addVari()
@@ -650,7 +651,7 @@ def p_CTE(p):
 				memDir = memConst.addVarf()
 			elif valType is 2:
 				memDir = memConst.addVars()
-			ConDic[p[1]] = memDir
+			ConDic[cteADD] = memDir
 			PilaO.append([memDir, valType])
 	#agrega variable
 	elif len(p) is not 5:
@@ -758,7 +759,7 @@ def p_end_ARRAY(p):
 	temporal = memTemp.addVari()
 	varDIM = pilaDim.pop() #varID = [id, DIM, RefDic]
 	RefDic = varDIM[2]
-	base = RefDic[varDIM[0]][2]
+	base = str(RefDic[varDIM[0]][2])
 	if base in ConDic:
 		memDir = ConDic[base]
 	else:
