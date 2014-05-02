@@ -100,6 +100,9 @@ def queueToList():
 def createArithmeticQuadruple(oper, op1, op2, result, p):
 	if oper is 12: #"=" ASSIGNATION
 		#check cube
+		print result[0]
+		print op1[0]
+		print oper
 		resultCube = cubetest.cube[result[1],op1[1],oper]
 		if resultCube is -1:
 			print("BoxesSemanticError: Arithmetic error. In line: " + str(p.lineno(1)))
@@ -114,7 +117,6 @@ def createArithmeticQuadruple(oper, op1, op2, result, p):
 			print("BoxesSemanticError: Arithmetic error. In line: " + str(p.lineno(1)))
 			print "</body></html>"
 			exit(1)
-
 		else:
 			#saca la direccion para las temporales.
 			if result is "t":
@@ -189,14 +191,18 @@ def p_VARF3(p):
 		| IDV VAR_ARRAY
 	"""
 
-
 	#varF is type var 1
 	if p[2] is '=':
 		addVarDictionary( p[1], p[3], 1, [1], p )
 		#add assignation quadruple
 		valType = 1
 		valID = p[1]
-		createArithmeticQuadruple(12, [p[3], 1], None, [VarDic[valID][2], valType], p)
+		if str(p[3]) in ConDic:
+			memDir = ConDic[str(p[3])]
+		else:
+			memDir = memConst.addVarf()
+			ConDic[str(p[3])] = memDir
+		createArithmeticQuadruple(12, [memDir, 1], None, [VarDic[valID][2], valType], p)
 	else:
 		auxList = tempArrayStack.pop()
 		addVarDictionary( p[1], None, 1, auxList, p )
@@ -214,7 +220,6 @@ def p_VAR_ARRAY(p):
 		tempArray[:] = []
 		tempArraySize = 1
 		
-
 def p_seen_ARRAY_LIMIT(p):
 	"""
 	seen_ARRAY_LIMIT : INT
@@ -242,7 +247,12 @@ def p_VARI3(p):
 		#add assignation quadruple
 		valType = 0
 		valID = p[1]
-		createArithmeticQuadruple(12, [p[3], 0], None, [VarDic[valID][2], valType], p)
+		if str(p[3]) in ConDic:
+			memDir = ConDic[str(p[3])]
+		else:
+			memDir = memConst.addVari()
+			ConDic[str(p[3])] = memDir
+		createArithmeticQuadruple(12, [memDir, 0], None, [VarDic[valID][2], valType], p)
 	else:
 		auxList = tempArrayStack.pop()
 		addVarDictionary( p[1], None, 0, auxList, p )
@@ -266,7 +276,12 @@ def p_VARST3(p):
 		#add assignation quadruple
 		valType = 2
 		valID = p[1]
-		createArithmeticQuadruple(12, [p[3], 2], None, [VarDic[valID][2], valType], p)
+		if str(p[3]) in ConDic:
+			memDir = ConDic[str(p[3])]
+		else:
+			memDir = memConst.addVars()
+			ConDic[str(p[3])] = memDir
+		createArithmeticQuadruple(12, [memDir, 2], None, [VarDic[valID][2], valType], p)
 	else:
 		auxList = tempArrayStack.pop()
 		addVarDictionary( p[1], None, 2, auxList, p )
@@ -294,7 +309,7 @@ def p_CODE(p):
 		| CONDITION
 		| ASK
 		| SAY
-		| CALLBOX
+		| CALLBOX PC
 	"""
 
 def p_CONDITION(p):
@@ -475,7 +490,8 @@ def p_METHODS3(p):
 		| 
 	"""
 
-	addMetDictionary( tmpIdMethod, tmpMethod, p )
+	if len(p) <= 2:
+		addMetDictionary( tmpIdMethod, tmpMethod, p )
 
 def p_RETURN(p):
 	"""
@@ -605,7 +621,7 @@ def p_seen_TERM(p):
 def p_TERM(p):
 	"""
 	TERM : OP seen_OP_TERM STM CP
-	| TERM2
+	| CTE
 	"""
 
 	if len(p) is 5:
@@ -618,25 +634,19 @@ def p_seen_OP_TERM(p):
 
 	POper.append('(')
 
-def p_TERM2(p):
-	"""
-	TERM2 : CTE 
-	| PLUS CTE
-	| MINUS CTE
-	"""
-
 def p_CTE(p):
 	"""
 	CTE : INT seen_INT
 	| FLOAT seen_FLOAT
 	| STRING seen_STRING
+	| CALLBOX seen_CALLBOX
 	| seen_ID
 	| seen_ID start_ARRAY seen_ARRAY_CTE end_ARRAY
 	"""
 
 	global valType, valID
 	#borra varID de PilaO
-	if len(p) is 1:
+	if len(p) is 2:
 		valID = PilaO.pop()
 
 	cteADD = str(p[1])
@@ -669,6 +679,10 @@ def p_CTE(p):
 		valID = None
 
 	
+def p_seen_CALLBOX(p):
+	"""
+	seen_CALLBOX : 
+	"""
 
 def p_seen_INT(p):
 	"""
@@ -851,10 +865,15 @@ def p_ASK(p):
 
 def p_CALLBOX(p):
 	"""
-	CALLBOX : CALLBOXW OP SEEN_IDM_CALL COMMA SEEN_CALL PARAMETERS CP PC  
-		| CALLBOXW OP SEEN_IDM_CALL CP PC  
+	CALLBOX : CALLBOXW OP SEEN_IDM_CALL COMMA SEEN_CALL PARAMETERS CP
+		| CALLBOXW OP SEEN_IDM_CALL CP 
 	"""
 	listQuadruple.append([28, MetDic[tmpCallIDM][2], None, None])
+
+	if len(MetDic[tmpCallIDM][3]) is not k:
+		print("BoxesSemanticError: Missing Parameters in callbox. In line: " + str(p.lineno(1)))
+		print "</body></html>"
+		exit(1)
 
 def p_SEEN_IDM_CALL(p):
 	"""
@@ -867,24 +886,20 @@ def p_SEEN_IDM_CALL(p):
 	else:
 		global tmpCallIDM
 		tmpCallIDM = p[1]
+		global k
+		k = 0
 
 def p_SEEN_CALL(p):
 	"""
 	SEEN_CALL :  
 	"""
 	listQuadruple.append([26, tmpCallIDM, None, None])
-	global k
-	k = 0
 
 def p_PARAMETERS(p):
 	"""
 	PARAMETERS :  SEEN_EXPRESSION_PARAM COMMA PARAMETERS
 			| SEEN_EXPRESSION_PARAM
 	"""
-	if len(MetDic[tmpCallIDM][3]) is not k:
-		print("BoxesSemanticError: Missing Parameters in callbox. In line: " + str(p.lineno(1)))
-		print "</body></html>"
-		exit(1)
 	
 
 def p_SEEN_EXPRESSION_PARAM(p):
@@ -893,6 +908,10 @@ def p_SEEN_EXPRESSION_PARAM(p):
 	"""
 	global k
 	argumento = PilaO.pop()
+	if k >= len(MetDic[tmpCallIDM][3]):
+		print("BoxesSemanticError: Extra parameters in callbox.")
+		print "</body></html>"
+		exit(1)
 	if argumento[1] is MetDic[tmpCallIDM][3][k]:
 		listQuadruple.append([27, argumento[0], None, "p"+str(k)])
 		k = k + 1
@@ -903,16 +922,21 @@ def p_SEEN_EXPRESSION_PARAM(p):
 
 def p_LOOP(p):
 	"""
-	LOOP : LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+	LOOP : LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
 	| LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-	| LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP3 LOOP2 CP seen_CP_LOOP1 OC CC
+	| LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP2 CP seen_CP_LOOP1 OC CC
 	| LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
 	"""
 
 	#saca la variable a aumentar de la pila de operandos
 	start = PilaO.pop()
 	#crea cuadruplo de aumento
-	createArithmeticQuadruple(0, start, aumento, "t", p)
+	if str(aumento[0]) in ConDic:
+			memDir = ConDic[str(aumento[0])]
+	else:
+		memDir = memConst.addVari()
+		ConDic[str(aumento[0])] = memDir
+	createArithmeticQuadruple(0, start, [memDir, aumento[1]], "t", p)
 
 	#saca el temporal del aumento y lo asigna a la variable a aumentar
 	aux = PilaO.pop()
@@ -924,26 +948,27 @@ def p_LOOP(p):
 	createGoToQuadruple(22, None, None, jump)
 	listQuadruple[false][3] = len(listQuadruple)
 
-
 def p_seen_CP_LOOP1(p):
 	"""
 	seen_CP_LOOP1 :
 	"""
-	global aumento, simbol
+	global aumento
 	aumento = PilaO.pop()
-	aumento[0] = str(int(aumento[0]) * simbol)
 	end = PilaO.pop()
 	start = PilaO.pop()
-
 	global valID, valType
-	createArithmeticQuadruple(12, start, None, [valID, valType], p)
+	createArithmeticQuadruple(12, start, None, [tmpDic[valID][2], valType], p)
 
-	start = [VarDic[valID][2], valType]
+	start = [tmpDic[valID][2], valType]
 	PilaO.append(start)
-	if simbol is -1:
+	if aumento < 0:
 		createArithmeticQuadruple(6, start, end, "t", p)
-	else:
+	elif aumento > 0:
 		createArithmeticQuadruple(5, start, end, "t", p)
+	else:
+		print("BoxesSemanticError: loop change cannot be 0.\nlineno: " + p.lineno(1))
+		print "</body></html>"
+		exit(1)
 
 	aux = PilaO.pop()
 	createGoToQuadruple(20, aux[0], None, None)
@@ -960,9 +985,9 @@ def p_seen_CP_LOOP2(p):
 	start = PilaO.pop()
 
 	global valID, valType
-	createArithmeticQuadruple(12, start, None, [valID, valType], p)
+	createArithmeticQuadruple(12, start, None, [tmpDic[valID][2], valType], p)
 
-	start = [VarDic[valID][2], valType]
+	start = [tmpDic[valID][2], valType]
 	PilaO.append(start)
 	createArithmeticQuadruple(5, start, end, "t", p)
 
@@ -975,13 +1000,15 @@ def p_seen_VAR_LOOP(p):
 	seen_VAR_LOOP : IDV
 	"""
 
-	global valID, valType
+	global valID, valType, tmpDic
 	valID = p[1]
 
 	if valID in VarDic:
 		valType = VarDic[p[1]][1]
+		tmpDic = VarDic
 	elif valID in MetDic['global'][1]:
-		valType = MetDic['global'][1][valID][1]
+		valType = MetDic['global'][1][p[1]][1]
+		tmpDic = MetDic['global'][1]
 	else:
 		print("BoxesSemanticError: Non declared variable: " + valID + "\nlineno: " + p.lineno(1))
 		print "</body></html>"
@@ -999,28 +1026,25 @@ def p_seen_INT_LOOP(p):
 	"""
 
 	#se agrega int a la pila de operandos
-	PilaO.append([p[1], 0])
+	if str(p[1]) in ConDic:
+			memDir = ConDic[str(p[1])]
+	else:
+		memDir = memConst.addVari()
+		ConDic[str(p[1])] = memDir
+	PilaO.append([memDir, 0])
 
 def p_seen_FLOAT_LOOP(p):
 	"""
 	seen_FLOAT_LOOP : FLOAT
 	"""
 
+	if str(p[1]) in ConDic:
+			memDir = ConDic[str(p[1])]
+	else:
+		memDir = memConst.addVarf()
+		ConDic[str(p[1])] = memDir
 	#se agrega int a la pila de operandos
-	PilaO.append([p[1], 1])
-
-def p_LOOP3(p):
-	"""
-	LOOP3 : PLUS 
-	| MINUS
-	|
-	"""
-
-	global simbol
-	simbol = 1
-	if len(p) > 1:
-		if p[1] is '-':
-			simbol = -1
+	PilaO.append([memDir, 1])
 
 def p_seen_LOOP(p):
 	"""

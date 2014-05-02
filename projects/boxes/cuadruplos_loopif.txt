@@ -1,11 +1,14 @@
 box{
-	vari #a = 1, #b = 2, #c;
+	vari #c;
 	vars #salida;
 
+	varibox uno(vari #x, varf #i, vari #e) {
+		vari #z;
+		#z = #x*#x;
+		return #z;
+	}
 	mainbox(){
-		loop ( #c from 10 to 100 by -2 ) {
-			#a = #a + 1;
-		}
-		say("adios");
+		#c = callbox(uno, 1, 2.0, 1);
+		say(#c);
 	}
 }

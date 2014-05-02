@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # ------------------------------------------------------------
 # boxesLex.py
 #
@@ -103,13 +104,13 @@ def t_IDM(t):
 
 
 def t_FLOAT(t):
-    r'[0-9]+\.[0-9]+'
+    r'[-+]?[0-9]+\.[0-9]+'
     t.type = reserved.get(t.value,'FLOAT') 
     return t
 
 
 def t_INT(t):
-    r'[0-9]+'
+    r'[-+]?[0-9]+'
     t.type = reserved.get(t.value,'INT') 
     return t
 

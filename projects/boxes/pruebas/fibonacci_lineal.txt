@@ -1,0 +1,13 @@
+box{
+	vari #a = 1, #b = 1, #c = 0, #d;
+	vars #salida;
+
+	mainbox(){
+		loop ( #d from 3 to 10 ) {
+			#c = #a + #b;
+			#a = #b;
+			#b = #c;
+		}
+		say(#c);
+	}
+}
