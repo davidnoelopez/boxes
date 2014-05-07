@@ -1,0 +1,19 @@
+box{
+	varibox fib(vari #n) {
+		vari #res;
+		if(#n <= 1){
+			return #n;
+		}
+		else {
+			#res = callbox( fib, #n - 1) + callbox( fib, #n - 2);
+			return #res;
+		}
+	}
+
+	mainbox(){
+		vari #n = 20, #result;
+		#result = callbox ( fib, #n );
+		say("Resultado");
+		say(#result);
+	}
+}

@@ -1,0 +1,17 @@
+box{
+
+	varibox fib(vari #n){
+		vari #result = 1, #prev = -1, #sum, #i = 0;
+		loopif ( #i <= #n ) {
+			#sum = #result + #prev;
+			#prev = #result;
+			#result = #sum;
+			#i = #i + 1;
+		}
+		return #result;
+	}
+
+	mainbox(){
+		say( callbox(fib, 12) );
+	}
+}

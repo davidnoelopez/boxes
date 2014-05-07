@@ -1,0 +1,29 @@
+box{
+	vari #vector[10];
+	mainbox(){
+		vari #swapped = 1, #n = 9, #aux;
+		vari #i, #encontrado = 0;
+		say("Vector en desorden.");
+		loop(#i from #n to 0 by -1){
+			#vector[#i] = #i;
+			say(#vector[#i]);
+		}
+		
+		loopif ( #swapped == 0 ) {
+			#swapped = 0;
+			loop(#i from 1 to #n){
+				if(#vector[#i - 1] > #vector[#i]){
+					#aux = #vector[#i];
+					#vector[#i] = #vector[#i - 1];
+					#vector[#i - 1] = #aux;
+					#swapped = 1;
+				}
+			}
+			#n = #n - 1;
+		}
+		say("Vector ordenado.");
+		loop(#i from 0 to #n){
+			say(#vector[#i]);
+		}
+	}
+}

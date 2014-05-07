@@ -3,7 +3,7 @@ import cgi
 import json
 import sys
 import boxesLex
-import ply.yacc as yacc
+import yacc
 import cubetest
 from memStruct import MemoryDir
 
@@ -17,6 +17,7 @@ VarDic = dict()	#diccionario de variables (tabla de variables)
 MetDic = dict()	#diccionario de metodos (directorio de procedimientos)
 ConDic = dict() #diccionario de constantes
 ParList = list()	#lista de parametros de cada metodo
+ParListDir = list() #lista de direcciones de los parametros de cada metodo
 TamList = [0,0,0]	#lista de tipos de variables locales de cada metodo
 tmpList = list() #fila temporal donde guarda los elementos parseados de la lista
 listStack = list() #stack para guardar las listas generadas
@@ -39,15 +40,15 @@ memLocal = MemoryDir(6000, 8000, 10000, 12000)
 memTemp = MemoryDir(12000, 14000, 16000, 18000)
 memConst = MemoryDir(18000, 20000, 22000, 24000)
 
+#Agrega variables a diccionario de variables
+#Formato: VarDic = [id: Valor, tipo, direccion, arreglos]
 def addVarDictionary( idVar, valueVar, typeVar, arrayList, p ):
 	TamList[typeVar] = TamList[typeVar] + 1
 	if idVar in VarDic:
 		print "BoxesSemanticError: Duplicate variable: '", idVar, "' In line: ", str(p.lineno(1))
-		print "</body></html>"
 		exit(1)
 	elif "global" in MetDic and idVar in MetDic["global"][1]:
 		print "BoxesSemanticError: Duplicate variable in global context: '", idVar, "' In line: ", str(p.lineno(1))
-		print "</body></html>"
 		exit(1)
 	else:
 		if tmpMethod is "global":
@@ -66,15 +67,25 @@ def addVarDictionary( idVar, valueVar, typeVar, arrayList, p ):
 				memDir = memLocal.addVars(arrayList[len(arrayList)-1])
 		VarDic[idVar] = [valueVar, typeVar, memDir, arrayList]
 
+#Agrega metodos a Diccionario de procedimientos
+#Formato: MetDic = [Tipo, VarDic, Cuadruplo, Parametros, Tamanios, DirVarGlobal, DireccionesParametros]
 def addMetDictionary( idMet, typeMet, p ):
-	global ParList
+	global ParList, ParListDir
 	if idMet in MetDic:
 		print "BoxesSemanticError: Duplicate method: '", idMet, "' In line: ", str(p.lineno(1))
-		print "</body></html>"
 		exit(1)
 	else:
 		localParList = list(ParList)
-		MetDic[idMet] = [typeMet, dict(), tmpDirMethod, localParList, list()]
+		localParListDir = list(ParListDir)
+		if typeMet is 0:
+			memDir = memGlobal.addVari()
+		elif typeMet is 1:
+			memDir = memGlobal.addVarf()
+		elif typeMet is 2:
+			memDir = memGlobal.addVars()
+		else:
+			memDir = -1
+		MetDic[idMet] = [typeMet, dict(), tmpDirMethod, localParList, list(), memDir, localParListDir]
 		if idMet is "global":
 			localDic = VarDic.copy()
 			localTamList = list(TamList)
@@ -83,30 +94,15 @@ def addMetDictionary( idMet, typeMet, p ):
 			VarDic.clear()
 			TamList[:] = [0,0,0]
 		ParList[:] = []
+		ParListDir[:] = []
 
-def queueToList():
-	if len(tmpList) is 0:
-		return []
-	else:
-		element = tmpList[0]
-		tmpList.pop(0)
-		if element is "[":
-			return [queueToList()] + queueToList()
-		elif element is "]":
-			return []
-		else:
-			return [element] + queueToList()
-
+#Crea cuadruplos aritmeticos, Codigos: 12, 0, 1, 2, 3
 def createArithmeticQuadruple(oper, op1, op2, result, p):
 	if oper is 12: #"=" ASSIGNATION
 		#check cube
-		print result[0]
-		print op1[0]
-		print oper
 		resultCube = cubetest.cube[result[1],op1[1],oper]
 		if resultCube is -1:
 			print("BoxesSemanticError: Arithmetic error. In line: " + str(p.lineno(1)))
-			print "</body></html>"
 			exit(1)
 		else:
 			listQuadruple.append([oper, op1[0], None, result[0]])
@@ -115,7 +111,6 @@ def createArithmeticQuadruple(oper, op1, op2, result, p):
 		resultCube = cubetest.cube[op1[1],op2[1],oper]
 		if resultCube is -1:
 			print("BoxesSemanticError: Arithmetic error. In line: " + str(p.lineno(1)))
-			print "</body></html>"
 			exit(1)
 		else:
 			#saca la direccion para las temporales.
@@ -130,6 +125,7 @@ def createArithmeticQuadruple(oper, op1, op2, result, p):
 			PilaO.append([result, resultCube])
 			TamList[resultCube] = TamList[resultCube] + 1
 
+#
 def createGoToQuadruple(oper, op1, op2, result):
 	listQuadruple.append([oper, op1, op2, result])
 
@@ -418,12 +414,15 @@ def p_PARAM(p):
 	if tmptypeVar == 'vari':	
 		addVarDictionary( p[2], None, 0, [1], p )
 		ParList.append(0)
-	if tmptypeVar == 'varf':	
+	elif tmptypeVar == 'varf':	
 		addVarDictionary( p[2], None, 1, [1], p )
 		ParList.append(1)
-	if tmptypeVar == 'vars':			
+	elif tmptypeVar == 'vars':			
 		addVarDictionary( p[2], None, 2, [1], p )
 		ParList.append(2)
+	else:
+		print("BoxesSemanticError: invalid parameter type. In line: " +  str(p.lineno(1)))
+	ParListDir.append(VarDic[p[2]][2])
 
 def p_PARAM2(p):
 	"""
@@ -452,6 +451,8 @@ def p_METHOD_UPDATE(p):
 	VarDic.clear()
 	TamList[:] = [0,0,0]
 	listQuadruple.append([25, None, None, None])
+	global memLocal
+	memLocal = MemoryDir(6000, 8000, 10000, 12000)
 
 def p_seen_IDM(p):
 	"""
@@ -503,7 +504,6 @@ def p_RETURN(p):
 		listQuadruple.append([29, top[0], None, None])
 	else:
 		print("BoxesSemanticError: invalid return value type. In line: " +  str(p.lineno(1)))
-		print "</body></html>"
 		exit(1)
 
 def p_ASSIGNATION(p):
@@ -530,7 +530,6 @@ def p_ASSIGNATION(p):
 			op2 = [MetDic['global'][1][ID_AS][2], valType]
 	else:
 		print("BoxesSemanticError: Non declared variable: " +  ID_AS)
-		print "</body></html>"
 		exit(1)
 
 	createArithmeticQuadruple(12, op1, None, op2, p)
@@ -570,7 +569,6 @@ def p_seen_EXPF(p):
 		elif top == """or""":
 			op2 = PilaO.pop()
 			op1 = PilaO.pop()
-			print op1, op2
 			createArithmeticQuadruple(11, op1, op2, "t", p)
 		else:
 			POper.append(top)
@@ -651,7 +649,7 @@ def p_CTE(p):
 
 	cteADD = str(p[1])
 	#agrega constante
-	if valID is None or len(p) is 3:
+	if len(p) is 3 and valID is not -1:
 		if cteADD in ConDic:
 			PilaO.append([ConDic[cteADD], valType])
 		else:
@@ -663,6 +661,9 @@ def p_CTE(p):
 				memDir = memConst.addVars()
 			ConDic[cteADD] = memDir
 			PilaO.append([memDir, valType])
+	#manejo de CallBox
+	elif valID is -1:
+		valID = None
 	#agrega variable
 	elif len(p) is not 5:
 		if valID in VarDic:
@@ -672,7 +673,6 @@ def p_CTE(p):
 			PilaOapp = [MetDic["global"][1][valID][2], valType]
 		else:
 			print("BoxesSemanticError: Non declared variable: " + p[1] + ". In line: " + str(p.lineno(1)))
-			print "</body></html>"
 			exit(1)
 		if len(p) is not 3:
 			PilaO.append(PilaOapp)
@@ -683,6 +683,8 @@ def p_seen_CALLBOX(p):
 	"""
 	seen_CALLBOX : 
 	"""
+	global valID
+	valID = -1
 
 def p_seen_INT(p):
 	"""
@@ -724,7 +726,6 @@ def p_seen_ID(p):
 		valID = p[1]
 	else:
 		print("BoxesSemanticError: Non declared variable: " + p[1] + ". In line: " + str(p.lineno(1)))
-		print "</body></html>"
 		exit(1)
 
 
@@ -752,7 +753,6 @@ def p_start_ARRAY(p):
 
 	if len(RefDic[varID][3]) is 1:
 		print("BoxesSemanticError: Var is not array: " + varID + ". In line: " + str(p.lineno(1)))
-		print "</body></html>"
 		exit(1)
 	else:
 		global pilaDim, arrayLength
@@ -852,7 +852,6 @@ def p_ASK(p):
 		valType = MetDic['global'][1][p[5]][1]
 	else:
 		print("BoxesSemanticError: Non declared variable: " + p[5] + ". In line: " + str(p.lineno(1)))
-		print "</body></html>"
 		exit(1)
 
 	if valType is 2:
@@ -860,28 +859,35 @@ def p_ASK(p):
 		listQuadruple.append([24, write, None, VarDic[p[5]][2]])
 	else:
 		print("BoxesSemanticError: askuser() return value must be 'vars'. In line: " + str(p.lineno(1)))
-		print "</body></html>"
 		exit(1)
 
 def p_CALLBOX(p):
 	"""
 	CALLBOX : CALLBOXW OP SEEN_IDM_CALL COMMA SEEN_CALL PARAMETERS CP
-		| CALLBOXW OP SEEN_IDM_CALL CP 
+		| CALLBOXW OP SEEN_IDM_CALL SEEN_CALL CP 
 	"""
 	listQuadruple.append([28, MetDic[tmpCallIDM][2], None, None])
+	typeMet = MetDic[tmpCallIDM][0]
+	if typeMet is 0:
+		temporal = memLocal.addVari()
+	elif typeMet is 1:
+		temporal = memLocal.addVarf()
+	elif typeMet is 2:
+		temporal = memLocal.addVars()
+	listQuadruple.append([12, MetDic[tmpCallIDM][5], None, temporal])
+	PilaO.append([temporal, typeMet])
 
 	if len(MetDic[tmpCallIDM][3]) is not k:
 		print("BoxesSemanticError: Missing Parameters in callbox. In line: " + str(p.lineno(1)))
-		print "</body></html>"
 		exit(1)
 
 def p_SEEN_IDM_CALL(p):
 	"""
 	SEEN_IDM_CALL : IDM  
 	"""
+
 	if p[1] not in MetDic:
 		print("BoxesSemanticError: Non declared method: '" + p[1] + "'. In line: " + str(p.lineno(1)))
-		print "</body></html>"
 		exit(1)
 	else:
 		global tmpCallIDM
@@ -899,44 +905,38 @@ def p_PARAMETERS(p):
 	"""
 	PARAMETERS :  SEEN_EXPRESSION_PARAM COMMA PARAMETERS
 			| SEEN_EXPRESSION_PARAM
-	"""
-	
+	"""	
 
 def p_SEEN_EXPRESSION_PARAM(p):
 	"""
-	SEEN_EXPRESSION_PARAM :	EXPRESSION
+	SEEN_EXPRESSION_PARAM :	seen_OP_TERM EXPRESSION
 	"""
+
+	POper.pop()
 	global k
 	argumento = PilaO.pop()
 	if k >= len(MetDic[tmpCallIDM][3]):
 		print("BoxesSemanticError: Extra parameters in callbox.")
-		print "</body></html>"
 		exit(1)
 	if argumento[1] is MetDic[tmpCallIDM][3][k]:
-		listQuadruple.append([27, argumento[0], None, "p"+str(k)])
+		listQuadruple.append([27, argumento[0], None, int(k)])
 		k = k + 1
 	else:
 		print("BoxesSemanticError: Parameter [" + str(k+1) + "] in callbox mismatched.")
-		print "</body></html>"
 		exit(1)
 
 def p_LOOP(p):
 	"""
-	LOOP : LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP2 CP seen_CP_LOOP1 OC BLOCKS2 CC
+	LOOP : LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP2_aumento CP seen_CP_LOOP1 OC BLOCKS2 CC
 	| LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC BLOCKS2 CC
-	| LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP2 CP seen_CP_LOOP1 OC CC
+	| LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 BY LOOP2_aumento CP seen_CP_LOOP1 OC CC
 	| LOOPW seen_LOOP OP seen_VAR_LOOP FROM LOOP2 TO LOOP2 CP seen_CP_LOOP2 OC CC
 	"""
 
 	#saca la variable a aumentar de la pila de operandos
 	start = PilaO.pop()
 	#crea cuadruplo de aumento
-	if str(aumento[0]) in ConDic:
-			memDir = ConDic[str(aumento[0])]
-	else:
-		memDir = memConst.addVari()
-		ConDic[str(aumento[0])] = memDir
-	createArithmeticQuadruple(0, start, [memDir, aumento[1]], "t", p)
+	createArithmeticQuadruple(0, start, aumentoTupla, "t", p)
 
 	#saca el temporal del aumento y lo asigna a la variable a aumentar
 	aux = PilaO.pop()
@@ -952,8 +952,8 @@ def p_seen_CP_LOOP1(p):
 	"""
 	seen_CP_LOOP1 :
 	"""
-	global aumento
-	aumento = PilaO.pop()
+	global aumentoTupla
+	aumentoTupla = PilaO.pop()
 	end = PilaO.pop()
 	start = PilaO.pop()
 	global valID, valType
@@ -961,13 +961,12 @@ def p_seen_CP_LOOP1(p):
 
 	start = [tmpDic[valID][2], valType]
 	PilaO.append(start)
-	if aumento < 0:
-		createArithmeticQuadruple(6, start, end, "t", p)
-	elif aumento > 0:
-		createArithmeticQuadruple(5, start, end, "t", p)
+	if int(aumento) < 0:
+		createArithmeticQuadruple(8, start, end, "t", p)
+	elif int(aumento) > 0:
+		createArithmeticQuadruple(7, start, end, "t", p)
 	else:
 		print("BoxesSemanticError: loop change cannot be 0.\nlineno: " + p.lineno(1))
-		print "</body></html>"
 		exit(1)
 
 	aux = PilaO.pop()
@@ -979,8 +978,13 @@ def p_seen_CP_LOOP2(p):
 	seen_CP_LOOP2 :
 	"""
 
-	global aumento
-	aumento = [1, 0]
+	global aumentoTupla
+	if str(1) in ConDic:
+			memDir = ConDic[str(1)]
+	else:
+		memDir = memConst.addVari()
+		ConDic[str(1)] = memDir
+	aumentoTupla = [memDir, 0]
 	end = PilaO.pop()
 	start = PilaO.pop()
 
@@ -989,7 +993,7 @@ def p_seen_CP_LOOP2(p):
 
 	start = [tmpDic[valID][2], valType]
 	PilaO.append(start)
-	createArithmeticQuadruple(5, start, end, "t", p)
+	createArithmeticQuadruple(7, start, end, "t", p)
 
 	aux = PilaO.pop()
 	createGoToQuadruple(20, aux[0], None, None)
@@ -1011,20 +1015,31 @@ def p_seen_VAR_LOOP(p):
 		tmpDic = MetDic['global'][1]
 	else:
 		print("BoxesSemanticError: Non declared variable: " + valID + "\nlineno: " + p.lineno(1))
-		print "</body></html>"
 		exit(1)
 
 def p_LOOP2(p):
 	"""
 	LOOP2 : seen_INT_LOOP
 	| seen_FLOAT_LOOP
+	| seen_IDV_LOOP
 	"""
+
+def p_LOOP2_aumento(p):
+	"""
+	LOOP2_aumento : seen_INT_LOOP
+	| seen_FLOAT_LOOP
+	"""
+
+	global aumento
+	aumento = aumentoAux
 
 def p_seen_INT_LOOP(p):
 	"""
 	seen_INT_LOOP : INT
 	"""
 
+	global aumentoAux
+	aumentoAux = p[1]
 	#se agrega int a la pila de operandos
 	if str(p[1]) in ConDic:
 			memDir = ConDic[str(p[1])]
@@ -1038,6 +1053,8 @@ def p_seen_FLOAT_LOOP(p):
 	seen_FLOAT_LOOP : FLOAT
 	"""
 
+	global aumentoAux
+	aumentoAux = p[1]
 	if str(p[1]) in ConDic:
 			memDir = ConDic[str(p[1])]
 	else:
@@ -1045,6 +1062,24 @@ def p_seen_FLOAT_LOOP(p):
 		ConDic[str(p[1])] = memDir
 	#se agrega int a la pila de operandos
 	PilaO.append([memDir, 1])
+
+def p_seen_IDV_LOOP(p):
+	"""
+	seen_IDV_LOOP : IDV
+	"""
+
+	valID = p[1]
+
+	if valID in VarDic:
+		valType = VarDic[p[1]][1]
+		tmpDic = VarDic
+	elif valID in MetDic['global'][1]:
+		valType = MetDic['global'][1][p[1]][1]
+		tmpDic = MetDic['global'][1]
+	else:
+		print("BoxesSemanticError: Non declared variable: " + valID + "\nlineno: " + p.lineno(1))
+		exit(1)
+	PilaO.append([tmpDic[valID][2], valType])
 
 def p_seen_LOOP(p):
 	"""
@@ -1085,9 +1120,7 @@ def p_seen_CP_LOOPIF(p):
 
 def p_error(t):
     print "BoxesParserError: Error, lineno: ", t.lineno
-    print "</body></html>"
     exit(1)
-
 
 import profile
 
@@ -1097,28 +1130,8 @@ yacc.yacc(method='LALR')
 with open(sys.argv[1],'r') as content_file:
 	sourceCode = content_file.read()
 
-# # Create instance of FieldStorage 
-# form = cgi.FieldStorage() 
-# # Get data from fields
-# sourceCode = form.getvalue('code')
 
-# print "Content-type: text/html"
-# print
-# print "<html><head>"
-# print ""
-# print "</head><body>"
-
-# #parse code
-# print sourceCode
 yacc.parse(sourceCode)
 outputDic = {'proc': MetDic, 'quad': listQuadruple, 'cons': ConDic}
 
 print json.dumps(outputDic)
-print "</body></html>"
-print("<<SUCCESS>>")
-print PilaO
-#profile.run("yacc.yacc(method='LALR')")
-
-
-
-

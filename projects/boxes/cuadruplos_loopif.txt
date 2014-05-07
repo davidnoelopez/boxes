@@ -1,14 +1,19 @@
 box{
-	vari #c;
-	vars #salida;
+	vari #i, #j;
 
-	varibox uno(vari #x, varf #i, vari #e) {
+	voidbox uno(vari #a, vari #b, vari #c) {
 		vari #z;
-		#z = #x*#x;
-		return #z;
+		#z = #a + #b + #c;
+	}
+
+	varibox dos(vari #b) {
+		vari #c = 0;
+		#b = #b * #i * #j;
+		return #b*2;
 	}
 	mainbox(){
-		#c = callbox(uno, 1, 2.0, 1);
-		say(#c);
+		#i = 2;
+		#j = #i*2 - 1;
+		say(#i + callbox( dos, #i+#j ) );
 	}
 }

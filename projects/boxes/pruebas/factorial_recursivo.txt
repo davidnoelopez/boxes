@@ -1,0 +1,16 @@
+box{
+	varibox factorial (vari #acum){
+		if(#acum > 1){
+			return (#acum * callbox(factorial, (#acum - 1)));
+		}
+		else {
+			return 1;
+		}
+	}
+
+	mainbox(){
+		vari #fac = 5, #result;
+		#result = callbox(factorial, #fac);
+		say(#result);
+	}
+}

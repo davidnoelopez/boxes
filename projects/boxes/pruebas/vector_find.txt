@@ -1,0 +1,22 @@
+box{
+	vari #vector[10];
+	mainbox(){
+		vari #i, #encontrado = 0;
+		loop(#i from 0 to 9){
+			#vector[#i] = #i;
+		}
+		
+		loop(#i from 0 to 9){
+			if(#vector[#i] == 7){
+				#encontrado = #i;
+			}
+		}
+
+		if(#encontrado){
+			say("Se encontro en el vector el valor: ".#vector[#encontrado]);
+		}
+		else{
+			say("El valor ".#vector[#i]." no esta en el vector.");
+		}
+	}
+}

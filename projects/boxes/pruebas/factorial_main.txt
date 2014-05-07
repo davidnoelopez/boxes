@@ -1,0 +1,9 @@
+box{
+	mainbox(){
+		vari #fac = 1, #i;s
+		loop ( #i from 1 to 6) {
+			#fac = #fac * #i;
+		}
+		say(#fac);
+	}
+}

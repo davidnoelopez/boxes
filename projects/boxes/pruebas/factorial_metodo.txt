@@ -1,0 +1,13 @@
+box{
+	varibox factorial(vari #n){
+		vari #result = 1, #i;
+		loop ( #i from 1 to #n) {
+			#result = #result * #i;
+		}
+		return #result;
+	}
+
+	mainbox(){
+		say(callbox(factorial, 5));
+	}
+}

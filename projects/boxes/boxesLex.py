@@ -6,12 +6,12 @@
 # numbers and +,-,*,/
 # ------------------------------------------------------------
 import sys
-sys.path.insert(0,"../..")
+sys.path.insert(0,"/Users/Dave/Dropbox/Tareas Cloud/8vo Semetre/Compiladores/Codigo/boxes/ply")
 
 if sys.version_info[0] >= 3:
     raw_input = input
 
-import ply.lex as lex
+import lex
 
 # List of token names.   This is always required
 
